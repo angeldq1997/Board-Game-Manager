@@ -5,6 +5,7 @@ target/
 .kotlin
 .idea
 .noai
+connection.xml
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

@@ -1,0 +1,11 @@
+package es.angeldam.boardgamemanager.model;
+
+import java.util.Date;
+
+public class Player extends Person{
+
+    public Player(String name, Date birthDate, String nationality) {
+        super(name, birthDate, nationality);
+    }
+
+}

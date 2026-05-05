@@ -1,8 +1,11 @@
 module es.angeldam.boardgamemanager {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.xml.bind;
+    requires java.sql;
 
-
+    opens es.angeldam.boardgamemanager.dataAccess to java.xml.bind;
+    exports es.angeldam.boardgamemanager.dataAccess;
     opens es.angeldam.boardgamemanager to javafx.fxml;
     exports es.angeldam.boardgamemanager;
     exports es.angeldam.boardgamemanager.controllers;
