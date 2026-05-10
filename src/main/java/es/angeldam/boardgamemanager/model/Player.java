@@ -1,6 +1,7 @@
 package es.angeldam.boardgamemanager.model;
 
-import java.util.Date;
+
+import java.sql.Date;
 
 public class Player extends Person{
 

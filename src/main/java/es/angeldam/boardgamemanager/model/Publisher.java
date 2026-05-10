@@ -1,8 +1,46 @@
 package es.angeldam.boardgamemanager.model;
 
+import java.util.HashSet;
+
 public class Publisher {
-    private String cif;
-    private String headquarters;
+    private int publisherCode;
+    private String name;
     private int foundationYear;
-    private int code;
+    private String headquarters;
+    private HashSet<BoardGame> boardGames;
+
+    public Publisher(int publisherCode, String name, int foundationYear, String headquarters, HashSet<BoardGame> boardGames) {
+        this.publisherCode = publisherCode;
+        this.name = name;
+        this.foundationYear = foundationYear;
+        this.headquarters = headquarters;
+        this.boardGames = boardGames;
+    }
+
+    public Publisher(int publisherCode, String name, int foundationYear, String headquarters) {
+        this.publisherCode = publisherCode;
+        this.name = name;
+        this.foundationYear = foundationYear;
+        this.headquarters = headquarters;
+    }
+
+    public int getPublisherCode() {
+        return publisherCode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getFoundationYear() {
+        return foundationYear;
+    }
+
+    public String getHeadquarters() {
+        return headquarters;
+    }
+
+    public HashSet<BoardGame> getBoardGames() {
+        return boardGames;
+    }
 }

@@ -2,8 +2,8 @@ package es.angeldam.boardgamemanager.model;
 
 import es.angeldam.boardgamemanager.utils.Mechanic;
 
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 
 public class BoardGame {
     private int code;
@@ -16,12 +16,13 @@ public class BoardGame {
     private int publicationYear;
     private int ranking;
     private HashSet<Mechanic> mechanics;
-    private ArrayList<Author> authors;
-    private ArrayList<Illustrator> illustrators;
+    private HashSet<Author> authors;
+    private HashSet<Illustrator> illustrators;
+    private HashSet<Publisher> publishers;
 
     public BoardGame(String name, String principalGenre, int minPlayers, int maxPlayers,
                      int averageDuration, String recommendedAge, int publicationYear, int ranking,
-                     HashSet<Mechanic> mechanics, ArrayList<Author> authors, ArrayList<Illustrator> illustrators){
+                     HashSet<Mechanic> mechanics, HashSet<Author> authors, HashSet<Illustrator> illustrators){
         this.name = name;
         this.principalGenre = principalGenre;
         this.minPlayers = minPlayers;
@@ -33,6 +34,17 @@ public class BoardGame {
         this.mechanics = mechanics;
         this.authors = authors;
         this.illustrators = illustrators;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof BoardGame boardGame)) return false;
+        return code == boardGame.code;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(code);
     }
 
     @Override

@@ -3,6 +3,7 @@ module es.angeldam.boardgamemanager {
     requires javafx.fxml;
     requires java.xml.bind;
     requires java.sql;
+    requires mysql.connector.j;
 
     opens es.angeldam.boardgamemanager.dataAccess to java.xml.bind;
     exports es.angeldam.boardgamemanager.dataAccess;

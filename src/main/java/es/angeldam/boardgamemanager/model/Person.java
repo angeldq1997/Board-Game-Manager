@@ -1,6 +1,6 @@
 package es.angeldam.boardgamemanager.model;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -11,18 +11,25 @@ public abstract class Person {
     private String nationality;
     private HashSet<BoardGame> boardGames;
 
-    public Person(String name, Date birthdate, String nationality) {
-        this.name = name;
-        this.birthDate = birthdate;
-        this.nationality = nationality;
-    }
-
     public Person(int code, String name, Date birthDate, String nationality, HashSet<BoardGame> boardGames) {
         this.code = code;
         this.name = name;
         this.birthDate = birthDate;
         this.nationality = nationality;
         this.boardGames = boardGames;
+    }
+
+    public Person(int code, String name, Date birthDate, String nationality) {
+        this.code = code;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.nationality = nationality;
+    }
+
+    public Person(String name, Date birthdate, String nationality) {
+        this.name = name;
+        this.birthDate = birthdate;
+        this.nationality = nationality;
     }
 
     public int getCode() {

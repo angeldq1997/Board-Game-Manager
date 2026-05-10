@@ -1,6 +1,6 @@
 package es.angeldam.boardgamemanager.model;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashSet;
 
 public class Author extends Person{
@@ -11,8 +11,13 @@ public class Author extends Person{
         this.alias = alias;
     }
 
-    public Author(int code, String name, Date birthDate, String nationality, HashSet<BoardGame> boardGames, String alias) {
+    public Author(int code, String name, String alias, Date birthDate, String nationality, HashSet<BoardGame> boardGames) {
         super(code, name, birthDate, nationality, boardGames);
+        this.alias = alias;
+    }
+
+    public Author(int code, String name, String alias, Date birthDate, String nationality) {
+        super(code, name, birthDate, nationality);
         this.alias = alias;
     }
 
