@@ -52,10 +52,10 @@ public class AuthorDAO {
         return authors;
     }
 
-    public static Author findById(int authorId) throws SQLException {
+    public static Author findById(int authorCodeToSearch) throws SQLException {
         Author author = null;
         try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_FIND_BY_ID)) {
-            ps.setInt(1, authorId);
+            ps.setInt(1, authorCodeToSearch);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int authorCode = rs.getInt("authorCode");
@@ -69,10 +69,10 @@ public class AuthorDAO {
         return author;
     }
 
-    public static Author findByIdEager(int authorId) throws SQLException {
+    public static Author findByIdEager(int authorCodeToSearch) throws SQLException {
         Author author = null;
         try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_FIND_BY_ID)) {
-            ps.setInt(1, authorId);
+            ps.setInt(1, authorCodeToSearch);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int authorCode = rs.getInt("authorCode");
@@ -135,11 +135,11 @@ public class AuthorDAO {
         return updated;
     }
 
-    public static boolean deleteAuthorById(int idAutor) throws SQLException {
+    public static boolean deleteAuthorById(int authorCodeToSearch) throws SQLException {
         boolean deleted = false;
-        if (findById(idAutor) != null) {
+        if (findById(authorCodeToSearch) != null) {
             try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_DELETE)) {
-                ps.setInt(1, idAutor);
+                ps.setInt(1, authorCodeToSearch);
                 ps.executeUpdate();
                 deleted = true;
             }
