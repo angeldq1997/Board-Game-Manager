@@ -32,18 +32,64 @@ public class GameDAO {
             String place = rs.getString("place");
             Date gameDate = rs.getDate("gameDate");
             int gameBoardCode = rs.getInt("gameBoardCode");
-            boardGame = BoardGameDAO.findBoardGame(gameBoardCode);
+            boardGame = BoardGameDAO.findById(gameBoardCode);
             game = new Game(gameCode, place, gameDate, players, boardGame);
             games.add(game);
         }
         return games;
     }
 
-    public static Game findById (int gameCode){
+    public static Game findById(int gameCodeToSearch) throws SQLException {
+        Game game = null;
+        BoardGame boardGame = null;
+        ArrayList<Player> players = null;
+        HashSet<Game> games = new HashSet<>();
 
+        try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_FIND_BY_ID)) {
+            ps.setInt(1, gameCodeToSearch);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int gameCode = rs.getInt("gameCode");
+                String place = rs.getString("place");
+                Date gameDate = rs.getDate("gameDate");
+                int gameBoardCode = rs.getInt("gameBoardCode");
+                boardGame = BoardGameDAO.findById(gameBoardCode);
+                game = new Game(gameCode, place, gameDate, players, boardGame);
+            }
+        }
+        return game;
     }
 
-    public static boolean deleteAuthorById(int gameCode) throws SQLException {
+    public static boolean addGame(Game game) throws SQLException {
+        boolean added = false;
+        if ((game != null) && findById(game.getCode()) == null) {
+            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_INSERT)) {
+                ps.setString(1, game.getPlace());
+                ps.setDate(2, game.getDate());
+                ps.setObject(3, game.getBoardGame());
+                ps.executeUpdate();
+                added = true;
+            }
+        }
+        return added;
+    }
+
+    public static boolean updateGame(Game actualGame, Game newGame) throws SQLException {
+        boolean updated = false;
+        if ((actualGame != null) && (newGame != null) && findById(actualGame.getCode()) != null && findById(newGame.getCode()) == null) {
+            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_UPDATE)) {
+                ps.setString(1, newGame.getPlace());
+                ps.setDate(2, newGame.getDate());
+                ps.setInt(3, newGame.getBoardGame().getCode());
+                ps.setInt(4, actualGame.getCode());
+                ps.executeUpdate();
+                updated = true;
+            }
+        }
+        return updated;
+    }
+
+    public static boolean deleteGameById(int gameCode) throws SQLException {
         boolean deleted = false;
         if (findById(gameCode) != null) {
             try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_DELETE)) {

@@ -1,7 +1,8 @@
 package es.angeldam.boardgamemanager.model;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 public class Game {
     private int code;
@@ -26,6 +27,30 @@ public class Game {
         this.players = players;
         this.winners = new ArrayList<>();
         this.boardGame = boardGame;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public BoardGame getBoardGame() {
+        return boardGame;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public ArrayList<Player> getWinners() {
+        return winners;
     }
 
     @Override

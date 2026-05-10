@@ -8,36 +8,28 @@ public abstract class Person {
     private int code;
     private String name;
     private Date birthDate;
-    private String nationality;
     private HashSet<BoardGame> boardGames;
 
-    public Person(int code, String name, Date birthDate, String nationality, HashSet<BoardGame> boardGames) {
+    public Person(int code, String name, Date birthDate, HashSet<BoardGame> boardGames) {
         this.code = code;
         this.name = name;
         this.birthDate = birthDate;
-        this.nationality = nationality;
         this.boardGames = boardGames;
     }
 
-    public Person(int code, String name, Date birthDate, String nationality) {
+    public Person(int code, String name, Date birthDate) {
         this.code = code;
         this.name = name;
         this.birthDate = birthDate;
-        this.nationality = nationality;
     }
 
-    public Person(String name, Date birthdate, String nationality) {
+    public Person(String name, Date birthdate) {
         this.name = name;
         this.birthDate = birthdate;
-        this.nationality = nationality;
     }
 
     public int getCode() {
         return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
     }
 
     public String getName() {
@@ -52,24 +44,8 @@ public abstract class Person {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthdate) {
-        this.birthDate = birthdate;
-    }
-
-    public String getNationality() {
-        return nationality;
-    }
-
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
-    }
-
     public HashSet<BoardGame> getBoardGames() {
         return boardGames;
-    }
-
-    public void setBoardGames(HashSet<BoardGame> boardGames) {
-        this.boardGames = boardGames;
     }
 
     @Override
@@ -88,7 +64,6 @@ public abstract class Person {
         return "code=" + code +
                 ", name:" + name +
                 ", birthdate:" + birthDate +
-                ", nationality:" + nationality +
                 ", boardGames:" + boardGames;
     }
 }
