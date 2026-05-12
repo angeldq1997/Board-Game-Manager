@@ -4,7 +4,6 @@ import es.angeldam.boardgamemanager.BoardGameManagerApplication;
 import es.angeldam.boardgamemanager.dao.UserDAO;
 import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
 import es.angeldam.boardgamemanager.model.User;
-import es.angeldam.boardgamemanager.model.UserSession;
 import es.angeldam.boardgamemanager.utils.UserType;
 import es.angeldam.boardgamemanager.utils.Utils;
 import javafx.event.ActionEvent;
@@ -16,7 +15,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
@@ -29,6 +27,7 @@ public class UserSessionController {
     public TextField userField;
     @FXML
     public Button signUpButton;
+    @FXML
     public Button clearButton;
 
     @FXML
@@ -39,11 +38,13 @@ public class UserSessionController {
     @FXML
     public void logIn(ActionEvent actionEvent) {
         User user = null;
+        User aux = null;
         if (this.userField.getText().isEmpty() || this.passwordField.getText().isEmpty()) {
             Utils.alertError("ERROR EMPTY USER OR PASSWORD", "An error has occurred", "the user or password fields aren't fill up, please complete both.");
         } else {
             try {
-                user = UserDAO.findByName(userField.getText());
+                aux = UserDAO.findByName(userField.getText());
+                user = User.redefineInstance(aux.getUserName(), aux.getPassword(), aux.getUserType());
                 if (user != null && !user.getPassword().equals(Utils.sha256(passwordField.getText().trim()))) {
                     Utils.alertError("ERROR PASSWORD", "The password doesn't match", "the password written on field doesn't correlate to the user password.");
                 } else {
@@ -65,7 +66,6 @@ public class UserSessionController {
         User user = null;
         try {
             user = new User(userField.getText(), Utils.sha256(passwordField.getText()), UserType.USER);
-            System.out.println(user.getPassword());
         } catch (NoSuchAlgorithmException e) {
             Utils.alertError("ERROR ENCRYPTING", "There was an error while encrypting password", "This password isn´t valid, please try again");
         }

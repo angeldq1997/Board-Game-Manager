@@ -1,38 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26">
+<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="650.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.angeldam.boardgamemanager.controllers.PrincipalController">
   <tabs>
-      <Tab text="Board Game">
+      <Tab fx:id="boardGameTab" closable="false" text="Board Game">
          <content>
-            <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0">
+            <SplitPane dividerPositions="0.23384615384615384">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="217.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0">
                      <children>
-                        <Button layoutX="23.0" layoutY="68.0" mnemonicParsing="false" text="Edit Board Game" />
-                        <Button layoutX="11.0" layoutY="27.0" mnemonicParsing="false" text="Remove Board Game" />
-                        <Button layoutX="22.0" layoutY="108.0" mnemonicParsing="false" text="Add Board Game" />
+                        <Button fx:id="editBoardGameButton" layoutX="25.0" layoutY="70.0" mnemonicParsing="false" onAction="#editBoardGame" text="Edit Board Game" />
+                        <Button fx:id="removeBoardGameButton" layoutX="14.0" layoutY="117.0" mnemonicParsing="false" onAction="#removeBoardGame" text="Remove Board Game" />
+                        <Button fx:id="addBoardGameButton" layoutX="24.0" layoutY="23.0" mnemonicParsing="false" onAction="#addBoardGame" text="Add Board Game" />
                      </children>
                   </AnchorPane>
-                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="208.0">
-                     <children>
-                        <ListView layoutX="-6.0" layoutY="-34.0" prefHeight="200.0" prefWidth="200.0" />
-                     </children>
-                  </AnchorPane>
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <children>
+                              <TextField fx:id="searchBoardGameField" layoutX="134.0" layoutY="15.0" onAction="#searchBoardGame" />
+                              <Label layoutX="14.0" layoutY="19.0" text="Search Board Games:" />
+                              <TreeTableView layoutX="14.0" layoutY="47.0" prefHeight="314.0" prefWidth="604.0">
+                                <columns>
+                                  <TreeTableColumn prefWidth="113.0" text="Name" />
+                                  <TreeTableColumn prefWidth="97.0" text="Principal Genre" />
+                                    <TreeTableColumn prefWidth="75.0" text="Min Players" />
+                                    <TreeTableColumn prefWidth="75.0" text="Max Players" />
+                                    <TreeTableColumn prefWidth="75.0" text="Average Duration" />
+                                    <TreeTableColumn prefWidth="75.0" text="Recommended Age" />
+                                    <TreeTableColumn prefWidth="75.0" text="Publication Year" />
+                                    <TreeTableColumn prefWidth="75.0" text="Difficulty" />
+                                    <TreeTableColumn prefWidth="75.0" text="Ranking" />
+                                </columns>
+                              </TreeTableView>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
               </items>
             </SplitPane>
          </content>
       </Tab>
-    <Tab text="Illustrator" />
-    <Tab text="Author" />
-      <Tab text="Publisher" />
-      <Tab text="Game" />
-      <Tab text="Player" />
+    <Tab fx:id="illustratorTab" text="Illustrator" />
+    <Tab fx:id="authorTab" closable="false" text="Author" />
+      <Tab fx:id="publisherTab" closable="false" text="Publisher" />
+      <Tab fx:id="gameTab" closable="false" text="Game" />
+      <Tab fx:id="playerTab" closable="false" text="Player" />
   </tabs>
 </TabPane>
