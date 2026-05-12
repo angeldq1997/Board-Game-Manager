@@ -23,7 +23,7 @@ public class IllustratorDAO {
         Illustrator illustrator = null;
         HashSet<Illustrator> illustrators = new HashSet<>();
 
-        ResultSet rs = ConnectionBD.getInstance().getConnection().createStatement().executeQuery(SQL_ALL);
+        ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL);
         while (rs.next()) {
             int illustratorCode = rs.getInt("illustratorCode");
             String name = rs.getString("name");
@@ -39,7 +39,7 @@ public class IllustratorDAO {
         Illustrator illustrator = null;
         HashSet<Illustrator> illustrators = new HashSet<>();
 
-        ResultSet rs = ConnectionBD.getInstance().getConnection().createStatement().executeQuery(SQL_ALL);
+        ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL);
         while (rs.next()) {
             int illustratorCode = rs.getInt("illustratorCode");
             String name = rs.getString("name");
@@ -54,7 +54,7 @@ public class IllustratorDAO {
 
     public static Illustrator findById(int illustratorCodeToSearch) throws SQLException {
         Illustrator illustrator = null;
-        try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_FIND_BY_ID)) {
+        try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_ID)) {
             ps.setInt(1, illustratorCodeToSearch);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -70,7 +70,7 @@ public class IllustratorDAO {
 
     private static Illustrator findByName(String nameToSearch) throws SQLException {
         Illustrator illustrator = null;
-        try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_FIND_BY_NAME)) {
+        try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_NAME)) {
             ps.setString(1, nameToSearch);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -87,7 +87,7 @@ public class IllustratorDAO {
     public static boolean addIllustrator(Illustrator illustrator) throws SQLException {
         boolean added = false;
         if ((illustrator != null) && findByName(illustrator.getName()) == null) {
-            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_INSERT)) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
                 ps.setString(1, illustrator.getName());
                 ps.setDate(2, illustrator.getBirthDate());
                 ps.setString(3, illustrator.getNationality());
@@ -101,7 +101,7 @@ public class IllustratorDAO {
     public static boolean updateIllustrator(Illustrator actualIllustrator, Illustrator newIllustrator) throws SQLException {
         boolean updated = false;
         if ((actualIllustrator != null) && (newIllustrator != null) && findByName(actualIllustrator.getName()) != null && findByName(newIllustrator.getName()) == null) {
-            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_UPDATE)) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
                 ps.setString(1, newIllustrator.getName());
                 ps.setDate(2, newIllustrator.getBirthDate());
                 ps.setString(3, newIllustrator.getNationality());
@@ -116,7 +116,7 @@ public class IllustratorDAO {
     public static boolean deleteIllustratorById(int illustratorCode) throws SQLException {
         boolean deleted = false;
         if (findById(illustratorCode) != null) {
-            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_DELETE)) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_DELETE)) {
                 ps.setInt(1, illustratorCode);
                 ps.executeUpdate();
                 deleted = true;

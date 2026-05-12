@@ -21,7 +21,7 @@ public class PublisherDAO {
         Publisher publisher = null;
         HashSet<Publisher> publishers = new HashSet<>();
 
-        ResultSet rs = ConnectionBD.getInstance().getConnection().createStatement().executeQuery(SQL_ALL);
+        ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL);
         while (rs.next()) {
             int publisherCode = rs.getInt("publisherCode");
             String name = rs.getString("name");
@@ -36,7 +36,7 @@ public class PublisherDAO {
 
     public static Publisher findById(int publisherCodeToSearch) throws SQLException {
         Publisher publisher = null;
-        try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_FIND_BY_ID)) {
+        try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_ID)) {
             ps.setInt(1, publisherCodeToSearch);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -54,7 +54,7 @@ public class PublisherDAO {
     public static boolean addPublisher(Publisher publisher) throws SQLException {
         boolean added = false;
         if ((publisher != null) && findById(publisher.getPublisherCode()) == null) {
-            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_INSERT)) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
                 ps.setString(1, publisher.getName());
                 ps.setInt(2, publisher.getFoundationYear());
                 ps.setString(3, publisher.getHeadquarters());
@@ -68,7 +68,7 @@ public class PublisherDAO {
     public static boolean updatePublisher(Publisher actualPublisher, Publisher newPublisher) throws SQLException {
         boolean updated = false;
         if ((actualPublisher != null) && (newPublisher != null) && findById(actualPublisher.getPublisherCode()) != null && findById(newPublisher.getPublisherCode()) == null) {
-            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_UPDATE)) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
                 ps.setString(1, newPublisher.getName());
                 ps.setInt(2, newPublisher.getFoundationYear());
                 ps.setString(3, newPublisher.getHeadquarters());
@@ -83,7 +83,7 @@ public class PublisherDAO {
     public static boolean deletePublisherById(int publisherCode) throws SQLException {
         boolean deleted = false;
         if (findById(publisherCode) != null) {
-            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_DELETE)) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_DELETE)) {
                 ps.setInt(1, publisherCode);
                 ps.executeUpdate();
                 deleted = true;

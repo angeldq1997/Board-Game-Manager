@@ -24,7 +24,7 @@ public class PlayerDAO {
 
         HashSet<Game> games = new HashSet<>();
 
-        ResultSet rs = ConnectionBD.getInstance().getConnection().createStatement().executeQuery(SQL_ALL);
+        ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL);
         while (rs.next()) {
             int playerCode = rs.getInt("playerCode");
             String name = rs.getString("name");
@@ -37,7 +37,7 @@ public class PlayerDAO {
 
     public static Player findById(int playerCodeToSearch) throws SQLException {
         Player player = null;
-        try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_FIND_BY_ID)) {
+        try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_ID)) {
             ps.setInt(1, playerCodeToSearch);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -53,7 +53,7 @@ public class PlayerDAO {
     public static boolean addPlayer(Player player) throws SQLException {
         boolean added = false;
         if ((player != null) && findById(player.getCode()) == null) {
-            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_INSERT)) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
                 ps.setString(1,player.getName());
                 ps.setDate(2, player.getBirthDate());
                 ps.executeUpdate();
@@ -66,7 +66,7 @@ public class PlayerDAO {
     public static boolean updatePlayer(Player actualPlayer, Player newPlayer) throws SQLException {
         boolean updated = false;
         if ((actualPlayer != null) && (newPlayer != null) && findById(actualPlayer.getCode()) != null && findById(newPlayer.getCode()) == null) {
-            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_UPDATE)) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
                 ps.setString(1, newPlayer.getName());
                 ps.setDate(2, newPlayer.getBirthDate());
                 ps.executeUpdate();
@@ -79,7 +79,7 @@ public class PlayerDAO {
     public static boolean deletePlayerById(int playerCode) throws SQLException {
         boolean deleted = false;
         if (findById(playerCode) != null) {
-            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_DELETE)) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_DELETE)) {
                 ps.setInt(1, playerCode);
                 ps.executeUpdate();
                 deleted = true;

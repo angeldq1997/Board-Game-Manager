@@ -25,7 +25,7 @@ public class BoardGameDAO {
         HashSet<BoardGame> boardGames = new HashSet<>();
         HashSet<Mechanic> mechanics = new HashSet<>();
 
-        try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_FIND_BY_ID)) {
+        try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_ID)) {
             ps.setInt(1, boardGameCodeToSearch);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -49,7 +49,7 @@ public class BoardGameDAO {
     public static boolean addBoardGame(BoardGame boardGame) throws SQLException {
         boolean added = false;
         if ((boardGame != null) && findById(boardGame.getCode()) == null) {
-            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_INSERT)) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
                 ps.setString(1, boardGame.getName());
                 ps.setString(2, boardGame.getPrincipalGenre());
                 ps.setInt(3, boardGame.getMinPlayers());
@@ -70,7 +70,7 @@ public class BoardGameDAO {
     public static boolean updateBoardGame(BoardGame actualBoardGame, BoardGame newBoardGame) throws SQLException {
         boolean updated = false;
         if ((actualBoardGame != null) && (newBoardGame != null) && findById(actualBoardGame.getCode()) != null && findById(newBoardGame.getCode()) == null) {
-            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_UPDATE)) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
                 ps.setString(1, newBoardGame.getName());
                 ps.setString(2, newBoardGame.getPrincipalGenre());
                 ps.setInt(3, newBoardGame.getMinPlayers());
@@ -92,7 +92,7 @@ public class BoardGameDAO {
     public static boolean deleteGameById(int boardGameCode) throws SQLException {
         boolean deleted = false;
         if (findById(boardGameCode) != null) {
-            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_DELETE)) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_DELETE)) {
                 ps.setInt(1, boardGameCode);
                 ps.executeUpdate();
                 deleted = true;

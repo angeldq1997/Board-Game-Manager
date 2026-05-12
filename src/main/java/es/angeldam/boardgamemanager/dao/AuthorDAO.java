@@ -21,15 +21,16 @@ public class AuthorDAO {
         Author author = null;
         HashSet<Author> authors = new HashSet<>();
 
-        ResultSet rs = ConnectionBD.getInstance().getConnection().createStatement().executeQuery(SQL_ALL);
-        while (rs.next()) {
-            int authorCode = rs.getInt("authorCode");
-            String name = rs.getString("name");
-            String alias = rs.getString("alias");
-            Date birthDate = rs.getDate("birthDate");
-            String nationality = rs.getString("nationality");
-            author = new Author(authorCode, name, alias, birthDate, nationality);
-            authors.add(author);
+        try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
+            while (rs.next()) {
+                int authorCode = rs.getInt("authorCode");
+                String name = rs.getString("name");
+                String alias = rs.getString("alias");
+                Date birthDate = rs.getDate("birthDate");
+                String nationality = rs.getString("nationality");
+                author = new Author(authorCode, name, alias, birthDate, nationality);
+                authors.add(author);
+            }
         }
         return authors;
     }
@@ -38,40 +39,24 @@ public class AuthorDAO {
         Author author = null;
         HashSet<Author> authors = new HashSet<>();
 
-        ResultSet rs = ConnectionBD.getInstance().getConnection().createStatement().executeQuery(SQL_ALL);
-        while (rs.next()) {
-            int authorCode = rs.getInt("authorCode");
-            String name = rs.getString("name");
-            String alias = rs.getString("alias");
-            Date birthDate = rs.getDate("birthDate");
-            String nationality = rs.getString("nationality");
-            HashSet<BoardGame> boardGames = findById(authorCode).getBoardGames();
-            author = new Author(authorCode, name, alias, birthDate, nationality, boardGames);
-            authors.add(author);
-        }
-        return authors;
-    }
-
-    public static Author findById(int authorCodeToSearch) throws SQLException {
-        Author author = null;
-        try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_FIND_BY_ID)) {
-            ps.setInt(1, authorCodeToSearch);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+        try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
+            while (rs.next()) {
                 int authorCode = rs.getInt("authorCode");
                 String name = rs.getString("name");
                 String alias = rs.getString("alias");
                 Date birthDate = rs.getDate("birthDate");
                 String nationality = rs.getString("nationality");
-                author = new Author(authorCode, name, alias, birthDate, nationality);
+                HashSet<BoardGame> boardGames = findById(authorCode).getBoardGames();
+                author = new Author(authorCode, name, alias, birthDate, nationality, boardGames);
+                authors.add(author);
             }
         }
-        return author;
+        return authors;
     }
 
     public static Author findByIdEager(int authorCodeToSearch) throws SQLException {
         Author author = null;
-        try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_FIND_BY_ID)) {
+        try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_ID)) {
             ps.setInt(1, authorCodeToSearch);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -89,8 +74,25 @@ public class AuthorDAO {
 
     private static Author findByName(String nameToSearch) throws SQLException {
         Author author = null;
-        try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_FIND_BY_NAME)) {
+        try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_NAME)) {
             ps.setString(1, nameToSearch);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int authorCode = rs.getInt("authorCode");
+                String name = rs.getString("name");
+                String alias = rs.getString("alias");
+                Date birthDate = rs.getDate("birthDate");
+                String nationality = rs.getString("nationality");
+                author = new Author(authorCode, name, alias, birthDate, nationality);
+            }
+        }
+        return author;
+    }
+
+    public static Author findById(int authorCodeToSearch) throws SQLException {
+        Author author = null;
+        try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_ID)) {
+            ps.setInt(1, authorCodeToSearch);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int authorCode = rs.getInt("authorCode");
@@ -107,7 +109,7 @@ public class AuthorDAO {
     public static boolean addAuthor(Author author) throws SQLException {
         boolean added = false;
         if ((author != null) && findByName(author.getName()) == null) {
-            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_INSERT)) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
                 ps.setString(1, author.getName());
                 ps.setString(2, author.getAlias());
                 ps.setDate(3, author.getBirthDate());
@@ -122,7 +124,7 @@ public class AuthorDAO {
     public static boolean updateAuthor(Author newAuthor, Author actualAuthor) throws SQLException {
         boolean updated = false;
         if ((actualAuthor != null) && (newAuthor != null) && findByName(actualAuthor.getName()) != null && findByName(newAuthor.getName()) == null) {
-            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_UPDATE)) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
                 ps.setString(1, newAuthor.getName());
                 ps.setString(2, newAuthor.getAlias());
                 ps.setDate(3, newAuthor.getBirthDate());
@@ -138,7 +140,7 @@ public class AuthorDAO {
     public static boolean deleteAuthorById(int authorCodeToSearch) throws SQLException {
         boolean deleted = false;
         if (findById(authorCodeToSearch) != null) {
-            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_DELETE)) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_DELETE)) {
                 ps.setInt(1, authorCodeToSearch);
                 ps.executeUpdate();
                 deleted = true;

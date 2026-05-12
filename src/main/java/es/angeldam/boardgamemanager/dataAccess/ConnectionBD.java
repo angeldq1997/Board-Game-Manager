@@ -5,41 +5,24 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionBD {
-
-    private final String FILE = "connection.xml";
-    private Connection con;
-    private ConnectionProperties properties;
-    private static ConnectionBD _instance;
+    private static final String FILE = "connection.xml";
+    private static Connection con;
+    private static ConnectionBD instance;
 
     private ConnectionBD() {
-        properties = XMLManager.readXML(new ConnectionProperties(), FILE);
-    }
-
-    public void connect() throws SQLException {
-        try {
+        ConnectionProperties properties = XMLManager.readXML(new ConnectionProperties(), FILE);
+        try{
             con = DriverManager.getConnection(properties.getURL(), properties.getUser(), properties.getPassword());
-        } catch (SQLException e) {
-            con = null;
-            throw e;
+        }catch(SQLException e){
+            e.printStackTrace();
+            con=null;
         }
     }
 
-    private void disconnect() {
-        con = null;
-    }
-
-    private boolean isConnected() {
-        return con != null;
-    }
-
-    public static ConnectionBD getInstance() {
-        if (_instance == null) {
-            _instance = new ConnectionBD();
+    public static Connection getConnection() {
+        if(instance ==null){
+            instance = new ConnectionBD();
         }
-        return _instance;
-    }
-
-    public Connection getConnection() {
         return con;
     }
 }

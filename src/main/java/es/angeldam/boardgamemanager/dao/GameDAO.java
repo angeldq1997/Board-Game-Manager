@@ -26,7 +26,7 @@ public class GameDAO {
         ArrayList<Player> players = null;
         HashSet<Game> games = new HashSet<>();
 
-        ResultSet rs = ConnectionBD.getInstance().getConnection().createStatement().executeQuery(SQL_ALL);
+        ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL);
         while (rs.next()) {
             int gameCode = rs.getInt("gameCode");
             String place = rs.getString("place");
@@ -45,7 +45,7 @@ public class GameDAO {
         ArrayList<Player> players = null;
         HashSet<Game> games = new HashSet<>();
 
-        try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_FIND_BY_ID)) {
+        try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_ID)) {
             ps.setInt(1, gameCodeToSearch);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -63,7 +63,7 @@ public class GameDAO {
     public static boolean addGame(Game game) throws SQLException {
         boolean added = false;
         if ((game != null) && findById(game.getCode()) == null) {
-            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_INSERT)) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
                 ps.setString(1, game.getPlace());
                 ps.setDate(2, game.getDate());
                 ps.setObject(3, game.getBoardGame());
@@ -77,7 +77,7 @@ public class GameDAO {
     public static boolean updateGame(Game actualGame, Game newGame) throws SQLException {
         boolean updated = false;
         if ((actualGame != null) && (newGame != null) && findById(actualGame.getCode()) != null && findById(newGame.getCode()) == null) {
-            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_UPDATE)) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
                 ps.setString(1, newGame.getPlace());
                 ps.setDate(2, newGame.getDate());
                 ps.setInt(3, newGame.getBoardGame().getCode());
@@ -92,7 +92,7 @@ public class GameDAO {
     public static boolean deleteGameById(int gameCode) throws SQLException {
         boolean deleted = false;
         if (findById(gameCode) != null) {
-            try (PreparedStatement ps = ConnectionBD.getInstance().getConnection().prepareStatement(SQL_DELETE)) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_DELETE)) {
                 ps.setInt(1, gameCode);
                 ps.executeUpdate();
                 deleted = true;
