@@ -15,6 +15,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
@@ -48,15 +49,18 @@ public class UserSessionController {
                 if (user != null && !user.getPassword().equals(Utils.sha256(passwordField.getText().trim()))) {
                     Utils.alertError("ERROR PASSWORD", "The password doesn't match", "the password written on field doesn't correlate to the user password.");
                 } else {
-                    FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("principal-view.fxml"));
                     Stage changedStage = (Stage) logInButton.getScene().getWindow();
-                    Scene scene = null;
-                    scene = new Scene(fxmlLoader.load(), 250, 250);
-                    changedStage.setTitle("Board Game Manager");
+                    FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("principal-view.fxml"));
+                    Scene scene = new Scene(fxmlLoader.load(), 250, 250);
                     changedStage.setScene(scene);
+                    changedStage.setTitle("Board Game Manager");
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 Utils.alertError("ERROR USER", "User not found: There aren't users with the user name written", e.getMessage());
+            } catch (NoSuchAlgorithmException e1){
+                Utils.alertError("ERROR ALGORITHM", "Can't get password through SHA256", e1.getMessage());
+            }catch (IOException e2){
+                Utils.alertError("ERROR IOEXCEPTION","There is an error loading new window", e2.getMessage());
             }
         }
     }
@@ -67,7 +71,7 @@ public class UserSessionController {
         try {
             user = new User(userField.getText(), Utils.sha256(passwordField.getText()), UserType.USER);
         } catch (NoSuchAlgorithmException e) {
-            Utils.alertError("ERROR ENCRYPTING", "There was an error while encrypting password", "This password isn´t valid, please try again");
+            Utils.alertError("ERROR ENCRYPTING", "There was an error while encrypting password", e.getMessage());
         }
         try {
             UserDAO.addUser(user);
@@ -78,7 +82,7 @@ public class UserSessionController {
 
     public void loadDB() {
         if (ConnectionBD.getConnection() == null) {
-            Utils.alertError("ERROR CONNECTING DATABASE", "An error has occured while connnecting database", "Contact the administrator to solve the error");
+            Utils.alertError("ERROR CONNECTING DATABASE", "An error has occurred while connecting database", "Contact the administrator to solve the error");
         }
     }
 

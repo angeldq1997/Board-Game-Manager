@@ -11,4 +11,7 @@ module es.angeldam.boardgamemanager {
     exports es.angeldam.boardgamemanager;
     exports es.angeldam.boardgamemanager.controllers;
     opens es.angeldam.boardgamemanager.controllers to javafx.fxml;
+
+    exports es.angeldam.boardgamemanager.model;
+    exports es.angeldam.boardgamemanager.utils;
 }

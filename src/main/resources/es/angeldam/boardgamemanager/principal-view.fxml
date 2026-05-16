@@ -6,16 +6,16 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="650.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.angeldam.boardgamemanager.controllers.PrincipalController">
+<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="900.0" prefHeight="400.0" prefWidth="1116.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.angeldam.boardgamemanager.controllers.PrincipalController">
   <tabs>
       <Tab fx:id="boardGameTab" closable="false" text="Board Game">
          <content>
-            <SplitPane dividerPositions="0.23384615384615384">
+            <SplitPane dividerPositions="0.14068100358422939">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0">
                      <children>
@@ -30,19 +30,19 @@
                            <children>
                               <TextField fx:id="searchBoardGameField" layoutX="134.0" layoutY="15.0" onAction="#searchBoardGame" />
                               <Label layoutX="14.0" layoutY="19.0" text="Search Board Games:" />
-                              <TreeTableView layoutX="14.0" layoutY="47.0" prefHeight="314.0" prefWidth="604.0">
+                              <TableView fx:id="bGTable" layoutX="14.0" layoutY="56.0" prefHeight="280.0" prefWidth="912.0">
                                 <columns>
-                                  <TreeTableColumn prefWidth="113.0" text="Name" />
-                                  <TreeTableColumn prefWidth="97.0" text="Principal Genre" />
-                                    <TreeTableColumn prefWidth="75.0" text="Min Players" />
-                                    <TreeTableColumn prefWidth="75.0" text="Max Players" />
-                                    <TreeTableColumn prefWidth="75.0" text="Average Duration" />
-                                    <TreeTableColumn prefWidth="75.0" text="Recommended Age" />
-                                    <TreeTableColumn prefWidth="75.0" text="Publication Year" />
-                                    <TreeTableColumn prefWidth="75.0" text="Difficulty" />
-                                    <TreeTableColumn prefWidth="75.0" text="Ranking" />
+                                  <TableColumn fx:id="bGCodeCol" prefWidth="34.0" text="Code" />
+                                    <TableColumn fx:id="bGNameCol" prefWidth="143.0" text="Name" />
+                                    <TableColumn fx:id="bGMinPlayersCol" prefWidth="71.0" text="Min Players" />
+                                    <TableColumn fx:id="bGMaxPlayersCol" prefWidth="75.0" text="Max players" />
+                                    <TableColumn fx:id="bGAvgDurationCol" prefWidth="104.0" text="Average Duration" />
+                                    <TableColumn fx:id="bGPubYearCol" prefWidth="103.0" text="Publication Year" />
+                                    <TableColumn fx:id="bGDiffCol" prefWidth="71.0" text="Difficulty" />
+                                    <TableColumn fx:id="bGRankCol" prefWidth="55.0" text="Ranking" />
+                                    <TableColumn fx:id="bGMechCol" prefWidth="139.0" text="Mechanics" />
                                 </columns>
-                              </TreeTableView>
+                              </TableView>
                            </children>
                         </AnchorPane>
                     </content>
