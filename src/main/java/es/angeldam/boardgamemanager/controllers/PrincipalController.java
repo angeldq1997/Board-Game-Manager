@@ -148,7 +148,7 @@ public class PrincipalController {
             Utils.alert(Alert.AlertType.ERROR,"ERROR SELECTION", "There isn't a board game selected", "You must select a board game");
             return;
         }
-        Optional<ButtonType> answer = Utils.alert(Alert.AlertType.CONFIRMATION, "Confirm Delete", "Confirm Delete on board game", "Are you sure you want to remove" + boardGame.getName() + "?");
+        Optional<ButtonType> answer = Utils.alert(Alert.AlertType.CONFIRMATION, "Confirm Delete", "Confirm Delete on board game", "Are you sure you want to remove: " + boardGame.getName() + "?");
         if(answer.isPresent() && answer.get() == ButtonType.OK){
             try {
                 BoardGameDAO.deleteGameById(boardGame.getCode());

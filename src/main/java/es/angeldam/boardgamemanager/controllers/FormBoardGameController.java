@@ -90,9 +90,11 @@ public class FormBoardGameController {
             txtPubYear.setText(String.valueOf(boardGame.getPublicationYear()));
             cmbDifficulty.setValue(boardGame.getDifficulty());
             txtRanking.setText(String.valueOf(boardGame.getRanking()));
+            //TODO: search in middle tables the values of the author/publisher/illustrator
             cmbAuthor1.setValue(boardGame.getAuthors().getFirst());
             cmbIllustrator1.setValue(boardGame.getIllustrators().getFirst());
             cmbPublisher1.setValue(boardGame.getPublishers().getFirst());
+
             formTitleLabel.setText("Update board game");
         } else {
             txtName.setText("");
