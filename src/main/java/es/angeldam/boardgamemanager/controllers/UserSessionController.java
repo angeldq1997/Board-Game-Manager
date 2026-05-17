@@ -76,6 +76,7 @@ public class UserSessionController {
         }
         try {
             UserDAO.addUser(user);
+            Utils.alert(Alert.AlertType.CONFIRMATION, "ADDED USER TO DATABASE", "The user and password was added to the database", "The user: "+user.getUserName() + " was added successfully");
         } catch (SQLException e) {
             Utils.alert(Alert.AlertType.ERROR,"ERROR STORING USER", "There was an error while storing user on database", e.getMessage());
         }

@@ -69,7 +69,7 @@ public class FormBoardGameController {
         loadAuthors();
         loadIllustrators();
         loadPublishers();
-        configComboBoxDifficulty();
+        cmbDifficulty.getItems().addAll(Difficulty.values());
         configComboBoxAuthor();
         configComboBoxIllustrator();
         configComboBoxPublisher();
@@ -127,24 +127,6 @@ public class FormBoardGameController {
                 cmbPublisher1.getSelectionModel().isEmpty());
     }
 
-    private void configComboBoxDifficulty() {
-        cmbDifficulty.setCellFactory(listView -> new ListCell<>() {
-            @Override
-            protected void updateItem(Difficulty difficulty, boolean empty) {
-                super.updateItem(difficulty, empty);
-                setText(empty || difficulty == null ? null : difficulty.toString());
-            }
-        });
-
-        cmbDifficulty.setButtonCell(new ListCell<>() {
-            @Override
-            protected void updateItem(Difficulty difficulty, boolean empty) {
-                super.updateItem(difficulty, empty);
-                setText(empty || difficulty == null ? null : difficulty.toString());
-            }
-        });
-    }
-
     private void configComboBoxAuthor() {
         cmbAuthor1.setCellFactory(listView -> new ListCell<>() {
             @Override
@@ -155,6 +137,38 @@ public class FormBoardGameController {
         });
 
         cmbAuthor1.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Author author, boolean empty) {
+                super.updateItem(author, empty);
+                setText(empty || author == null ? null : author.getName());
+            }
+        });
+
+        cmbAuthor2.setCellFactory(listView -> new ListCell<>() {
+            @Override
+            protected void updateItem(Author author, boolean empty) {
+                super.updateItem(author, empty);
+                setText(empty || author == null ? null : author.getName());
+            }
+        });
+
+        cmbAuthor2.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Author author, boolean empty) {
+                super.updateItem(author, empty);
+                setText(empty || author == null ? null : author.getName());
+            }
+        });
+
+        cmbAuthor2.setCellFactory(listView -> new ListCell<>() {
+            @Override
+            protected void updateItem(Author author, boolean empty) {
+                super.updateItem(author, empty);
+                setText(empty || author == null ? null : author.getName());
+            }
+        });
+
+        cmbAuthor2.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(Author author, boolean empty) {
                 super.updateItem(author, empty);
@@ -179,6 +193,38 @@ public class FormBoardGameController {
                 setText(empty || illustrator == null ? null : illustrator.getName());
             }
         });
+
+        cmbIllustrator2.setCellFactory(listView -> new ListCell<>() {
+            @Override
+            protected void updateItem(Illustrator illustrator, boolean empty) {
+                super.updateItem(illustrator, empty);
+                setText(empty || illustrator == null ? null : illustrator.getName());
+            }
+        });
+
+        cmbIllustrator2.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Illustrator illustrator, boolean empty) {
+                super.updateItem(illustrator, empty);
+                setText(empty || illustrator == null ? null : illustrator.getName());
+            }
+        });
+
+        cmbIllustrator3.setCellFactory(listView -> new ListCell<>() {
+            @Override
+            protected void updateItem(Illustrator illustrator, boolean empty) {
+                super.updateItem(illustrator, empty);
+                setText(empty || illustrator == null ? null : illustrator.getName());
+            }
+        });
+
+        cmbIllustrator3.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Illustrator illustrator, boolean empty) {
+                super.updateItem(illustrator, empty);
+                setText(empty || illustrator == null ? null : illustrator.getName());
+            }
+        });
     }
 
     private void configComboBoxPublisher() {
@@ -191,6 +237,38 @@ public class FormBoardGameController {
         });
 
         cmbPublisher1.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Publisher publisher, boolean empty) {
+                super.updateItem(publisher, empty);
+                setText(empty || publisher == null ? null : publisher.getName());
+            }
+        });
+
+        cmbPublisher2.setCellFactory(listView -> new ListCell<>() {
+            @Override
+            protected void updateItem(Publisher publisher, boolean empty) {
+                super.updateItem(publisher, empty);
+                setText(empty || publisher == null ? null : publisher.getName());
+            }
+        });
+
+        cmbPublisher2.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Publisher publisher, boolean empty) {
+                super.updateItem(publisher, empty);
+                setText(empty || publisher == null ? null : publisher.getName());
+            }
+        });
+
+        cmbPublisher3.setCellFactory(listView -> new ListCell<>() {
+            @Override
+            protected void updateItem(Publisher publisher, boolean empty) {
+                super.updateItem(publisher, empty);
+                setText(empty || publisher == null ? null : publisher.getName());
+            }
+        });
+
+        cmbPublisher3.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(Publisher publisher, boolean empty) {
                 super.updateItem(publisher, empty);
@@ -231,22 +309,53 @@ public class FormBoardGameController {
 
     private void configListeners() {
         txtName.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
-        txtMinPlayers.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
-        txtMaxPlayers.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
-        txtAvgDuration.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
-        txtAge.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
+        addListenerLimitedSize(txtMinPlayers, 3);
+        addListenerLimitedSize(txtMaxPlayers, 3);
+        addListenerLimitedSize(txtAvgDuration, 4);
+        addListenerLimitedSize(txtAge, 2);
         txtPubYear.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
         cmbDifficulty.valueProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
         txtRanking.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
         txtMechanics.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
-        cmbAuthor1.valueProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
-        cmbIllustrator1.valueProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
-        cmbPublisher1.valueProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
-        addListener(txtMinPlayers, "\\d{1,3}", "[^\\d]");
+        addListenerObjectVisibility(cmbAuthor1, cmbAuthor2);
+        addListenerObjectVisibility(cmbAuthor2, cmbAuthor3);
+
+        addListenerObjectVisibility(cmbIllustrator1, cmbIllustrator2);
+        addListenerObjectVisibility(cmbIllustrator2, cmbIllustrator3);
+
+        addListenerObjectVisibility(cmbPublisher1, cmbPublisher2);
+        addListenerObjectVisibility(cmbPublisher2, cmbPublisher3);
+
+
+        addListener(txtMinPlayers, "[\\d]{1,3}", "[^\\d]");
         addListener(txtMaxPlayers, "\\d{1,3}", "[^\\d]");
         addListener(txtAvgDuration, "\\d{1,4}", "\\d+");
-        addListener(txtPubYear, "2[0-1][\\d]{2}", "\\d+");
+        addListener(txtPubYear, "2[0-1][\\d]{2}", "2[0-1][\\d]{2}");
         addListener(txtRanking, "\\d{1,3}", "\\d+");
+    }
+
+    private <T> void addListenerObjectVisibility(ComboBox<T> comboBoxToCheck, ComboBox<T> comboBoxToShow) {
+        comboBoxToCheck.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if(comboBoxToCheck.getValue() != null){
+                comboBoxToShow.setVisible(true);
+                comboBoxToShow.setDisable(false);
+                comboBoxToShow.getItems().remove(comboBoxToCheck.getValue());
+            }else{
+                comboBoxToShow.setVisible(false);
+                comboBoxToShow.setDisable(true);
+            }
+            updateSaveButton();
+        });
+    }
+
+    private void addListenerLimitedSize(TextField textField, int max) {
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > max) {
+                String copy = newValue.substring(0, max);
+                textField.setText(copy);
+            }
+            updateSaveButton();
+        });
     }
 
     private void addListener(TextField txtFieldName, String match, String replace) {
@@ -296,13 +405,13 @@ public class FormBoardGameController {
             BoardGame newBoardGame = new BoardGame(name, minPlayers, maxPlayers, averageDuration, recommendedAge, publicationYear, difficulty, ranking, mechanics, authors, illustrators, publishers);
             if (this.boardGameToEdit == null){
                 if( BoardGameDAO.addBoardGame(newBoardGame) ){
-                    Utils.alert(Alert.AlertType.CONFIRMATION, "BOARD GAME ADDED", "The board game was added to the database", "The board game with name: "+newBoardGame.getName()+" was added to the database");
+                    Utils.alert(Alert.AlertType.INFORMATION, "BOARD GAME ADDED", "The board game was added to the database", "The board game with name: "+newBoardGame.getName()+" was added to the database");
                     Stage stage = (Stage) formTitleLabel.getScene().getWindow();
                     stage.close();
                 }
             }else {
                 if (BoardGameDAO.updateBoardGame(boardGameToEdit, newBoardGame)){
-                    Utils.alert(Alert.AlertType.CONFIRMATION, "BOARD GAME UPDATED", "The board game was updated to the database", "The board game with name: "+newBoardGame.getName()+" was updated to the database");
+                    Utils.alert(Alert.AlertType.INFORMATION, "BOARD GAME UPDATED", "The board game was updated to the database", "The board game with name: "+newBoardGame.getName()+" was updated to the database");
                     Stage stage = (Stage) formTitleLabel.getScene().getWindow();
                     stage.close();
                 }
