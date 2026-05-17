@@ -1,7 +1,7 @@
 package es.angeldam.boardgamemanager.model;
 
 import java.sql.Date;
-import java.util.HashSet;
+import java.util.List;
 
 public class Author extends Person{
     private String alias;
@@ -13,7 +13,7 @@ public class Author extends Person{
         this.nationality = nationality;
     }
 
-    public Author(int code, String name, String alias, Date birthDate, String nationality, HashSet<BoardGame> boardGames) {
+    public Author(int code, String name, String alias, Date birthDate, String nationality, List<BoardGame> boardGames) {
         super(code, name, birthDate, boardGames);
         this.alias = alias;
         this.nationality = nationality;
@@ -36,8 +36,8 @@ public class Author extends Person{
 
     @Override
     public String toString() {
-        return "Author{" +
-                "alias:" + alias +
+        return "Author{"  + super.toString() +
+                "\n alias:" + alias +
                 ", nationality:" + nationality + "}";
     }
 }

@@ -1,17 +1,19 @@
 package es.angeldam.boardgamemanager.utils;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 public class Utils {
-    public static void alertError(String title, String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+    public static Optional<ButtonType> alert(Alert.AlertType alertType, String title, String header, String content) {
+        Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
-        alert.showAndWait();
+        return alert.showAndWait();
     }
 
     public static String sha256(String password) throws NoSuchAlgorithmException {

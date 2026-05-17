@@ -7,7 +7,8 @@ import es.angeldam.boardgamemanager.model.Publisher;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PublisherDAO {
     private final static String SQL_ALL = "SELECT * FROM publisher";
@@ -17,19 +18,37 @@ public class PublisherDAO {
     private final static String SQL_UPDATE = "UPDATE publisher SET name =?, foundationYear =?, headquarters =? WHERE publisherCode = ?";
     private final static String SQL_DELETE = "DELETE FROM publisher WHERE publisherCode = ?";
 
-    public static HashSet<Publisher> findAllEager() throws SQLException {
+    public static List<Publisher> findAll() throws SQLException {
         Publisher publisher = null;
-        HashSet<Publisher> publishers = new HashSet<>();
+        List<Publisher> publishers = new ArrayList<>();
 
-        ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL);
-        while (rs.next()) {
-            int publisherCode = rs.getInt("publisherCode");
-            String name = rs.getString("name");
-            int foundationYear = rs.getInt("foundationYear");
-            String headquarters = rs.getString("headquarters");
-            HashSet<BoardGame> boardGames = findById(publisherCode).getBoardGames();
-            publisher = new Publisher(publisherCode, name, foundationYear, headquarters);
-            publishers.add(findById(publisherCode));
+        try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
+            while (rs.next()) {
+                int publisherCode = rs.getInt("publisherCode");
+                String name = rs.getString("name");
+                int foundationYear = rs.getInt("foundationYear");
+                String headquarters = rs.getString("headquarters");
+                publisher = new Publisher(publisherCode, name, foundationYear, headquarters);
+                publishers.add(publisher);
+            }
+        }
+        return publishers;
+    }
+
+    public static List<Publisher> findAllEager() throws SQLException {
+        Publisher publisher = null;
+        List<Publisher> publishers = new ArrayList<>();
+
+        try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
+            while (rs.next()) {
+                int publisherCode = rs.getInt("publisherCode");
+                String name = rs.getString("name");
+                int foundationYear = rs.getInt("foundationYear");
+                String headquarters = rs.getString("headquarters");
+                List<BoardGame> boardGames = findById(publisherCode).getBoardGames();
+                publisher = new Publisher(publisherCode, name, foundationYear, headquarters, boardGames);
+                publishers.add(publisher);
+            }
         }
         return publishers;
     }
@@ -44,7 +63,7 @@ public class PublisherDAO {
                 String name = rs.getString("name");
                 int foundationYear = rs.getInt("foundationYear");
                 String headquarters = rs.getString("headquarters");
-                HashSet<BoardGame> boardGames = findById(publisherCode).getBoardGames();
+                List<BoardGame> boardGames = findById(publisherCode).getBoardGames();
                 publisher = new Publisher(publisherCode, name, foundationYear, headquarters, boardGames);
             }
         }

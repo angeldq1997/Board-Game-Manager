@@ -1,15 +1,15 @@
 package es.angeldam.boardgamemanager.model;
 
-import java.util.HashSet;
+import java.util.List;
 
 public class Publisher {
     private int publisherCode;
     private String name;
     private int foundationYear;
     private String headquarters;
-    private HashSet<BoardGame> boardGames;
+    private List<BoardGame> boardGames;
 
-    public Publisher(int publisherCode, String name, int foundationYear, String headquarters, HashSet<BoardGame> boardGames) {
+    public Publisher(int publisherCode, String name, int foundationYear, String headquarters, List<BoardGame> boardGames) {
         this.publisherCode = publisherCode;
         this.name = name;
         this.foundationYear = foundationYear;
@@ -40,7 +40,17 @@ public class Publisher {
         return headquarters;
     }
 
-    public HashSet<BoardGame> getBoardGames() {
+    public List<BoardGame> getBoardGames() {
         return boardGames;
+    }
+
+    @Override
+    public String toString() {
+        return "Publisher{" +
+                "publisherCode=" + publisherCode +
+                ", name=" + name  +
+                ", foundationYear=" + foundationYear +
+                ", headquarters=" + headquarters  +
+                ", boardGames=" + boardGames +  "}";
     }
 }

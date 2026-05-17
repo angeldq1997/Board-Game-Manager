@@ -11,13 +11,13 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="900.0" prefHeight="400.0" prefWidth="1116.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.angeldam.boardgamemanager.controllers.PrincipalController">
+<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="1100.0" prefHeight="400.0" prefWidth="1100.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.angeldam.boardgamemanager.controllers.PrincipalController">
   <tabs>
       <Tab fx:id="boardGameTab" closable="false" text="Board Game">
          <content>
-            <SplitPane dividerPositions="0.14068100358422939">
+            <SplitPane dividerPositions="0.14381818181818182">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0">
+                <AnchorPane maxWidth="150.0" minHeight="0.0" minWidth="150.0" prefWidth="150.0">
                      <children>
                         <Button fx:id="editBoardGameButton" layoutX="25.0" layoutY="70.0" mnemonicParsing="false" onAction="#editBoardGame" text="Edit Board Game" />
                         <Button fx:id="removeBoardGameButton" layoutX="14.0" layoutY="117.0" mnemonicParsing="false" onAction="#removeBoardGame" text="Remove Board Game" />
@@ -32,15 +32,20 @@
                               <Label layoutX="14.0" layoutY="19.0" text="Search Board Games:" />
                               <TableView fx:id="bGTable" layoutX="14.0" layoutY="56.0" prefHeight="280.0" prefWidth="912.0">
                                 <columns>
-                                  <TableColumn fx:id="bGCodeCol" prefWidth="34.0" text="Code" />
-                                    <TableColumn fx:id="bGNameCol" prefWidth="143.0" text="Name" />
-                                    <TableColumn fx:id="bGMinPlayersCol" prefWidth="71.0" text="Min Players" />
-                                    <TableColumn fx:id="bGMaxPlayersCol" prefWidth="75.0" text="Max players" />
-                                    <TableColumn fx:id="bGAvgDurationCol" prefWidth="104.0" text="Average Duration" />
-                                    <TableColumn fx:id="bGPubYearCol" prefWidth="103.0" text="Publication Year" />
-                                    <TableColumn fx:id="bGDiffCol" prefWidth="71.0" text="Difficulty" />
-                                    <TableColumn fx:id="bGRankCol" prefWidth="55.0" text="Ranking" />
-                                    <TableColumn fx:id="bGMechCol" prefWidth="139.0" text="Mechanics" />
+                                  <TableColumn fx:id="bGCodeCol" prefWidth="43.20007133483887" text="Code" />
+                                    <TableColumn fx:id="bGNameCol" prefWidth="167.99994659423828" text="Name" />
+                                    <TableColumn prefWidth="111.20001220703125" text="Players">
+                                       <columns>
+                                          <TableColumn fx:id="bGMinPlayersCol" prefWidth="44.0" text="Min" />
+                                          <TableColumn fx:id="bGMaxPlayersCol" prefWidth="45.60003662109375" text="Max" />
+                                       </columns>
+                                    </TableColumn>
+                                    <TableColumn fx:id="bGAgeCol" prefWidth="39.999908447265625" text="Age" />
+                                    <TableColumn fx:id="bGAvgDurationCol" prefWidth="111.99993896484375" text="Average Duration" />
+                                    <TableColumn fx:id="bGPubYearCol" prefWidth="75.20004272460938" text="Release Year" />
+                                    <TableColumn fx:id="bGDiffCol" prefWidth="60.0" text="Difficulty" />
+                                    <TableColumn fx:id="bGRankCol" prefWidth="51.2000732421875" text="Ranking" />
+                                    <TableColumn fx:id="bGMechCol" prefWidth="288.0" text="Mechanics" />
                                 </columns>
                               </TableView>
                            </children>

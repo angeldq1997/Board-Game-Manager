@@ -8,7 +8,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IllustratorDAO {
     private final static String SQL_ALL = "SELECT * FROM illustrator";
@@ -19,9 +20,9 @@ public class IllustratorDAO {
     private final static String SQL_DELETE = "DELETE FROM illustrator WHERE illustratorCode = ?";
 
 
-    public static HashSet<Illustrator> findAll() throws SQLException {
+    public static List<Illustrator> findAll() throws SQLException {
         Illustrator illustrator = null;
-        HashSet<Illustrator> illustrators = new HashSet<>();
+        List<Illustrator> illustrators = new ArrayList<>();
 
         ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL);
         while (rs.next()) {
@@ -35,9 +36,9 @@ public class IllustratorDAO {
         return illustrators;
     }
 
-    public static HashSet<Illustrator> findAllEager() throws SQLException {
+    public static List<Illustrator> findAllEager() throws SQLException {
         Illustrator illustrator = null;
-        HashSet<Illustrator> illustrators = new HashSet<>();
+        List<Illustrator> illustrators = new ArrayList<>();
 
         ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL);
         while (rs.next()) {
@@ -45,7 +46,7 @@ public class IllustratorDAO {
             String name = rs.getString("name");
             Date birthDate = rs.getDate("birthDate");
             String nationality = rs.getString("nationality");
-            HashSet<BoardGame> boardGames = findById(illustratorCode).getBoardGames();
+            List<BoardGame> boardGames = findById(illustratorCode).getBoardGames();
             illustrator = new Illustrator(illustratorCode, name, birthDate, nationality, boardGames);
             illustrators.add(illustrator);
         }

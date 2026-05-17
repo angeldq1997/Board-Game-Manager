@@ -1,8 +1,7 @@
 package es.angeldam.boardgamemanager.dao;
 
 import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
-import es.angeldam.boardgamemanager.model.BoardGame;
-import es.angeldam.boardgamemanager.model.Player;
+import es.angeldam.boardgamemanager.model.*;
 import es.angeldam.boardgamemanager.utils.Difficulty;
 
 import java.sql.PreparedStatement;
@@ -22,7 +21,32 @@ public class BoardGameDAO {
 
     public static ArrayList<BoardGame> findAll() throws SQLException {
         BoardGame boardGame = null;
-        ArrayList<Player> players = null;
+        ArrayList<BoardGame> boardGames = new ArrayList<>();
+
+        try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
+            while (rs.next()) {
+                int gameCode = rs.getInt("boardGameCode");
+                String name = rs.getString("name");
+                int minPlayers = rs.getInt("minPlayers");
+                int maxPlayers = rs.getInt("maxPlayers");
+                int averageDuration = rs.getInt("averageDuration");
+                String recommendedAge = rs.getString("recommendedAge");
+                int publicationYear = rs.getInt("publicationYear");
+                Difficulty difficulty = Difficulty.valueOf(rs.getString("difficulty"));
+                int ranking = rs.getInt("ranking");
+                String mechanics = rs.getString("mechanics");
+                boardGame = new BoardGame(gameCode, name, minPlayers, maxPlayers, averageDuration, recommendedAge, publicationYear, difficulty, ranking, mechanics);
+                boardGames.add(boardGame);
+            }
+        }
+        return boardGames;
+    }
+
+    public static ArrayList<BoardGame> findAllEager() throws SQLException {
+        BoardGame boardGame = null;
+        ArrayList<Author> authors = new ArrayList<>();
+        ArrayList<Illustrator> illustrators = new ArrayList<>();
+        ArrayList<Publisher> publishers = new ArrayList<>();
         ArrayList<BoardGame> boardGames = new ArrayList<>();
 
         try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {

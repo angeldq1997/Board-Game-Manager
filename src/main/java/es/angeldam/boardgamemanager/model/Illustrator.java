@@ -2,7 +2,7 @@ package es.angeldam.boardgamemanager.model;
 
 
 import java.sql.Date;
-import java.util.HashSet;
+import java.util.List;
 
 public class Illustrator extends Person{
     private String nationality;
@@ -17,7 +17,7 @@ public class Illustrator extends Person{
         this.nationality = nationality;
     }
 
-    public Illustrator(int code, String name, Date birthDate, String nationality,HashSet<BoardGame> boardGames) {
+    public Illustrator(int code, String name, Date birthDate, String nationality,List<BoardGame> boardGames) {
         super(code, name, birthDate, boardGames);
         this.nationality = nationality;
     }

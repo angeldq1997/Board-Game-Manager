@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -41,26 +42,26 @@ public class UserSessionController {
         User user = null;
         User aux = null;
         if (this.userField.getText().isEmpty() || this.passwordField.getText().isEmpty()) {
-            Utils.alertError("ERROR EMPTY USER OR PASSWORD", "An error has occurred", "the user or password fields aren't fill up, please complete both.");
+            Utils.alert(Alert.AlertType.ERROR,"ERROR EMPTY USER OR PASSWORD", "An error has occurred", "the user or password fields aren't fill up, please complete both.");
         } else {
             try {
                 aux = UserDAO.findByName(userField.getText());
                 user = User.redefineInstance(aux.getUserName(), aux.getPassword(), aux.getUserType());
                 if (user != null && !user.getPassword().equals(Utils.sha256(passwordField.getText().trim()))) {
-                    Utils.alertError("ERROR PASSWORD", "The password doesn't match", "the password written on field doesn't correlate to the user password.");
+                    Utils.alert(Alert.AlertType.ERROR,"ERROR PASSWORD", "The password doesn't match", "the password written on field doesn't correlate to the user password.");
                 } else {
                     Stage changedStage = (Stage) logInButton.getScene().getWindow();
                     FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("principal-view.fxml"));
-                    Scene scene = new Scene(fxmlLoader.load(), 250, 250);
+                    Scene scene = new Scene(fxmlLoader.load(), 1100, 400);
                     changedStage.setScene(scene);
                     changedStage.setTitle("Board Game Manager");
                 }
             } catch (SQLException e) {
-                Utils.alertError("ERROR USER", "User not found: There aren't users with the user name written", e.getMessage());
+                Utils.alert(Alert.AlertType.ERROR,"ERROR USER", "User not found: There aren't users with the user name written", e.getMessage());
             } catch (NoSuchAlgorithmException e1){
-                Utils.alertError("ERROR ALGORITHM", "Can't get password through SHA256", e1.getMessage());
+                Utils.alert(Alert.AlertType.ERROR,"ERROR ALGORITHM", "Can't get password through SHA256", e1.getMessage());
             }catch (IOException e2){
-                Utils.alertError("ERROR IOEXCEPTION","There is an error loading new window", e2.getMessage());
+                Utils.alert(Alert.AlertType.ERROR,"ERROR IOEXCEPTION","There is an error loading new window", e2.getMessage());
             }
         }
     }
@@ -71,18 +72,18 @@ public class UserSessionController {
         try {
             user = new User(userField.getText(), Utils.sha256(passwordField.getText()), UserType.USER);
         } catch (NoSuchAlgorithmException e) {
-            Utils.alertError("ERROR ENCRYPTING", "There was an error while encrypting password", e.getMessage());
+            Utils.alert(Alert.AlertType.ERROR,"ERROR ENCRYPTING", "There was an error while encrypting password", e.getMessage());
         }
         try {
             UserDAO.addUser(user);
         } catch (SQLException e) {
-            Utils.alertError("ERROR STORING USER", "There was an error while storing user on database", e.getMessage());
+            Utils.alert(Alert.AlertType.ERROR,"ERROR STORING USER", "There was an error while storing user on database", e.getMessage());
         }
     }
 
     public void loadDB() {
         if (ConnectionBD.getConnection() == null) {
-            Utils.alertError("ERROR CONNECTING DATABASE", "An error has occurred while connecting database", "Contact the administrator to solve the error");
+            Utils.alert(Alert.AlertType.ERROR,"ERROR CONNECTING DATABASE", "An error has occurred while connecting database", "Contact the administrator to solve the error");
         }
     }
 

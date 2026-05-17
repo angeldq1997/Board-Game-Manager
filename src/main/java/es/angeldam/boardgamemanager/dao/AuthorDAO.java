@@ -5,7 +5,8 @@ import es.angeldam.boardgamemanager.model.Author;
 import es.angeldam.boardgamemanager.model.BoardGame;
 
 import java.sql.*;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AuthorDAO {
@@ -17,9 +18,9 @@ public class AuthorDAO {
     private final static String SQL_DELETE = "DELETE FROM author WHERE authorCode = ?";
 
 
-    public static HashSet<Author> findAll() throws SQLException {
+    public static List<Author> findAll() throws SQLException {
         Author author = null;
-        HashSet<Author> authors = new HashSet<>();
+        List<Author> authors = new ArrayList<>();
 
         try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
             while (rs.next()) {
@@ -35,9 +36,9 @@ public class AuthorDAO {
         return authors;
     }
 
-    public static HashSet<Author> findAllEager() throws SQLException {
+    public static List<Author> findAllEager() throws SQLException {
         Author author = null;
-        HashSet<Author> authors = new HashSet<>();
+        List<Author> authors = new ArrayList<>();
 
         try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
             while (rs.next()) {
@@ -46,7 +47,7 @@ public class AuthorDAO {
                 String alias = rs.getString("alias");
                 Date birthDate = rs.getDate("birthDate");
                 String nationality = rs.getString("nationality");
-                HashSet<BoardGame> boardGames = findById(authorCode).getBoardGames();
+                List<BoardGame> boardGames = findById(authorCode).getBoardGames();
                 author = new Author(authorCode, name, alias, birthDate, nationality, boardGames);
                 authors.add(author);
             }
@@ -65,7 +66,7 @@ public class AuthorDAO {
                 String alias = rs.getString("alias");
                 Date birthDate = rs.getDate("birthDate");
                 String nationality = rs.getString("nationality");
-                HashSet<BoardGame> boardGames = findById(authorCode).getBoardGames();
+                List<BoardGame> boardGames = findById(authorCode).getBoardGames();
                 author = new Author(authorCode, name, alias, birthDate, nationality);
             }
         }
