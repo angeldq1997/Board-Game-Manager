@@ -56,29 +56,30 @@
             </SplitPane>
          </content>
       </Tab>
-    <Tab fx:id="illustratorTab" text="Illustrator">
+    <Tab fx:id="designerTab" closable="false" text="Designer">
          <content>
             <SplitPane dividerPositions="0.14381818181818182">
                <items>
                   <AnchorPane maxWidth="150.0" minHeight="0.0" minWidth="150.0" prefWidth="150.0">
                      <children>
-                        <Button fx:id="editIllustratorButton" layoutX="25.0" layoutY="70.0" mnemonicParsing="false" onAction="#editIllustrator" text="Edit Illustrator" />
-                        <Button fx:id="removeIllustratorButton" layoutX="14.0" layoutY="116.0" mnemonicParsing="false" onAction="#removeIllustrator" text="Remove Illustrator" />
-                        <Button fx:id="addIllustratorButton" layoutX="24.0" layoutY="23.0" mnemonicParsing="false" onAction="#addBoardGame" text="Add Illustrator" />
+                        <Button fx:id="editDesignerButton" disable="true" layoutX="25.0" layoutY="70.0" mnemonicParsing="false" onAction="#editDesigner" text="Edit Designer" />
+                        <Button fx:id="removeDesignerButton" disable="true" layoutX="14.0" layoutY="116.0" mnemonicParsing="false" onAction="#removeDesigner" text="Remove Designer" />
+                        <Button fx:id="addDesignerButton" layoutX="24.0" layoutY="23.0" mnemonicParsing="false" onAction="#addDesigner" text="Add Designer" />
                      </children>
                   </AnchorPane>
                   <ScrollPane prefHeight="200.0" prefWidth="200.0">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0">
                            <children>
-                              <TextField fx:id="searchBoardGameField1" layoutX="134.0" layoutY="15.0" onAction="#searchBoardGame" />
-                              <Label layoutX="14.0" layoutY="19.0" text="Search Illustrator:" />
-                              <TableView fx:id="bGTable1" layoutX="14.0" layoutY="56.0" prefHeight="280.0" prefWidth="912.0">
+                              <TextField fx:id="searchDesigner" layoutX="134.0" layoutY="15.0" onAction="#searchDesigner" />
+                              <Label layoutX="14.0" layoutY="19.0" text="Search Designer:" />
+                              <TableView fx:id="bGTable11" layoutX="14.0" layoutY="56.0" prefHeight="280.0" prefWidth="912.0">
                                  <columns>
-                                    <TableColumn fx:id="bGCodeCol1" prefWidth="162.3999605178833" text="Name" />
-                                    <TableColumn fx:id="bGNameCol1" prefWidth="161.59999084472656" text="Birth date" />
-                                    <TableColumn fx:id="bGMechCol1" prefWidth="192.79989624023438" text="Nationality" />
-                                    <TableColumn prefWidth="378.39990234375" text="Board games" />
+                                    <TableColumn fx:id="dNameCol" prefWidth="162.3999605178833" text="Name" />
+                                    <TableColumn fx:id="dAliasCol" prefWidth="120.0" text="Alias" />
+                                    <TableColumn fx:id="dBirthDateCol" prefWidth="117.0" text="Birth date" />
+                                    <TableColumn fx:id="dNationalityCol" prefWidth="101.0" text="Nationality" />
+                                    <TableColumn fx:id="dBGCol" prefWidth="471.0" text="Board games" />
                                  </columns>
                               </TableView>
                            </children>
@@ -88,8 +89,70 @@
                </items>
             </SplitPane>
          </content></Tab>
-    <Tab fx:id="designerTab" closable="false" text="Designer" />
-      <Tab fx:id="publisherTab" closable="false" text="Publisher" />
+    <Tab fx:id="illustratorTab" text="Illustrator">
+         <content>
+            <SplitPane dividerPositions="0.14381818181818182">
+               <items>
+                  <AnchorPane maxWidth="150.0" minHeight="0.0" minWidth="150.0" prefWidth="150.0">
+                     <children>
+                        <Button fx:id="editIllustratorButton" disable="true" layoutX="25.0" layoutY="70.0" mnemonicParsing="false" onAction="#editIllustrator" text="Edit Illustrator" />
+                        <Button fx:id="removeIllustratorButton" disable="true" layoutX="14.0" layoutY="116.0" mnemonicParsing="false" onAction="#removeIllustrator" text="Remove Illustrator" />
+                        <Button fx:id="addIllustratorButton" layoutX="24.0" layoutY="23.0" mnemonicParsing="false" onAction="#addBoardGame" text="Add Illustrator" />
+                     </children>
+                  </AnchorPane>
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <children>
+                              <TextField fx:id="searchIllustratorField" layoutX="134.0" layoutY="15.0" onAction="#searchIllustrator" />
+                              <Label layoutX="14.0" layoutY="19.0" text="Search Illustrator:" />
+                              <TableView fx:id="bGTable1" layoutX="14.0" layoutY="56.0" prefHeight="280.0" prefWidth="912.0">
+                                 <columns>
+                                    <TableColumn fx:id="iNameCol" prefWidth="162.3999605178833" text="Name" />
+                                    <TableColumn fx:id="iBirthDateCol" prefWidth="161.59999084472656" text="Birth date" />
+                                    <TableColumn fx:id="iNationalityCol" prefWidth="192.79989624023438" text="Nationality" />
+                                    <TableColumn fx:id="iBGcol" prefWidth="378.39990234375" text="Board games" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+               </items>
+            </SplitPane>
+         </content></Tab>
+      <Tab fx:id="publisherTab" closable="false" text="Publisher">
+         <content>
+            <SplitPane dividerPositions="0.14381818181818182">
+               <items>
+                  <AnchorPane maxWidth="150.0" minHeight="0.0" minWidth="150.0" prefWidth="150.0">
+                     <children>
+                        <Button fx:id="editPublisherButton" disable="true" layoutX="25.0" layoutY="70.0" mnemonicParsing="false" onAction="#editPublisher" text="Edit Publisher" />
+                        <Button fx:id="removeDesignerButton1" disable="true" layoutX="14.0" layoutY="116.0" mnemonicParsing="false" onAction="#removeDesigner" text="Remove Publisher" />
+                        <Button fx:id="addPublisherButton" layoutX="24.0" layoutY="23.0" mnemonicParsing="false" onAction="#addPublisher" text="Add Publisher" />
+                     </children>
+                  </AnchorPane>
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <children>
+                              <TextField fx:id="searchPublisher" layoutX="134.0" layoutY="15.0" onAction="#searchDesigner" />
+                              <Label layoutX="14.0" layoutY="19.0" text="Search Publisher:" />
+                              <TableView fx:id="bGTable111" layoutX="14.0" layoutY="56.0" prefHeight="280.0" prefWidth="912.0">
+                                 <columns>
+                                    <TableColumn fx:id="pNameCol" prefWidth="162.3999605178833" text="Name" />
+                                    <TableColumn fx:id="pFoundationYearCol" prefWidth="161.59999084472656" text="Foundation Year" />
+                                    <TableColumn fx:id="pHeadquartersCol" prefWidth="192.79989624023438" text="HeadQuarters" />
+                                    <TableColumn fx:id="pNumberBGCol" prefWidth="378.39990234375" text="Number of board games published" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+               </items>
+            </SplitPane>
+         </content></Tab>
       <Tab fx:id="gameTab" closable="false" text="Game" />
       <Tab fx:id="playerTab" closable="false" text="Player" />
   </tabs>

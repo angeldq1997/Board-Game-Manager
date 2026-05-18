@@ -10,12 +10,12 @@ import java.util.List;
 
 
 public class DesignerDAO {
-    private final static String SQL_ALL = "SELECT * FROM author";
-    private final static String SQL_FIND_BY_ID = "SELECT * FROM author where authorCode =?";
-    private final static String SQL_FIND_BY_NAME = "SELECT * FROM author where name =?";
-    private final static String SQL_INSERT = "INSERT INTO author (name, alias, birthDate, nationality) VALUES (?,?,?,?)";
-    private final static String SQL_UPDATE = "UPDATE author SET name =?, alias =?, birthDate =?, nationality =? WHERE authorCode = ?";
-    private final static String SQL_DELETE = "DELETE FROM author WHERE authorCode = ?";
+    private final static String SQL_ALL = "SELECT * FROM designer";
+    private final static String SQL_FIND_BY_ID = "SELECT * FROM designer where designerCode =?";
+    private final static String SQL_FIND_BY_NAME = "SELECT * FROM designer where name =?";
+    private final static String SQL_INSERT = "INSERT INTO designer (name, alias, birthDate, nationality) VALUES (?,?,?,?)";
+    private final static String SQL_UPDATE = "UPDATE designer SET name =?, alias =?, birthDate =?, nationality =? WHERE designerCode = ?";
+    private final static String SQL_DELETE = "DELETE FROM designer WHERE designerCode = ?";
 
 
     public static List<Designer> findAll() throws SQLException {
@@ -24,12 +24,12 @@ public class DesignerDAO {
 
         try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
             while (rs.next()) {
-                int authorCode = rs.getInt("authorCode");
+                int designerCode = rs.getInt("designerCode");
                 String name = rs.getString("name");
                 String alias = rs.getString("alias");
                 Date birthDate = rs.getDate("birthDate");
                 String nationality = rs.getString("nationality");
-                designer = new Designer(authorCode, name, alias, birthDate, nationality);
+                designer = new Designer(designerCode, name, alias, birthDate, nationality);
                 designers.add(designer);
             }
         }
@@ -42,32 +42,32 @@ public class DesignerDAO {
 
         try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
             while (rs.next()) {
-                int authorCode = rs.getInt("authorCode");
+                int designerCode = rs.getInt("designerCode");
                 String name = rs.getString("name");
                 String alias = rs.getString("alias");
                 Date birthDate = rs.getDate("birthDate");
                 String nationality = rs.getString("nationality");
-                List<BoardGame> boardGames = findById(authorCode).getBoardGames();
-                designer = new Designer(authorCode, name, alias, birthDate, nationality, boardGames);
+                List<BoardGame> boardGames = findById(designerCode).getBoardGames();
+                designer = new Designer(designerCode, name, alias, birthDate, nationality, boardGames);
                 designers.add(designer);
             }
         }
         return designers;
     }
 
-    public static Designer findByIdEager(int authorCodeToSearch) throws SQLException {
+    public static Designer findByIdEager(int designerCodeToSearch) throws SQLException {
         Designer designer = null;
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_ID)) {
-            ps.setInt(1, authorCodeToSearch);
+            ps.setInt(1, designerCodeToSearch);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int authorCode = rs.getInt("authorCode");
+                int designerCode = rs.getInt("designerCode");
                 String name = rs.getString("name");
                 String alias = rs.getString("alias");
                 Date birthDate = rs.getDate("birthDate");
                 String nationality = rs.getString("nationality");
-                List<BoardGame> boardGames = findById(authorCode).getBoardGames();
-                designer = new Designer(authorCode, name, alias, birthDate, nationality);
+                List<BoardGame> boardGames = findById(designerCode).getBoardGames();
+                designer = new Designer(designerCode, name, alias, birthDate, nationality);
             }
         }
         return designer;
@@ -79,35 +79,35 @@ public class DesignerDAO {
             ps.setString(1, nameToSearch);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int authorCode = rs.getInt("authorCode");
+                int designerCode = rs.getInt("designerCode");
                 String name = rs.getString("name");
                 String alias = rs.getString("alias");
                 Date birthDate = rs.getDate("birthDate");
                 String nationality = rs.getString("nationality");
-                designer = new Designer(authorCode, name, alias, birthDate, nationality);
+                designer = new Designer(designerCode, name, alias, birthDate, nationality);
             }
         }
         return designer;
     }
 
-    public static Designer findById(int authorCodeToSearch) throws SQLException {
+    public static Designer findById(int designerCodeToSearch) throws SQLException {
         Designer designer = null;
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_ID)) {
-            ps.setInt(1, authorCodeToSearch);
+            ps.setInt(1, designerCodeToSearch);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int authorCode = rs.getInt("authorCode");
+                int designerCode = rs.getInt("designerCode");
                 String name = rs.getString("name");
                 String alias = rs.getString("alias");
                 Date birthDate = rs.getDate("birthDate");
                 String nationality = rs.getString("nationality");
-                designer = new Designer(authorCode, name, alias, birthDate, nationality);
+                designer = new Designer(designerCode, name, alias, birthDate, nationality);
             }
         }
         return designer;
     }
 
-    public static boolean addAuthor(Designer designer) throws SQLException {
+    public static boolean addDesigner(Designer designer) throws SQLException {
         boolean added = false;
         if ((designer != null) && findByName(designer.getName()) == null) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
@@ -122,7 +122,7 @@ public class DesignerDAO {
         return added;
     }
 
-    public static boolean updateAuthor(Designer newDesigner, Designer actualDesigner) throws SQLException {
+    public static boolean updateDesigner(Designer newDesigner, Designer actualDesigner) throws SQLException {
         boolean updated = false;
         if ((actualDesigner != null) && (newDesigner != null) && findByName(actualDesigner.getName()) != null && findByName(newDesigner.getName()) == null) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
@@ -138,11 +138,11 @@ public class DesignerDAO {
         return updated;
     }
 
-    public static boolean deleteAuthorById(int authorCodeToSearch) throws SQLException {
+    public static boolean deleteDesignerById(int designerCodeToSearch) throws SQLException {
         boolean deleted = false;
-        if (findById(authorCodeToSearch) != null) {
+        if (findById(designerCodeToSearch) != null) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_DELETE)) {
-                ps.setInt(1, authorCodeToSearch);
+                ps.setInt(1, designerCodeToSearch);
                 ps.executeUpdate();
                 deleted = true;
             }

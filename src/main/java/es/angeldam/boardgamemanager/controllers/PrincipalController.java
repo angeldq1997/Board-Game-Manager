@@ -69,6 +69,34 @@ public class PrincipalController {
     public TableColumn<BoardGame, Integer> bGAgeCol;
     @FXML
     public TableView<BoardGame> bGTable;
+    public TextField searchIllustratorField;
+    public TableView bGTable1;
+    public Button editIllustratorButton;
+    public Button removeIllustratorButton;
+    public Button addIllustratorButton;
+    public TableColumn iNameCol;
+    public TableColumn iBirthDateCol;
+    public TableColumn iNationalityCol;
+    public TableColumn iBGcol;
+    public Button editPublisherButton;
+    public Button removeDesignerButton1;
+    public Button addPublisherButton;
+    public Button editDesignerButton;
+    public Button removeDesignerButton;
+    public Button addDesignerButton;
+    public TextField searchDesigner;
+    public TableView bGTable11;
+    public TableColumn dNameCol;
+    public TableColumn dAliasCol;
+    public TableColumn dBirthDateCol;
+    public TableColumn dNationalityCol;
+    public TableColumn dBGCol;
+    public TextField searchPublisher;
+    public TableView bGTable111;
+    public TableColumn pNameCol;
+    public TableColumn pFoundationYearCol;
+    public TableColumn pHeadquartersCol;
+    public TableColumn pNumberBGCol;
 
     @FXML
     public void initialize() {
@@ -164,5 +192,32 @@ public class PrincipalController {
     public void addBoardGame(ActionEvent actionEvent) {
         openForm(null);
         loadBoardGames();
+    }
+
+    public void removeDesigner(ActionEvent actionEvent) {
+    }
+
+    public void editPublisher(ActionEvent actionEvent) {
+    }
+
+    public void addPublisher(ActionEvent actionEvent) {
+    }
+
+    public void searchDesigner(ActionEvent actionEvent) {
+    }
+
+    public void editDesigner(ActionEvent actionEvent) {
+    }
+
+    public void addDesigner(ActionEvent actionEvent) {
+    }
+
+    public void editIllustrator(ActionEvent actionEvent) {
+    }
+
+    public void removeIllustrator(ActionEvent actionEvent) {
+    }
+
+    public void searchIllustrator(ActionEvent actionEvent) {
     }
 }

@@ -130,7 +130,13 @@ public class FormBoardGameController {
     }
 
     private void configComboBoxDesigner() {
-        cmbDesigner1.setCellFactory(listView -> new ListCell<>() {
+        configComboBoxDesigner(cmbDesigner1);
+        configComboBoxDesigner(cmbDesigner2);
+        configComboBoxDesigner(cmbDesigner2);
+    }
+
+    private void configComboBoxDesigner(ComboBox<Designer> cmbDesigner) {
+        cmbDesigner.setCellFactory(listView -> new ListCell<>() {
             @Override
             protected void updateItem(Designer designer, boolean empty) {
                 super.updateItem(designer, empty);
@@ -138,39 +144,7 @@ public class FormBoardGameController {
             }
         });
 
-        cmbDesigner1.setButtonCell(new ListCell<>() {
-            @Override
-            protected void updateItem(Designer designer, boolean empty) {
-                super.updateItem(designer, empty);
-                setText(empty || designer == null ? null : designer.getName());
-            }
-        });
-
-        cmbDesigner2.setCellFactory(listView -> new ListCell<>() {
-            @Override
-            protected void updateItem(Designer designer, boolean empty) {
-                super.updateItem(designer, empty);
-                setText(empty || designer == null ? null : designer.getName());
-            }
-        });
-
-        cmbDesigner2.setButtonCell(new ListCell<>() {
-            @Override
-            protected void updateItem(Designer designer, boolean empty) {
-                super.updateItem(designer, empty);
-                setText(empty || designer == null ? null : designer.getName());
-            }
-        });
-
-        cmbDesigner2.setCellFactory(listView -> new ListCell<>() {
-            @Override
-            protected void updateItem(Designer designer, boolean empty) {
-                super.updateItem(designer, empty);
-                setText(empty || designer == null ? null : designer.getName());
-            }
-        });
-
-        cmbDesigner2.setButtonCell(new ListCell<>() {
+        cmbDesigner.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(Designer designer, boolean empty) {
                 super.updateItem(designer, empty);
@@ -180,47 +154,21 @@ public class FormBoardGameController {
     }
 
     private void configComboBoxIllustrator() {
-        cmbIllustrator1.setCellFactory(listView -> new ListCell<>() {
+        configComboBoxIllustrator(cmbIllustrator1);
+        configComboBoxIllustrator(cmbIllustrator2);
+        configComboBoxIllustrator(cmbIllustrator3);
+    }
+
+    private void configComboBoxIllustrator(ComboBox<Illustrator> cmbIllustrator) {
+        cmbIllustrator.setCellFactory(listView -> new ListCell<>() {
             @Override
-            protected void updateItem(Illustrator illustrator, boolean empty) {
-                super.updateItem(illustrator, empty);
-                setText(empty || illustrator == null ? null : illustrator.getName());
+            protected void updateItem(Illustrator i, boolean empty) {
+                super.updateItem(i, empty);
+                setText(empty || i == null ? null : i.getName());
             }
         });
 
-        cmbIllustrator1.setButtonCell(new ListCell<>() {
-            @Override
-            protected void updateItem(Illustrator illustrator, boolean empty) {
-                super.updateItem(illustrator, empty);
-                setText(empty || illustrator == null ? null : illustrator.getName());
-            }
-        });
-
-        cmbIllustrator2.setCellFactory(listView -> new ListCell<>() {
-            @Override
-            protected void updateItem(Illustrator illustrator, boolean empty) {
-                super.updateItem(illustrator, empty);
-                setText(empty || illustrator == null ? null : illustrator.getName());
-            }
-        });
-
-        cmbIllustrator2.setButtonCell(new ListCell<>() {
-            @Override
-            protected void updateItem(Illustrator illustrator, boolean empty) {
-                super.updateItem(illustrator, empty);
-                setText(empty || illustrator == null ? null : illustrator.getName());
-            }
-        });
-
-        cmbIllustrator3.setCellFactory(listView -> new ListCell<>() {
-            @Override
-            protected void updateItem(Illustrator illustrator, boolean empty) {
-                super.updateItem(illustrator, empty);
-                setText(empty || illustrator == null ? null : illustrator.getName());
-            }
-        });
-
-        cmbIllustrator3.setButtonCell(new ListCell<>() {
+        cmbIllustrator.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(Illustrator illustrator, boolean empty) {
                 super.updateItem(illustrator, empty);
@@ -230,51 +178,25 @@ public class FormBoardGameController {
     }
 
     private void configComboBoxPublisher() {
-        cmbPublisher1.setCellFactory(listView -> new ListCell<>() {
+        configComboBoxPublisher(cmbPublisher1);
+        configComboBoxPublisher(cmbPublisher2);
+        configComboBoxPublisher(cmbPublisher3);
+    }
+
+    private void configComboBoxPublisher(ComboBox<Publisher> cmbPublisher) {
+        cmbPublisher.setCellFactory(listView -> new ListCell<>() {
             @Override
-            protected void updateItem(Publisher publisher, boolean empty) {
-                super.updateItem(publisher, empty);
-                setText(empty || publisher == null ? null : publisher.getName());
+            protected void updateItem(Publisher p, boolean empty) {
+                super.updateItem(p, empty);
+                setText(empty || p == null ? null : p.getName());
             }
         });
 
-        cmbPublisher1.setButtonCell(new ListCell<>() {
+        cmbPublisher.setButtonCell(new ListCell<>() {
             @Override
-            protected void updateItem(Publisher publisher, boolean empty) {
-                super.updateItem(publisher, empty);
-                setText(empty || publisher == null ? null : publisher.getName());
-            }
-        });
-
-        cmbPublisher2.setCellFactory(listView -> new ListCell<>() {
-            @Override
-            protected void updateItem(Publisher publisher, boolean empty) {
-                super.updateItem(publisher, empty);
-                setText(empty || publisher == null ? null : publisher.getName());
-            }
-        });
-
-        cmbPublisher2.setButtonCell(new ListCell<>() {
-            @Override
-            protected void updateItem(Publisher publisher, boolean empty) {
-                super.updateItem(publisher, empty);
-                setText(empty || publisher == null ? null : publisher.getName());
-            }
-        });
-
-        cmbPublisher3.setCellFactory(listView -> new ListCell<>() {
-            @Override
-            protected void updateItem(Publisher publisher, boolean empty) {
-                super.updateItem(publisher, empty);
-                setText(empty || publisher == null ? null : publisher.getName());
-            }
-        });
-
-        cmbPublisher3.setButtonCell(new ListCell<>() {
-            @Override
-            protected void updateItem(Publisher publisher, boolean empty) {
-                super.updateItem(publisher, empty);
-                setText(empty || publisher == null ? null : publisher.getName());
+            protected void updateItem(Publisher p, boolean empty) {
+                super.updateItem(p, empty);
+                setText(empty || p == null ? null : p.getName());
             }
         });
     }
