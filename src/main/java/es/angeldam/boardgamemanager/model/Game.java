@@ -1,18 +1,18 @@
 package es.angeldam.boardgamemanager.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 
 public class Game {
     private int code;
     private String place;
-    private Date date;
+    private Timestamp date;
     private BoardGame boardGame;
     private ArrayList<Player> players;
     private ArrayList<Player> winners;
 
-    public Game(String place, Date date, BoardGame boardGame,ArrayList<Player> players) {
+    public Game(String place, Timestamp date, BoardGame boardGame,ArrayList<Player> players) {
         this.place = place;
         this.date = date;
         this.boardGame = boardGame;
@@ -20,7 +20,7 @@ public class Game {
         this.winners = new ArrayList<>();
     }
 
-    public Game(int code, String place, Date date, ArrayList<Player> players, BoardGame boardGame) {
+    public Game(int code, String place, Timestamp date, ArrayList<Player> players, BoardGame boardGame) {
         this.code = code;
         this.place = place;
         this.date = date;
@@ -37,7 +37,7 @@ public class Game {
         return place;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 

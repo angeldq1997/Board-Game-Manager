@@ -25,10 +25,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class PrincipalController {
+    //TAB PANE
     @FXML
     public TabPane tabPane;
-    @FXML
-    public Tab designerTab;
     @FXML
     public Tab illustratorTab;
     @FXML
@@ -39,6 +38,10 @@ public class PrincipalController {
     public Tab gameTab;
     @FXML
     public Tab playerTab;
+
+    //GAME
+    @FXML
+    public TableView<BoardGame> bGTable;
     @FXML
     public Button editBoardGameButton;
     @FXML
@@ -67,36 +70,49 @@ public class PrincipalController {
     public TableColumn<BoardGame, String> bGMechCol;
     @FXML
     public TableColumn<BoardGame, Integer> bGAgeCol;
-    @FXML
-    public TableView<BoardGame> bGTable;
+
+    //ILLUSTRATOR
+    public TableView illustratorTable;
     public TextField searchIllustratorField;
-    public TableView bGTable1;
+    public Button addIllustratorButton;
     public Button editIllustratorButton;
     public Button removeIllustratorButton;
-    public Button addIllustratorButton;
     public TableColumn iNameCol;
     public TableColumn iBirthDateCol;
     public TableColumn iNationalityCol;
     public TableColumn iBGcol;
+
+    //PUBLISHER
+    public TableView publisherTable;
     public Button editPublisherButton;
-    public Button removeDesignerButton1;
     public Button addPublisherButton;
-    public Button editDesignerButton;
-    public Button removeDesignerButton;
-    public Button addDesignerButton;
-    public TextField searchDesigner;
-    public TableView bGTable11;
-    public TableColumn dNameCol;
-    public TableColumn dAliasCol;
-    public TableColumn dBirthDateCol;
-    public TableColumn dNationalityCol;
-    public TableColumn dBGCol;
+    public Button removePublisher;
     public TextField searchPublisher;
-    public TableView bGTable111;
-    public TableColumn pNameCol;
-    public TableColumn pFoundationYearCol;
-    public TableColumn pHeadquartersCol;
-    public TableColumn pNumberBGCol;
+
+    //GAME
+    public Button editGameButton;
+    public Button removeGameButton;
+    public Button addGameButton;
+    public TextField searchGameField;
+    public TableColumn gCodeCol;
+    public TableColumn gBoardGameCol;
+    public TableColumn gPlaceCol;
+    public TableColumn gGameDateCol;
+    public TableColumn gPlayersCol;
+
+    //PLAYER
+    public TableView playerTable;
+    public Button addPlayerButton;
+    public Button editPlayerButton;
+    public Button removePlayerButton;
+    public TextField searchPlayerField;
+    public TableColumn plaNameCol;
+    public TableColumn plaBirthDateCol;
+    public TableColumn plaGamesCol;
+    public TableColumn pubNameCol;
+    public TableColumn pubFoundationYearCol;
+    public TableColumn pubHeadquartersCol;
+    public TableColumn pubNumberBGCol;
 
     @FXML
     public void initialize() {
@@ -120,34 +136,23 @@ public class PrincipalController {
         return boardGames;
     }
 
-    public void configureBoardGameTable(List<BoardGame> boardGames) {
-        bGCodeCol.setCellValueFactory(new PropertyValueFactory<BoardGame, Integer>("code"));
-        bGNameCol.setCellValueFactory(new PropertyValueFactory<BoardGame, String>("name"));
-        bGMinPlayersCol.setCellValueFactory(new PropertyValueFactory<BoardGame, Integer>("minPlayers"));
-        bGMaxPlayersCol.setCellValueFactory(new PropertyValueFactory<BoardGame, Integer>("maxPlayers"));
-        bGAvgDurationCol.setCellValueFactory(new PropertyValueFactory<BoardGame, Integer>("averageDuration"));
-        bGAgeCol.setCellValueFactory(new PropertyValueFactory<BoardGame, Integer>("recommendedAge"));
-        bGPubYearCol.setCellValueFactory(new PropertyValueFactory<BoardGame, Integer>("publicationYear"));
-        bGDiffCol.setCellValueFactory(new PropertyValueFactory<BoardGame, Difficulty>("difficulty"));
-        bGRankCol.setCellValueFactory(new PropertyValueFactory<BoardGame, Integer>("ranking"));
-        bGMechCol.setCellValueFactory(new PropertyValueFactory<BoardGame, String>("mechanics"));
+    private void configureBoardGameTable(List<BoardGame> boardGames) {
+        bGCodeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
+        bGNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        bGMinPlayersCol.setCellValueFactory(new PropertyValueFactory<>("minPlayers"));
+        bGMaxPlayersCol.setCellValueFactory(new PropertyValueFactory<>("maxPlayers"));
+        bGAvgDurationCol.setCellValueFactory(new PropertyValueFactory<>("averageDuration"));
+        bGAgeCol.setCellValueFactory(new PropertyValueFactory<>("recommendedAge"));
+        bGPubYearCol.setCellValueFactory(new PropertyValueFactory<>("publicationYear"));
+        bGDiffCol.setCellValueFactory(new PropertyValueFactory<>("difficulty"));
+        bGRankCol.setCellValueFactory(new PropertyValueFactory<>("ranking"));
+        bGMechCol.setCellValueFactory(new PropertyValueFactory<>("mechanics"));
         ObservableList<BoardGame> boardGameObservableList = FXCollections.observableArrayList(boardGames);
         bGTable.setItems(boardGameObservableList);
 
         bGTable.setPlaceholder(new Label("There isn't board games to show"));
         editBoardGameButton.disableProperty().bind(bGTable.getSelectionModel().selectedItemProperty().isNull());
         removeBoardGameButton.disableProperty().bind(bGTable.getSelectionModel().selectedItemProperty().isNull());
-    }
-
-    public void editBoardGame(ActionEvent actionEvent) {
-        BoardGame boardGame = bGTable.getSelectionModel().getSelectedItem();
-        if (boardGame == null){
-            Utils.alert(Alert.AlertType.ERROR,"ERROR SELECTION", "There isn't a board game selected", "You must select a board game");
-            return;
-        }
-        openForm(boardGame);
-        loadBoardGames();
-        bGTable.getSelectionModel().select(boardGame);
     }
 
     private void openForm(BoardGame selectedBoardGame) {
@@ -164,8 +169,28 @@ public class PrincipalController {
             stage.showAndWait();
         } catch (Exception e) {
             Utils.alert(Alert.AlertType.ERROR, "ERROR", "Error loading form", "Board game form couldn't be loaded: "+ e.getMessage());
-            System.out.println(e.getMessage());
         }
+    }
+
+    public void searchBoardGame(ActionEvent actionEvent) {
+
+    }
+
+    public void addBoardGame(ActionEvent actionEvent) {
+        openForm(null);
+        openForm(null);
+        loadBoardGames();
+    }
+
+    public void editBoardGame(ActionEvent actionEvent) {
+        BoardGame boardGame = bGTable.getSelectionModel().getSelectedItem();
+        if (boardGame == null){
+            Utils.alert(Alert.AlertType.ERROR,"ERROR SELECTION", "There isn't a board game selected", "You must select a board game");
+            return;
+        }
+        openForm(boardGame);
+        loadBoardGames();
+        bGTable.getSelectionModel().select(boardGame);
     }
 
     public void removeBoardGame(ActionEvent actionEvent) {
@@ -186,38 +211,53 @@ public class PrincipalController {
         }
     }
 
-    public void searchBoardGame(ActionEvent actionEvent) {
-    }
+    public void addPublisher(ActionEvent actionEvent) {
 
-    public void addBoardGame(ActionEvent actionEvent) {
-        openForm(null);
-        loadBoardGames();
-    }
-
-    public void removeDesigner(ActionEvent actionEvent) {
     }
 
     public void editPublisher(ActionEvent actionEvent) {
+
     }
 
-    public void addPublisher(ActionEvent actionEvent) {
-    }
-
-    public void searchDesigner(ActionEvent actionEvent) {
-    }
-
-    public void editDesigner(ActionEvent actionEvent) {
-    }
-
-    public void addDesigner(ActionEvent actionEvent) {
-    }
-
-    public void editIllustrator(ActionEvent actionEvent) {
-    }
-
-    public void removeIllustrator(ActionEvent actionEvent) {
+    public void removePublisher(ActionEvent actionEvent) {
     }
 
     public void searchIllustrator(ActionEvent actionEvent) {
+
+    }
+
+    public void removeIllustrator(ActionEvent actionEvent) {
+
+    }
+
+    public void editIllustrator(ActionEvent actionEvent) {
+
+    }
+
+    public void editGame(ActionEvent actionEvent) {
+
+    }
+
+    public void removeGame(ActionEvent actionEvent) {
+
+    }
+
+    public void addGame(ActionEvent actionEvent) {
+
+    }
+
+    public void editPlayer(ActionEvent actionEvent) {
+
+    }
+
+    public void removePlayer(ActionEvent actionEvent) {
+
+    }
+
+    public void addPlayer(ActionEvent actionEvent) {
+
+    }
+
+    public void searchDesigner(ActionEvent actionEvent) {
     }
 }

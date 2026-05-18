@@ -33,22 +33,21 @@ public class UserSessionController {
     public Button clearButton;
 
     @FXML
-    public void initialize() {
-        loadDB();
-    }
-
-    @FXML
-    public void logIn(ActionEvent actionEvent) {
+    public void logIn(ActionEvent actionEvent) throws IOException {
         User user = null;
         User aux = null;
         if (this.userField.getText().isEmpty() || this.passwordField.getText().isEmpty()) {
-            Utils.alert(Alert.AlertType.ERROR,"ERROR EMPTY USER OR PASSWORD", "An error has occurred", "the user or password fields aren't fill up, please complete both.");
+            Utils.alert(Alert.AlertType.ERROR, "ERROR EMPTY USER OR PASSWORD", "An error has occurred", "the user or password fields aren't fill up, please complete both.");
         } else {
             try {
-                aux = UserDAO.findByName(userField.getText());
-                user = User.redefineInstance(aux.getUserName(), aux.getPassword(), aux.getUserType());
+                aux = UserDAO.findByName(userField.getText().trim());
+                if (aux == null) {
+                    Utils.alert(Alert.AlertType.ERROR, "ERROR COULDN'T FIND USER", "An error has occurred related to the user", "The user " + userField.getText().trim() + " \ncouldn't be found on database");
+                } else {
+                    user = User.redefineInstance(aux.getUserName(), aux.getPassword(), aux.getUserType());
+                }
                 if (user != null && !user.getPassword().equals(Utils.sha256(passwordField.getText().trim()))) {
-                    Utils.alert(Alert.AlertType.ERROR,"ERROR PASSWORD", "The password doesn't match", "the password written on field doesn't correlate to the user password.");
+                    Utils.alert(Alert.AlertType.ERROR, "ERROR PASSWORD", "The password doesn't match", "the password written on field doesn't correlate to the user password.");
                 } else {
                     Stage changedStage = (Stage) logInButton.getScene().getWindow();
                     FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("principal-view.fxml"));
@@ -57,11 +56,9 @@ public class UserSessionController {
                     changedStage.setTitle("Board Game Manager");
                 }
             } catch (SQLException e) {
-                Utils.alert(Alert.AlertType.ERROR,"ERROR USER", "User not found: There aren't users with the user name written", e.getMessage());
-            } catch (NoSuchAlgorithmException e1){
-                Utils.alert(Alert.AlertType.ERROR,"ERROR ALGORITHM", "Can't get password through SHA256", e1.getMessage());
-            }catch (IOException e2){
-                Utils.alert(Alert.AlertType.ERROR,"ERROR IOEXCEPTION","There is an error loading new window", e2.getMessage());
+                Utils.alert(Alert.AlertType.ERROR, "ERROR USER", "User not found: There aren't users with the user name written", e.getMessage());
+            } catch (NoSuchAlgorithmException e1) {
+                Utils.alert(Alert.AlertType.ERROR, "ERROR ALGORITHM", "Can't get password through SHA256", e1.getMessage());
             }
         }
     }
@@ -72,19 +69,19 @@ public class UserSessionController {
         try {
             user = new User(userField.getText(), Utils.sha256(passwordField.getText()), UserType.USER);
         } catch (NoSuchAlgorithmException e) {
-            Utils.alert(Alert.AlertType.ERROR,"ERROR ENCRYPTING", "There was an error while encrypting password", e.getMessage());
+            Utils.alert(Alert.AlertType.ERROR, "ERROR ENCRYPTING", "There was an error while encrypting password", e.getMessage());
         }
         try {
             UserDAO.addUser(user);
-            Utils.alert(Alert.AlertType.CONFIRMATION, "ADDED USER TO DATABASE", "The user and password was added to the database", "The user: "+user.getUserName() + " was added successfully");
+            Utils.alert(Alert.AlertType.CONFIRMATION, "ADDED USER TO DATABASE", "The user and password was added to the database", "The user: " + user.getUserName() + " was added successfully");
         } catch (SQLException e) {
-            Utils.alert(Alert.AlertType.ERROR,"ERROR STORING USER", "There was an error while storing user on database", e.getMessage());
+            Utils.alert(Alert.AlertType.ERROR, "ERROR STORING USER", "There was an error while storing user on database", e.getMessage());
         }
     }
 
     public void loadDB() {
         if (ConnectionBD.getConnection() == null) {
-            Utils.alert(Alert.AlertType.ERROR,"ERROR CONNECTING DATABASE", "An error has occurred while connecting database", "Contact the administrator to solve the error");
+            Utils.alert(Alert.AlertType.ERROR, "ERROR CONNECTING DATABASE", "An error has occurred while connecting database", "Contact the administrator to solve the error");
         }
     }
 

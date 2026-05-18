@@ -5,10 +5,7 @@ import es.angeldam.boardgamemanager.model.BoardGame;
 import es.angeldam.boardgamemanager.model.Game;
 import es.angeldam.boardgamemanager.model.Player;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -30,7 +27,7 @@ public class GameDAO {
         while (rs.next()) {
             int gameCode = rs.getInt("gameCode");
             String place = rs.getString("place");
-            Date gameDate = rs.getDate("gameDate");
+            Timestamp gameDate = rs.getTimestamp("gameDate");
             int gameBoardCode = rs.getInt("gameBoardCode");
             boardGame = BoardGameDAO.findById(gameBoardCode);
             game = new Game(gameCode, place, gameDate, players, boardGame);
@@ -51,7 +48,7 @@ public class GameDAO {
             if (rs.next()) {
                 int gameCode = rs.getInt("gameCode");
                 String place = rs.getString("place");
-                Date gameDate = rs.getDate("gameDate");
+                Timestamp gameDate = rs.getTimestamp("gameDate");
                 int gameBoardCode = rs.getInt("gameBoardCode");
                 boardGame = BoardGameDAO.findById(gameBoardCode);
                 game = new Game(gameCode, place, gameDate, players, boardGame);
@@ -65,7 +62,7 @@ public class GameDAO {
         if ((game != null) && findById(game.getCode()) == null) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
                 ps.setString(1, game.getPlace());
-                ps.setDate(2, game.getDate());
+                ps.setTimestamp(2, game.getDate());
                 ps.setObject(3, game.getBoardGame());
                 ps.executeUpdate();
                 added = true;
@@ -79,7 +76,7 @@ public class GameDAO {
         if ((actualGame != null) && (newGame != null) && findById(actualGame.getCode()) != null && findById(newGame.getCode()) == null) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
                 ps.setString(1, newGame.getPlace());
-                ps.setDate(2, newGame.getDate());
+                ps.setTimestamp(2, newGame.getDate());
                 ps.setInt(3, newGame.getBoardGame().getCode());
                 ps.setInt(4, actualGame.getCode());
                 ps.executeUpdate();
