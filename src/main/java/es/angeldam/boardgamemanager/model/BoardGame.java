@@ -16,7 +16,7 @@ public class BoardGame {
     private Difficulty difficulty;
     private int ranking;
     private String mechanics;
-    private List<Author> authors;
+    private List<Designer> designers;
     private List<Illustrator> illustrators;
     private List<Publisher> publishers;
 
@@ -33,7 +33,7 @@ public class BoardGame {
         this.mechanics = mechanics;
     }
 
-    public BoardGame(String name, int minPlayers, int maxPlayers, int averageDuration, String recommendedAge, int publicationYear, Difficulty difficulty, int ranking, String mechanics, List<Author> authors, List<Illustrator> illustrators, List<Publisher> publishers) {
+    public BoardGame(String name, int minPlayers, int maxPlayers, int averageDuration, String recommendedAge, int publicationYear, Difficulty difficulty, int ranking, String mechanics, List<Designer> designers, List<Illustrator> illustrators, List<Publisher> publishers) {
         this.name = name;
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
@@ -43,7 +43,7 @@ public class BoardGame {
         this.difficulty = difficulty;
         this.ranking = ranking;
         this.mechanics = mechanics;
-        this.authors = authors;
+        this.designers = designers;
         this.illustrators = illustrators;
         this.publishers = publishers;
     }
@@ -88,8 +88,8 @@ public class BoardGame {
         return mechanics;
     }
 
-    public List<Author> getAuthors() {
-        return authors;
+    public List<Designer> getDesigners() {
+        return designers;
     }
 
     public List<Illustrator> getIllustrators() {

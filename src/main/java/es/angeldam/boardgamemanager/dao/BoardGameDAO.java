@@ -44,7 +44,7 @@ public class BoardGameDAO {
 
     public static ArrayList<BoardGame> findAllEager() throws SQLException {
         BoardGame boardGame = null;
-        ArrayList<Author> authors = new ArrayList<>();
+        ArrayList<Designer> designers = new ArrayList<>();
         ArrayList<Illustrator> illustrators = new ArrayList<>();
         ArrayList<Publisher> publishers = new ArrayList<>();
         ArrayList<BoardGame> boardGames = new ArrayList<>();

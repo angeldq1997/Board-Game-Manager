@@ -35,7 +35,7 @@
 
         <Label styleClass="field-label" text="Mechanics:" GridPane.rowIndex="1" />
 
-        <Label styleClass="field-label" text="Author:" GridPane.rowIndex="9" />
+        <Label styleClass="field-label" text="Designer:" GridPane.rowIndex="9" />
       <Label styleClass="field-label" text="Minimum players:" GridPane.rowIndex="2" />
       <TextField fx:id="txtMinPlayers" promptText="Enter number" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <Label styleClass="field-label" text="Maximum players:" GridPane.rowIndex="3" />
@@ -55,17 +55,17 @@
       <TextField fx:id="txtMechanics" promptText="Enter mechanics" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
          <children>
-            <ComboBox fx:id="cmbAuthor1" prefWidth="150.0" promptText="Select Author 1">
+            <ComboBox fx:id="cmbDesigner1" prefWidth="150.0" promptText="Select Designer 1">
                <HBox.margin>
                   <Insets right="7.0" />
                </HBox.margin>
             </ComboBox>
-            <ComboBox fx:id="cmbAuthor2" disable="true" prefWidth="150.0" promptText="Select Author 2">
+            <ComboBox fx:id="cmbDesigner2" disable="true" prefWidth="150.0" promptText="Select Designer 2">
                <HBox.margin>
                   <Insets right="7.0" />
                </HBox.margin>
             </ComboBox>
-            <ComboBox fx:id="cmbAuthor3" disable="true" prefWidth="150.0" promptText="Select Author 3" />
+            <ComboBox fx:id="cmbDesigner3" disable="true" prefWidth="150.0" promptText="Select Designer 3" />
          </children>
          <GridPane.margin>
             <Insets />

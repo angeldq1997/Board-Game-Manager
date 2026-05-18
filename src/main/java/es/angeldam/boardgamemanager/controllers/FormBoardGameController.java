@@ -1,6 +1,6 @@
 package es.angeldam.boardgamemanager.controllers;
 
-import es.angeldam.boardgamemanager.dao.AuthorDAO;
+import es.angeldam.boardgamemanager.dao.DesignerDAO;
 import es.angeldam.boardgamemanager.dao.BoardGameDAO;
 import es.angeldam.boardgamemanager.dao.IllustratorDAO;
 import es.angeldam.boardgamemanager.dao.PublisherDAO;
@@ -42,11 +42,11 @@ public class FormBoardGameController {
     @FXML
     public TextField txtMechanics;
     @FXML
-    public ComboBox<Author> cmbAuthor1;
+    public ComboBox<Designer> cmbDesigner1;
     @FXML
-    public ComboBox<Author> cmbAuthor2;
+    public ComboBox<Designer> cmbDesigner2;
     @FXML
-    public ComboBox<Author> cmbAuthor3;
+    public ComboBox<Designer> cmbDesigner3;
     @FXML
     public ComboBox<Illustrator> cmbIllustrator1;
     @FXML
@@ -66,16 +66,16 @@ public class FormBoardGameController {
     public void initialize(BoardGame boardGame) {
         this.boardGameToEdit = boardGame;
 
-        loadAuthors();
+        loadDesigners();
         loadIllustrators();
         loadPublishers();
         cmbDifficulty.getItems().addAll(Difficulty.values());
-        configComboBoxAuthor();
+        configComboBoxDesigner();
         configComboBoxIllustrator();
         configComboBoxPublisher();
         configListeners();
-        cmbAuthor2.setVisible(false);
-        cmbAuthor3.setVisible(false);
+        cmbDesigner2.setVisible(false);
+        cmbDesigner3.setVisible(false);
         cmbIllustrator2.setVisible(false);
         cmbIllustrator3.setVisible(false);
         cmbPublisher2.setVisible(false);
@@ -90,8 +90,8 @@ public class FormBoardGameController {
             txtPubYear.setText(String.valueOf(boardGame.getPublicationYear()));
             cmbDifficulty.setValue(boardGame.getDifficulty());
             txtRanking.setText(String.valueOf(boardGame.getRanking()));
-            //TODO: search in middle tables the values of the author/publisher/illustrator
-            cmbAuthor1.setValue(boardGame.getAuthors().getFirst());
+            //TODO: search in middle tables the values of the designer/publisher/illustrator
+            cmbDesigner1.setValue(boardGame.getDesigners().getFirst());
             cmbIllustrator1.setValue(boardGame.getIllustrators().getFirst());
             cmbPublisher1.setValue(boardGame.getPublishers().getFirst());
 
@@ -106,7 +106,7 @@ public class FormBoardGameController {
             txtPubYear.setText("");
             cmbDifficulty.setValue(null);
             txtRanking.setText("");
-            cmbAuthor1.setValue(null);
+            cmbDesigner1.setValue(null);
             cmbIllustrator1.setValue(null);
             cmbPublisher1.setValue(null);
             formTitleLabel.setText("Add board game");
@@ -124,57 +124,57 @@ public class FormBoardGameController {
                 cmbDifficulty.getSelectionModel().isEmpty() &&
                 txtRanking.getText().isBlank()  &&
                 txtMechanics.getText().isBlank() &&
-                cmbAuthor1.getSelectionModel().isEmpty() &&
+                cmbDesigner1.getSelectionModel().isEmpty() &&
                 cmbIllustrator1.getSelectionModel().isEmpty() &&
                 cmbPublisher1.getSelectionModel().isEmpty());
     }
 
-    private void configComboBoxAuthor() {
-        cmbAuthor1.setCellFactory(listView -> new ListCell<>() {
+    private void configComboBoxDesigner() {
+        cmbDesigner1.setCellFactory(listView -> new ListCell<>() {
             @Override
-            protected void updateItem(Author author, boolean empty) {
-                super.updateItem(author, empty);
-                setText(empty || author == null ? null : author.getName());
+            protected void updateItem(Designer designer, boolean empty) {
+                super.updateItem(designer, empty);
+                setText(empty || designer == null ? null : designer.getName());
             }
         });
 
-        cmbAuthor1.setButtonCell(new ListCell<>() {
+        cmbDesigner1.setButtonCell(new ListCell<>() {
             @Override
-            protected void updateItem(Author author, boolean empty) {
-                super.updateItem(author, empty);
-                setText(empty || author == null ? null : author.getName());
+            protected void updateItem(Designer designer, boolean empty) {
+                super.updateItem(designer, empty);
+                setText(empty || designer == null ? null : designer.getName());
             }
         });
 
-        cmbAuthor2.setCellFactory(listView -> new ListCell<>() {
+        cmbDesigner2.setCellFactory(listView -> new ListCell<>() {
             @Override
-            protected void updateItem(Author author, boolean empty) {
-                super.updateItem(author, empty);
-                setText(empty || author == null ? null : author.getName());
+            protected void updateItem(Designer designer, boolean empty) {
+                super.updateItem(designer, empty);
+                setText(empty || designer == null ? null : designer.getName());
             }
         });
 
-        cmbAuthor2.setButtonCell(new ListCell<>() {
+        cmbDesigner2.setButtonCell(new ListCell<>() {
             @Override
-            protected void updateItem(Author author, boolean empty) {
-                super.updateItem(author, empty);
-                setText(empty || author == null ? null : author.getName());
+            protected void updateItem(Designer designer, boolean empty) {
+                super.updateItem(designer, empty);
+                setText(empty || designer == null ? null : designer.getName());
             }
         });
 
-        cmbAuthor2.setCellFactory(listView -> new ListCell<>() {
+        cmbDesigner2.setCellFactory(listView -> new ListCell<>() {
             @Override
-            protected void updateItem(Author author, boolean empty) {
-                super.updateItem(author, empty);
-                setText(empty || author == null ? null : author.getName());
+            protected void updateItem(Designer designer, boolean empty) {
+                super.updateItem(designer, empty);
+                setText(empty || designer == null ? null : designer.getName());
             }
         });
 
-        cmbAuthor2.setButtonCell(new ListCell<>() {
+        cmbDesigner2.setButtonCell(new ListCell<>() {
             @Override
-            protected void updateItem(Author author, boolean empty) {
-                super.updateItem(author, empty);
-                setText(empty || author == null ? null : author.getName());
+            protected void updateItem(Designer designer, boolean empty) {
+                super.updateItem(designer, empty);
+                setText(empty || designer == null ? null : designer.getName());
             }
         });
     }
@@ -279,13 +279,13 @@ public class FormBoardGameController {
         });
     }
 
-    private void loadAuthors() {
+    private void loadDesigners() {
         try {
-            List<Author> authors = AuthorDAO.findAll();
-            authors.sort((a1, a2) -> a1.getName().compareTo(a2.getName()));
-            cmbAuthor1.setItems(FXCollections.observableArrayList(authors));
+            List<Designer> designers = DesignerDAO.findAll();
+            designers.sort((a1, a2) -> a1.getName().compareTo(a2.getName()));
+            cmbDesigner1.setItems(FXCollections.observableArrayList(designers));
         } catch (Exception e) {
-            Utils.alert(Alert.AlertType.ERROR, "ERROR AUTHOR", "Error loading authors", "Couldn't get authors from the database: " + e.getMessage());
+            Utils.alert(Alert.AlertType.ERROR, "ERROR DESIGNER", "Error loading designers", "Couldn't get designers from the database: " + e.getMessage());
         }
     }
 
@@ -319,8 +319,8 @@ public class FormBoardGameController {
         cmbDifficulty.valueProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
         txtRanking.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
         txtMechanics.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
-        addListenerObjectVisibility(cmbAuthor1, cmbAuthor2);
-        addListenerObjectVisibility(cmbAuthor2, cmbAuthor3);
+        addListenerObjectVisibility(cmbDesigner1, cmbDesigner2);
+        addListenerObjectVisibility(cmbDesigner2, cmbDesigner3);
 
         addListenerObjectVisibility(cmbIllustrator1, cmbIllustrator2);
         addListenerObjectVisibility(cmbIllustrator2, cmbIllustrator3);
@@ -332,7 +332,7 @@ public class FormBoardGameController {
         addListener(txtMinPlayers, "[\\d]{1,3}", "[^\\d]");
         addListener(txtMaxPlayers, "\\d{1,3}", "[^\\d]");
         addListener(txtAvgDuration, "\\d{1,4}", "\\d+");
-        addListener(txtPubYear, "2[0-1][\\d]{2}", "2[0-1][\\d]{2}");
+        addListener(txtPubYear, "[1-2][0,1,9][\\d]{2}", "[^\\d]");
         addListener(txtRanking, "\\d{1,3}", "\\d+");
     }
 
@@ -377,7 +377,7 @@ public class FormBoardGameController {
     }
 
     public void storeBoardGame(ActionEvent actionEvent) {
-        ArrayList<Author> authors = new ArrayList<>();
+        ArrayList<Designer> designers = new ArrayList<>();
         ArrayList<Illustrator> illustrators = new ArrayList<>();
         ArrayList<Publisher> publishers = new ArrayList<>();
         try {
@@ -390,21 +390,21 @@ public class FormBoardGameController {
             Difficulty difficulty = cmbDifficulty.getValue();
             int ranking = Integer.parseInt(txtRanking.getText());
             String mechanics = txtMechanics.getText();
-            Author author1 = cmbAuthor1.getValue();
+            Designer designer1 = cmbDesigner1.getValue();
             Illustrator illustrator1 = cmbIllustrator1.getValue();
             Publisher publisher1 = cmbPublisher1.getValue();
 
-            Author author2 = ((cmbAuthor2.getValue() == null) ? null : cmbAuthor2.getValue());
-            Author author3 = ((cmbAuthor3.getValue() == null) ? null : cmbAuthor3.getValue());
+            Designer designer2 = ((cmbDesigner2.getValue() == null) ? null : cmbDesigner2.getValue());
+            Designer designer3 = ((cmbDesigner3.getValue() == null) ? null : cmbDesigner3.getValue());
             Publisher publisher2 = ((cmbPublisher2.getValue() == null) ? null : cmbPublisher2.getValue());
             Publisher publisher3 = ((cmbPublisher3.getValue() == null) ? null : cmbPublisher3.getValue());
             Illustrator illustrator2 = ((cmbIllustrator2.getValue() == null) ? null : cmbIllustrator2.getValue());
             Illustrator illustrator3 = ((cmbIllustrator3.getValue() == null) ? null : cmbIllustrator3.getValue());
-            addOnlyNotNull(authors, author1, author2, author3);
+            addOnlyNotNull(designers, designer1, designer2, designer3);
             addOnlyNotNull(illustrators, illustrator1, illustrator2, illustrator3);
             addOnlyNotNull(publishers, publisher1, publisher2, publisher3);
 
-            BoardGame newBoardGame = new BoardGame(name, minPlayers, maxPlayers, averageDuration, recommendedAge, publicationYear, difficulty, ranking, mechanics, authors, illustrators, publishers);
+            BoardGame newBoardGame = new BoardGame(name, minPlayers, maxPlayers, averageDuration, recommendedAge, publicationYear, difficulty, ranking, mechanics, designers, illustrators, publishers);
             if (this.boardGameToEdit == null){
                 if( BoardGameDAO.addBoardGame(newBoardGame) ){
                     Utils.alert(Alert.AlertType.INFORMATION, "BOARD GAME ADDED", "The board game was added to the database", "The board game with name: "+newBoardGame.getName()+" was added to the database");

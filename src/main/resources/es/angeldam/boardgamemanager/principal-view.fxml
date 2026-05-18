@@ -88,7 +88,7 @@
                </items>
             </SplitPane>
          </content></Tab>
-    <Tab fx:id="authorTab" closable="false" text="Author" />
+    <Tab fx:id="designerTab" closable="false" text="Designer" />
       <Tab fx:id="publisherTab" closable="false" text="Publisher" />
       <Tab fx:id="gameTab" closable="false" text="Game" />
       <Tab fx:id="playerTab" closable="false" text="Player" />

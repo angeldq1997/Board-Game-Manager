@@ -3,23 +3,23 @@ package es.angeldam.boardgamemanager.model;
 import java.sql.Date;
 import java.util.List;
 
-public class Author extends Person{
+public class Designer extends Person{
     private String alias;
     private String nationality;
 
-    public Author(String name, Date birthDate, String alias, String nationality) {
+    public Designer(String name, Date birthDate, String alias, String nationality) {
         super(name, birthDate);
         this.alias = alias;
         this.nationality = nationality;
     }
 
-    public Author(int code, String name, String alias, Date birthDate, String nationality, List<BoardGame> boardGames) {
+    public Designer(int code, String name, String alias, Date birthDate, String nationality, List<BoardGame> boardGames) {
         super(code, name, birthDate, boardGames);
         this.alias = alias;
         this.nationality = nationality;
     }
 
-    public Author(int code, String name, String alias, Date birthDate, String nationality) {
+    public Designer(int code, String name, String alias, Date birthDate, String nationality) {
         super(code, name, birthDate);
         this.alias = alias;
         this.nationality = nationality;

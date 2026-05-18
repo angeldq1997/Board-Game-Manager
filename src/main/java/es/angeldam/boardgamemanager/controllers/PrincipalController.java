@@ -1,6 +1,5 @@
 package es.angeldam.boardgamemanager.controllers;
 
-import com.mysql.cj.util.Util;
 import es.angeldam.boardgamemanager.BoardGameManagerApplication;
 import es.angeldam.boardgamemanager.dao.BoardGameDAO;
 import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
@@ -20,7 +19,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +28,7 @@ public class PrincipalController {
     @FXML
     public TabPane tabPane;
     @FXML
-    public Tab authorTab;
+    public Tab designerTab;
     @FXML
     public Tab illustratorTab;
     @FXML
@@ -75,7 +73,7 @@ public class PrincipalController {
     @FXML
     public void initialize() {
         if ( User.getInstance().getUserType() == UserType.USER ){
-            tabPane.getTabs().removeAll(authorTab, illustratorTab, publisherTab);
+            tabPane.getTabs().removeAll(designerTab, illustratorTab, publisherTab);
         }
         configureBoardGameTable(loadBoardGames());
     }

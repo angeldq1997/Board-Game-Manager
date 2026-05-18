@@ -1,7 +1,7 @@
 package es.angeldam.boardgamemanager.dao;
 
 import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
-import es.angeldam.boardgamemanager.model.Author;
+import es.angeldam.boardgamemanager.model.Designer;
 import es.angeldam.boardgamemanager.model.BoardGame;
 
 import java.sql.*;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AuthorDAO {
+public class DesignerDAO {
     private final static String SQL_ALL = "SELECT * FROM author";
     private final static String SQL_FIND_BY_ID = "SELECT * FROM author where authorCode =?";
     private final static String SQL_FIND_BY_NAME = "SELECT * FROM author where name =?";
@@ -18,9 +18,9 @@ public class AuthorDAO {
     private final static String SQL_DELETE = "DELETE FROM author WHERE authorCode = ?";
 
 
-    public static List<Author> findAll() throws SQLException {
-        Author author = null;
-        List<Author> authors = new ArrayList<>();
+    public static List<Designer> findAll() throws SQLException {
+        Designer designer = null;
+        List<Designer> designers = new ArrayList<>();
 
         try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
             while (rs.next()) {
@@ -29,16 +29,16 @@ public class AuthorDAO {
                 String alias = rs.getString("alias");
                 Date birthDate = rs.getDate("birthDate");
                 String nationality = rs.getString("nationality");
-                author = new Author(authorCode, name, alias, birthDate, nationality);
-                authors.add(author);
+                designer = new Designer(authorCode, name, alias, birthDate, nationality);
+                designers.add(designer);
             }
         }
-        return authors;
+        return designers;
     }
 
-    public static List<Author> findAllEager() throws SQLException {
-        Author author = null;
-        List<Author> authors = new ArrayList<>();
+    public static List<Designer> findAllEager() throws SQLException {
+        Designer designer = null;
+        List<Designer> designers = new ArrayList<>();
 
         try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
             while (rs.next()) {
@@ -48,15 +48,15 @@ public class AuthorDAO {
                 Date birthDate = rs.getDate("birthDate");
                 String nationality = rs.getString("nationality");
                 List<BoardGame> boardGames = findById(authorCode).getBoardGames();
-                author = new Author(authorCode, name, alias, birthDate, nationality, boardGames);
-                authors.add(author);
+                designer = new Designer(authorCode, name, alias, birthDate, nationality, boardGames);
+                designers.add(designer);
             }
         }
-        return authors;
+        return designers;
     }
 
-    public static Author findByIdEager(int authorCodeToSearch) throws SQLException {
-        Author author = null;
+    public static Designer findByIdEager(int authorCodeToSearch) throws SQLException {
+        Designer designer = null;
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_ID)) {
             ps.setInt(1, authorCodeToSearch);
             ResultSet rs = ps.executeQuery();
@@ -67,14 +67,14 @@ public class AuthorDAO {
                 Date birthDate = rs.getDate("birthDate");
                 String nationality = rs.getString("nationality");
                 List<BoardGame> boardGames = findById(authorCode).getBoardGames();
-                author = new Author(authorCode, name, alias, birthDate, nationality);
+                designer = new Designer(authorCode, name, alias, birthDate, nationality);
             }
         }
-        return author;
+        return designer;
     }
 
-    private static Author findByName(String nameToSearch) throws SQLException {
-        Author author = null;
+    private static Designer findByName(String nameToSearch) throws SQLException {
+        Designer designer = null;
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_NAME)) {
             ps.setString(1, nameToSearch);
             ResultSet rs = ps.executeQuery();
@@ -84,14 +84,14 @@ public class AuthorDAO {
                 String alias = rs.getString("alias");
                 Date birthDate = rs.getDate("birthDate");
                 String nationality = rs.getString("nationality");
-                author = new Author(authorCode, name, alias, birthDate, nationality);
+                designer = new Designer(authorCode, name, alias, birthDate, nationality);
             }
         }
-        return author;
+        return designer;
     }
 
-    public static Author findById(int authorCodeToSearch) throws SQLException {
-        Author author = null;
+    public static Designer findById(int authorCodeToSearch) throws SQLException {
+        Designer designer = null;
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_ID)) {
             ps.setInt(1, authorCodeToSearch);
             ResultSet rs = ps.executeQuery();
@@ -101,20 +101,20 @@ public class AuthorDAO {
                 String alias = rs.getString("alias");
                 Date birthDate = rs.getDate("birthDate");
                 String nationality = rs.getString("nationality");
-                author = new Author(authorCode, name, alias, birthDate, nationality);
+                designer = new Designer(authorCode, name, alias, birthDate, nationality);
             }
         }
-        return author;
+        return designer;
     }
 
-    public static boolean addAuthor(Author author) throws SQLException {
+    public static boolean addAuthor(Designer designer) throws SQLException {
         boolean added = false;
-        if ((author != null) && findByName(author.getName()) == null) {
+        if ((designer != null) && findByName(designer.getName()) == null) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
-                ps.setString(1, author.getName());
-                ps.setString(2, author.getAlias());
-                ps.setDate(3, author.getBirthDate());
-                ps.setString(4, author.getNationality());
+                ps.setString(1, designer.getName());
+                ps.setString(2, designer.getAlias());
+                ps.setDate(3, designer.getBirthDate());
+                ps.setString(4, designer.getNationality());
                 ps.executeUpdate();
                 added = true;
             }
@@ -122,15 +122,15 @@ public class AuthorDAO {
         return added;
     }
 
-    public static boolean updateAuthor(Author newAuthor, Author actualAuthor) throws SQLException {
+    public static boolean updateAuthor(Designer newDesigner, Designer actualDesigner) throws SQLException {
         boolean updated = false;
-        if ((actualAuthor != null) && (newAuthor != null) && findByName(actualAuthor.getName()) != null && findByName(newAuthor.getName()) == null) {
+        if ((actualDesigner != null) && (newDesigner != null) && findByName(actualDesigner.getName()) != null && findByName(newDesigner.getName()) == null) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
-                ps.setString(1, newAuthor.getName());
-                ps.setString(2, newAuthor.getAlias());
-                ps.setDate(3, newAuthor.getBirthDate());
-                ps.setString(4, newAuthor.getNationality());
-                ps.setInt(5, actualAuthor.getCode());
+                ps.setString(1, newDesigner.getName());
+                ps.setString(2, newDesigner.getAlias());
+                ps.setDate(3, newDesigner.getBirthDate());
+                ps.setString(4, newDesigner.getNationality());
+                ps.setInt(5, actualDesigner.getCode());
                 ps.executeUpdate();
                 updated = true;
             }
