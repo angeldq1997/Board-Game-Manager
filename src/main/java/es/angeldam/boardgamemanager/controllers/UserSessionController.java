@@ -21,16 +21,16 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 public class UserSessionController {
+    @FXML public Button logInButton;
+    @FXML public PasswordField passwordField;
+    @FXML public TextField userField;
+    @FXML public Button signUpButton;
+    @FXML public Button clearButton;
+
     @FXML
-    public Button logInButton;
-    @FXML
-    public PasswordField passwordField;
-    @FXML
-    public TextField userField;
-    @FXML
-    public Button signUpButton;
-    @FXML
-    public Button clearButton;
+    public void initialize(){
+        loadDB();
+    }
 
     @FXML
     public void logIn(ActionEvent actionEvent) throws IOException {
@@ -46,12 +46,13 @@ public class UserSessionController {
                 } else {
                     user = User.redefineInstance(aux.getUserName(), aux.getPassword(), aux.getUserType());
                 }
+
                 if (user != null && !user.getPassword().equals(Utils.sha256(passwordField.getText().trim()))) {
                     Utils.alert(Alert.AlertType.ERROR, "ERROR PASSWORD", "The password doesn't match", "the password written on field doesn't correlate to the user password.");
                 } else {
                     Stage changedStage = (Stage) logInButton.getScene().getWindow();
                     FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("principal-view.fxml"));
-                    Scene scene = new Scene(fxmlLoader.load(), 1100, 400);
+                    Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
                     changedStage.setScene(scene);
                     changedStage.setTitle("Board Game Manager");
                 }

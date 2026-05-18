@@ -8,10 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BoardGameDAO {
-    private final static String SQL_ALL = "SELECT * FROM boardgame";
-    private final static String SQL_FIND_BY_ID = "SELECT * FROM boardgame where boardGameCode =?";
+    private final static String SQL_ALL = "SELECT * FROM boardgame ";
+    private final static String SQL_PARTIAL = "SELECT * FROM boardgame WHERE ? LIKE %?%";
+    private final static String SQL_FIND_BY_ID = "SELECT * FROM boardgame WHERE boardGameCode =?";
     private final static String SQL_FIND_BY_NAME = "SELECT * FROM boardgame where name =?";
     private final static String SQL_INSERT = "INSERT INTO boardgame (name, minPlayers, maxPlayers, averageDuration" +
             ", recommendedAge, publicationYear, difficulty, ranking, mechanics) VALUES (?,?,?,?,?,?,?,?,?)";
@@ -50,6 +52,32 @@ public class BoardGameDAO {
         ArrayList<BoardGame> boardGames = new ArrayList<>();
 
         try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
+            while (rs.next()) {
+                int gameCode = rs.getInt("boardGameCode");
+                String name = rs.getString("name");
+                int minPlayers = rs.getInt("minPlayers");
+                int maxPlayers = rs.getInt("maxPlayers");
+                int averageDuration = rs.getInt("averageDuration");
+                String recommendedAge = rs.getString("recommendedAge");
+                int publicationYear = rs.getInt("publicationYear");
+                Difficulty difficulty = Difficulty.valueOf(rs.getString("difficulty"));
+                int ranking = rs.getInt("ranking");
+                String mechanics = rs.getString("mechanics");
+                boardGame = new BoardGame(gameCode, name, minPlayers, maxPlayers, averageDuration, recommendedAge, publicationYear, difficulty, ranking, mechanics);
+                boardGames.add(boardGame);
+            }
+        }
+        return boardGames;
+    }
+
+    public static ArrayList<BoardGame> findPartial(String locationToSearch, String textToSearch) throws SQLException{
+        BoardGame boardGame = null;
+        ArrayList<BoardGame> boardGames = new ArrayList<>();
+
+        try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_PARTIAL)) {
+            ps.setString(1, locationToSearch.trim());
+            ps.setString(2, textToSearch.trim());
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int gameCode = rs.getInt("boardGameCode");
                 String name = rs.getString("name");

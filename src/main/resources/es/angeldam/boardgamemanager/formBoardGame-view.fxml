@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="637.0" prefWidth="579.0" spacing="10" styleClass="panel-box" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.angeldam.boardgamemanager.controllers.FormBoardGameController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="637.0" prefWidth="579.0" spacing="10" styleClass="panel-box" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.angeldam.boardgamemanager.controllers.FormBoardGameController">
 
     <padding>
         <Insets bottom="15" left="15" right="15" top="15" />
@@ -60,12 +53,12 @@
                   <Insets right="7.0" />
                </HBox.margin>
             </ComboBox>
-            <ComboBox fx:id="cmbDesigner2" disable="true" prefWidth="150.0" promptText="Select Designer 2">
+            <ComboBox fx:id="cmbDesigner2" disable="true" prefWidth="150.0" promptText="Select Designer 2" visible="false">
                <HBox.margin>
                   <Insets right="7.0" />
                </HBox.margin>
             </ComboBox>
-            <ComboBox fx:id="cmbDesigner3" disable="true" prefWidth="150.0" promptText="Select Designer 3" />
+            <ComboBox fx:id="cmbDesigner3" disable="true" prefWidth="150.0" promptText="Select Designer 3" visible="false" />
          </children>
          <GridPane.margin>
             <Insets />
@@ -78,12 +71,12 @@
                   <Insets right="7.0" />
                </HBox.margin>
             </ComboBox>
-            <ComboBox fx:id="cmbIllustrator2" disable="true" prefWidth="150.0" promptText="Select Illustrator 2">
+            <ComboBox fx:id="cmbIllustrator2" disable="true" prefWidth="150.0" promptText="Select Illustrator 2" visible="false">
                <HBox.margin>
                   <Insets right="7.0" />
                </HBox.margin>
             </ComboBox>
-            <ComboBox fx:id="cmbIllustrator3" disable="true" prefWidth="150.0" promptText="Select Illustrator 3" />
+            <ComboBox fx:id="cmbIllustrator3" disable="true" prefWidth="150.0" promptText="Select Illustrator 3" visible="false" />
          </children>
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="11">
@@ -93,12 +86,12 @@
                   <Insets right="7.0" />
                </HBox.margin>
             </ComboBox>
-            <ComboBox fx:id="cmbPublisher2" disable="true" prefWidth="150.0" promptText="Select Publisher 2">
+            <ComboBox fx:id="cmbPublisher2" disable="true" prefWidth="150.0" promptText="Select Publisher 2" visible="false">
                <HBox.margin>
                   <Insets right="7.0" />
                </HBox.margin>
             </ComboBox>
-            <ComboBox fx:id="cmbPublisher3" disable="true" prefWidth="150.0" promptText="Select Publisher 3" />
+            <ComboBox fx:id="cmbPublisher3" disable="true" prefWidth="150.0" promptText="Select Publisher 3" visible="false" />
          </children>
       </HBox>
         <rowConstraints>

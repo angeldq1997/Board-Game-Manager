@@ -19,51 +19,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FormBoardGameController {
-    @FXML
-    public Label formTitleLabel;
-    @FXML
-    public Button btnSave;
-    @FXML
-    public TextField txtName;
-    @FXML
-    public TextField txtMinPlayers;
-    @FXML
-    public TextField txtMaxPlayers;
-    @FXML
-    public TextField txtAvgDuration;
-    @FXML
-    public TextField txtAge;
-    @FXML
-    public TextField txtPubYear;
-    @FXML
-    public ComboBox<Difficulty> cmbDifficulty;
-    @FXML
-    public TextField txtRanking;
-    @FXML
-    public TextField txtMechanics;
-    @FXML
-    public ComboBox<Designer> cmbDesigner1;
-    @FXML
-    public ComboBox<Designer> cmbDesigner2;
-    @FXML
-    public ComboBox<Designer> cmbDesigner3;
-    @FXML
-    public ComboBox<Illustrator> cmbIllustrator1;
-    @FXML
-    public ComboBox<Illustrator> cmbIllustrator2;
-    @FXML
-    public ComboBox<Illustrator> cmbIllustrator3;
-    @FXML
-    public ComboBox<Publisher> cmbPublisher1;
-    @FXML
-    public ComboBox<Publisher> cmbPublisher2;
-    @FXML
-    public ComboBox<Publisher> cmbPublisher3;
+    @FXML public Label formTitleLabel;
+    @FXML public Button btnSave;
+    @FXML public TextField txtName;
+    @FXML public TextField txtMinPlayers;
+    @FXML public TextField txtMaxPlayers;
+    @FXML public TextField txtAvgDuration;
+    @FXML public TextField txtAge;
+    @FXML public TextField txtPubYear;
+    @FXML public ComboBox<Difficulty> cmbDifficulty;
+    @FXML public TextField txtRanking;
+    @FXML public TextField txtMechanics;
+    @FXML public ComboBox<Designer> cmbDesigner1;
+    @FXML public ComboBox<Designer> cmbDesigner2;
+    @FXML public ComboBox<Designer> cmbDesigner3;
+    @FXML public ComboBox<Illustrator> cmbIllustrator1;
+    @FXML public ComboBox<Illustrator> cmbIllustrator2;
+    @FXML public ComboBox<Illustrator> cmbIllustrator3;
+    @FXML public ComboBox<Publisher> cmbPublisher1;
+    @FXML public ComboBox<Publisher> cmbPublisher2;
+    @FXML public ComboBox<Publisher> cmbPublisher3;
 
     private BoardGame boardGameToEdit;
 
-    @FXML
-    public void initialize(BoardGame boardGame) {
+    @FXML public void initialize(BoardGame boardGame) {
         this.boardGameToEdit = boardGame;
 
         loadDesigners();
@@ -74,12 +53,6 @@ public class FormBoardGameController {
         configComboBoxIllustrator();
         configComboBoxPublisher();
         configListeners();
-        cmbDesigner2.setVisible(false);
-        cmbDesigner3.setVisible(false);
-        cmbIllustrator2.setVisible(false);
-        cmbIllustrator3.setVisible(false);
-        cmbPublisher2.setVisible(false);
-        cmbPublisher3.setVisible(false);
         if (boardGame != null) {
             txtName.setText(boardGame.getName());
             txtMechanics.setText(boardGame.getMechanics());
@@ -90,10 +63,19 @@ public class FormBoardGameController {
             txtPubYear.setText(String.valueOf(boardGame.getPublicationYear()));
             cmbDifficulty.setValue(boardGame.getDifficulty());
             txtRanking.setText(String.valueOf(boardGame.getRanking()));
+
             //TODO: search in middle tables the values of the designer/publisher/illustrator
-            cmbDesigner1.setValue(boardGame.getDesigners().getFirst());
-            cmbIllustrator1.setValue(boardGame.getIllustrators().getFirst());
-            cmbPublisher1.setValue(boardGame.getPublishers().getFirst());
+            if (boardGame.getDesigners().getFirst() != null ){
+                cmbDesigner1.setValue(boardGame.getDesigners().getFirst());
+            }
+
+            if (boardGame.getDesigners().getFirst() != null ){
+                cmbIllustrator1.setValue(boardGame.getIllustrators().getFirst());
+            }
+
+            if (boardGame.getDesigners().getFirst() != null ){
+                cmbPublisher1.setValue(boardGame.getPublishers().getFirst());
+            }
 
             formTitleLabel.setText("Update board game");
         } else {
@@ -132,7 +114,11 @@ public class FormBoardGameController {
     private void configComboBoxDesigner() {
         configComboBoxDesigner(cmbDesigner1);
         configComboBoxDesigner(cmbDesigner2);
-        configComboBoxDesigner(cmbDesigner2);
+        configComboBoxDesigner(cmbDesigner3);
+
+        setPlaceHolderEmpty(cmbDesigner1);
+        setPlaceHolderEmpty(cmbDesigner2);
+        setPlaceHolderEmpty(cmbDesigner3);
     }
 
     private void configComboBoxDesigner(ComboBox<Designer> cmbDesigner) {
@@ -157,6 +143,10 @@ public class FormBoardGameController {
         configComboBoxIllustrator(cmbIllustrator1);
         configComboBoxIllustrator(cmbIllustrator2);
         configComboBoxIllustrator(cmbIllustrator3);
+
+        setPlaceHolderEmpty(cmbIllustrator1);
+        setPlaceHolderEmpty(cmbIllustrator2);
+        setPlaceHolderEmpty(cmbIllustrator3);
     }
 
     private void configComboBoxIllustrator(ComboBox<Illustrator> cmbIllustrator) {
@@ -181,6 +171,10 @@ public class FormBoardGameController {
         configComboBoxPublisher(cmbPublisher1);
         configComboBoxPublisher(cmbPublisher2);
         configComboBoxPublisher(cmbPublisher3);
+
+        setPlaceHolderEmpty(cmbPublisher1);
+        setPlaceHolderEmpty(cmbPublisher2);
+        setPlaceHolderEmpty(cmbPublisher3);
     }
 
     private void configComboBoxPublisher(ComboBox<Publisher> cmbPublisher) {
@@ -206,6 +200,8 @@ public class FormBoardGameController {
             List<Designer> designers = DesignerDAO.findAll();
             designers.sort((a1, a2) -> a1.getName().compareTo(a2.getName()));
             cmbDesigner1.setItems(FXCollections.observableArrayList(designers));
+            cmbDesigner2.setItems(FXCollections.observableArrayList(designers));
+            cmbDesigner3.setItems(FXCollections.observableArrayList(designers));
         } catch (Exception e) {
             Utils.alert(Alert.AlertType.ERROR, "ERROR DESIGNER", "Error loading designers", "Couldn't get designers from the database: " + e.getMessage());
         }
@@ -216,6 +212,8 @@ public class FormBoardGameController {
             List<Illustrator> illustrators = IllustratorDAO.findAll();
             illustrators.sort((i1, i2) -> i1.getName().compareTo(i2.getName()));
             cmbIllustrator1.setItems(FXCollections.observableArrayList(illustrators));
+            cmbIllustrator2.setItems(FXCollections.observableArrayList(illustrators));
+            cmbIllustrator3.setItems(FXCollections.observableArrayList(illustrators));
         } catch (Exception e) {
             Utils.alert(Alert.AlertType.ERROR, "ERROR ILLUSTRATOR", "Error loading illustrators", "Couldn't get illustrators from the database: " + e.getMessage());
         }
@@ -226,6 +224,8 @@ public class FormBoardGameController {
             List<Publisher> publishers = PublisherDAO.findAll();
             publishers.sort((p1, p2) -> p1.getName().compareTo(p2.getName()));
             cmbPublisher1.setItems(FXCollections.observableArrayList(publishers));
+            cmbPublisher2.setItems(FXCollections.observableArrayList(publishers));
+            cmbPublisher3.setItems(FXCollections.observableArrayList(publishers));
         } catch (Exception e) {
             Utils.alert(Alert.AlertType.ERROR, "ERROR PUBLISHER", "Error loading publishers", "Couldn't get publishers from the database: " + e.getMessage());
         }
@@ -260,10 +260,11 @@ public class FormBoardGameController {
 
     private <T> void addListenerObjectVisibility(ComboBox<T> comboBoxToCheck, ComboBox<T> comboBoxToShow) {
         comboBoxToCheck.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if(comboBoxToCheck.getValue() != null){
+            if(comboBoxToCheck.getSelectionModel().getSelectedItem() != null){
                 comboBoxToShow.setVisible(true);
                 comboBoxToShow.setDisable(false);
-                comboBoxToShow.getItems().remove(comboBoxToCheck.getValue());
+                //TODO: FIX CHOOSING TWO IN COMBOBOX REMOVE BOTH WHEN SHOWING NEXT
+                comboBoxToShow.getItems().remove(comboBoxToCheck.getSelectionModel().getSelectedItem());
             }else{
                 comboBoxToShow.setVisible(false);
                 comboBoxToShow.setDisable(true);
@@ -294,11 +295,15 @@ public class FormBoardGameController {
         });
     }
 
+    private <T> void setPlaceHolderEmpty(ComboBox<T> tComboBox) {
+        tComboBox.setPlaceholder(new Label("EMPTY"));
+    }
+
     private void updateSaveButton() {
         btnSave.setDisable(!validData());
     }
 
-    public void storeBoardGame(ActionEvent actionEvent) {
+    public void storeBoardGame() {
         ArrayList<Designer> designers = new ArrayList<>();
         ArrayList<Illustrator> illustrators = new ArrayList<>();
         ArrayList<Publisher> publishers = new ArrayList<>();
@@ -357,7 +362,7 @@ public class FormBoardGameController {
         }
     }
 
-    public void closeWindow(ActionEvent actionEvent) {
+    public void closeWindow() {
         Stage stage = (Stage) formTitleLabel.getScene().getWindow();
         stage.close();
     }
