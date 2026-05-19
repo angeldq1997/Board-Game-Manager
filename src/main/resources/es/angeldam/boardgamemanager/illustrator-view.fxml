@@ -11,7 +11,7 @@
 
 <SplitPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
-           fx:controller="es.angeldam.boardgamemanager.controllers.IllustratorController"
+           fx:controller="es.angeldam.boardgamemanager.controllers.subcontrollers.IllustratorController"
            prefHeight="400.0" prefWidth="1100.0"
            dividerPositions="0.12672978878368535">
         <items>

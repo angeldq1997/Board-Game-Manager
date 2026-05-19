@@ -1,5 +1,7 @@
 package es.angeldam.boardgamemanager.controllers;
 
+import es.angeldam.boardgamemanager.controllers.subcontrollers.BoardGameController;
+import es.angeldam.boardgamemanager.controllers.subcontrollers.DesignerController;
 import es.angeldam.boardgamemanager.model.User;
 import es.angeldam.boardgamemanager.utils.UserType;
 import javafx.event.ActionEvent;
@@ -48,8 +50,8 @@ public class PrincipalController {
     public TableColumn plaGamesCol;
     public TableColumn pubNameCol;
 
-    public BoardGameController boardGameController = new BoardGameController();
-    public DesignerController designerController = new DesignerController();
+    private BoardGameController boardGameController = new BoardGameController();
+    private DesignerController designerController = new DesignerController();
 
     @FXML
     public void initialize() {

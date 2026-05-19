@@ -1,4 +1,4 @@
-package es.angeldam.boardgamemanager.controllers;
+package es.angeldam.boardgamemanager.controllers.subcontrollers;
 
 import es.angeldam.boardgamemanager.dao.DesignerDAO;
 import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;

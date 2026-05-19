@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane dividerPositions="0.12672978878368535" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.angeldam.boardgamemanager.controllers.DesignerController">
+<SplitPane dividerPositions="0.12672978878368535" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.angeldam.boardgamemanager.controllers.subcontrollers.DesignerController">
     <AnchorPane>
         <children>
             <Button fx:id="editDesignerButton" disable="true" layoutX="25.0" layoutY="70.0" mnemonicParsing="false" onAction="#editDesigner" text="Edit Designer" />

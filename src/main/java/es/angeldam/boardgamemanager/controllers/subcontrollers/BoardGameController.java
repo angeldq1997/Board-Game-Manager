@@ -1,4 +1,4 @@
-package es.angeldam.boardgamemanager.controllers;
+package es.angeldam.boardgamemanager.controllers.subcontrollers;
 
 import es.angeldam.boardgamemanager.BoardGameManagerApplication;
 import es.angeldam.boardgamemanager.dao.BoardGameDAO;
@@ -11,7 +11,6 @@ import es.angeldam.boardgamemanager.utils.Difficulty;
 import es.angeldam.boardgamemanager.utils.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

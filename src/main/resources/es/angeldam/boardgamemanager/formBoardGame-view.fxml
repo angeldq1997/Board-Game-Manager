@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="637.0" prefWidth="579.0" spacing="10" styleClass="panel-box" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.angeldam.boardgamemanager.controllers.FormBoardGameController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="637.0" prefWidth="579.0" spacing="10" styleClass="panel-box" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.angeldam.boardgamemanager.controllers.subcontrollers.FormBoardGameController">
 
     <padding>
         <Insets bottom="15" left="15" right="15" top="15" />

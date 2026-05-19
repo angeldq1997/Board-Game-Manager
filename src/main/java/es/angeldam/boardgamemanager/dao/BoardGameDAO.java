@@ -8,11 +8,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class BoardGameDAO {
-    private final static String SQL_ALL = "SELECT * FROM boardgame ";
-    private final static String SQL_PARTIAL = "SELECT * FROM boardgame WHERE ? LIKE %?%";
+    private final static String SQL_ALL = "SELECT * FROM boardgame";
+
+    private final static String SQL_ALL_ONE_LINE = "SELECT DISTINCT bg.*, (SELECT group_concat(name) as name_list FROM designer), (SELECT group_concat(name) as name_list FROM illustrator) , (SELECT group_concat(name) as name_list FROM publisher) " +
+            "FROM boardGame bg, designer des,illustrator ill, publisher pub, depict, make, produce " +
+            "WHERE bg.boardGameCode = depict.boardGameCode AND ill.illustratorCode = depict.illustratorCode " +
+            "AND bg.boardGameCode = make.boardGameCode AND des.designerCode = make.designerCode " +
+            "AND bg.boardGameCode = produce.boardGameCode AND pub.publisherCode = produce.publisherCode; ";
+
+    private final static String SQL_PARTIAL = "SELECT * FROM boardgame WHERE ? LIKE ?";
     private final static String SQL_FIND_BY_ID = "SELECT * FROM boardgame WHERE boardGameCode =?";
     private final static String SQL_FIND_BY_NAME = "SELECT * FROM boardgame where name =?";
     private final static String SQL_INSERT = "INSERT INTO boardgame (name, minPlayers, maxPlayers, averageDuration" +
@@ -76,7 +82,7 @@ public class BoardGameDAO {
 
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_PARTIAL)) {
             ps.setString(1, locationToSearch.trim());
-            ps.setString(2, textToSearch.trim());
+            ps.setString(2, "%" + textToSearch.trim() + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int gameCode = rs.getInt("boardGameCode");

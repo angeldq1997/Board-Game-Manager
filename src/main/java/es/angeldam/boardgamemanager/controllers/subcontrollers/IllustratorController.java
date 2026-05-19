@@ -1,4 +1,4 @@
-package es.angeldam.boardgamemanager.controllers;
+package es.angeldam.boardgamemanager.controllers.subcontrollers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
