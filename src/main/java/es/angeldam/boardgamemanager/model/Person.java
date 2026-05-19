@@ -1,31 +1,30 @@
 package es.angeldam.boardgamemanager.model;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 
 public abstract class Person {
     private int code;
     private String name;
-    private Date birthDate;
+    private int birthYear;
     private List<BoardGame> boardGames;
 
-    public Person(int code, String name, Date birthDate, List<BoardGame> boardGames) {
+    public Person(int code, String name, int birthYear, List<BoardGame> boardGames) {
         this.code = code;
         this.name = name;
-        this.birthDate = birthDate;
+        this.birthYear = birthYear;
         this.boardGames = boardGames;
     }
 
-    public Person(int code, String name, Date birthDate) {
+    public Person(int code, String name, int birthYear) {
         this.code = code;
         this.name = name;
-        this.birthDate = birthDate;
+        this.birthYear = birthYear;
     }
 
-    public Person(String name, Date birthdate) {
+    public Person(String name, int birthYear) {
         this.name = name;
-        this.birthDate = birthdate;
+        this.birthYear = birthYear;
     }
 
     public int getCode() {
@@ -40,8 +39,8 @@ public abstract class Person {
         this.name = name;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
+    public int getBirthYear() {
+        return birthYear;
     }
 
     public List<BoardGame> getBoardGames() {
@@ -63,7 +62,7 @@ public abstract class Person {
     public String toString() {
         return "code=" + code +
                 ", name:" + name +
-                ", birthdate:" + birthDate +
+                ", birthYear:" + birthYear +
                 ", boardGames:" + boardGames;
     }
 }

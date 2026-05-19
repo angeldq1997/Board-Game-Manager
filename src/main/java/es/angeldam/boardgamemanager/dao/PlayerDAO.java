@@ -4,7 +4,6 @@ import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
 import es.angeldam.boardgamemanager.model.Game;
 import es.angeldam.boardgamemanager.model.Player;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,8 +13,8 @@ public class PlayerDAO {
     private final static String SQL_ALL = "SELECT * FROM player";
     private final static String SQL_FIND_BY_ID = "SELECT * FROM player where playerCode =?";
     private final static String SQL_FIND_BY_NAME = "SELECT * FROM player where name =?";
-    private final static String SQL_INSERT = "INSERT INTO player (name, birthDate) VALUES (?,?)";
-    private final static String SQL_UPDATE = "UPDATE player SET name =?, birthDate =? WHERE playerCode = ?";
+    private final static String SQL_INSERT = "INSERT INTO player (name, birthYear) VALUES (?,?)";
+    private final static String SQL_UPDATE = "UPDATE player SET name =?, birthYear =? WHERE playerCode = ?";
     private final static String SQL_DELETE = "DELETE FROM player WHERE playerCode = ?";
 
     public static HashSet<Player> findAll() throws SQLException {
@@ -28,8 +27,8 @@ public class PlayerDAO {
         while (rs.next()) {
             int playerCode = rs.getInt("playerCode");
             String name = rs.getString("name");
-            Date birthDate = rs.getDate("birthDate");
-            player = new Player(name, birthDate);
+            int birthYear = rs.getInt("birthYear");
+            player = new Player(name, birthYear);
             players.add(player);
         }
         return players;
@@ -43,8 +42,8 @@ public class PlayerDAO {
             if (rs.next()) {
                 int playerCode = rs.getInt("playerCode");
                 String name = rs.getString("name");
-                Date birthDate = rs.getDate("birthDate");
-                player = new Player(playerCode, name, birthDate);
+                int birthYear = rs.getInt("birthYear");
+                player = new Player(playerCode, name, birthYear);
             }
         }
         return player;
@@ -55,7 +54,7 @@ public class PlayerDAO {
         if ((player != null) && findById(player.getCode()) == null) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
                 ps.setString(1,player.getName());
-                ps.setDate(2, player.getBirthDate());
+                ps.setInt(2, player.getBirthYear());
                 ps.executeUpdate();
                 added = true;
             }
@@ -68,7 +67,7 @@ public class PlayerDAO {
         if ((actualPlayer != null) && (newPlayer != null) && findById(actualPlayer.getCode()) != null && findById(newPlayer.getCode()) == null) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
                 ps.setString(1, newPlayer.getName());
-                ps.setDate(2, newPlayer.getBirthDate());
+                ps.setInt(2, newPlayer.getBirthYear());
                 ps.executeUpdate();
                 updated = true;
             }

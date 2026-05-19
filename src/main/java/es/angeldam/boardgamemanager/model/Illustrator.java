@@ -7,18 +7,18 @@ import java.util.List;
 public class Illustrator extends Person{
     private String nationality;
 
-    public Illustrator(String name, Date birthDate, String nationality) {
-        super(name, birthDate);
+    public Illustrator(String name, int birthYear, String nationality) {
+        super(name, birthYear);
         this.nationality = nationality;
     }
 
-    public Illustrator(int code, String name, Date birthDate, String nationality) {
-        super(code, name, birthDate);
+    public Illustrator(int code, String name, int birthYear, String nationality) {
+        super(code, name, birthYear);
         this.nationality = nationality;
     }
 
-    public Illustrator(int code, String name, Date birthDate, String nationality,List<BoardGame> boardGames) {
-        super(code, name, birthDate, boardGames);
+    public Illustrator(int code, String name, int birthYear, String nationality,List<BoardGame> boardGames) {
+        super(code, name, birthYear, boardGames);
         this.nationality = nationality;
     }
 

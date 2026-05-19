@@ -4,7 +4,6 @@ import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
 import es.angeldam.boardgamemanager.model.BoardGame;
 import es.angeldam.boardgamemanager.model.Illustrator;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,8 +14,8 @@ public class IllustratorDAO {
     private final static String SQL_ALL = "SELECT * FROM illustrator";
     private final static String SQL_FIND_BY_ID = "SELECT * FROM illustrator where illustratorCode =?";
     private final static String SQL_FIND_BY_NAME = "SELECT * FROM illustrator where name =?";
-    private final static String SQL_INSERT = "INSERT INTO illustrator (name, birthDate, nationality) VALUES (?,?,?)";
-    private final static String SQL_UPDATE = "UPDATE illustrator SET name =?, birthDate =?, nationality =? WHERE illustratorCode = ?";
+    private final static String SQL_INSERT = "INSERT INTO illustrator (name, birthYear, nationality) VALUES (?,?,?)";
+    private final static String SQL_UPDATE = "UPDATE illustrator SET name =?, birthYear =?, nationality =? WHERE illustratorCode = ?";
     private final static String SQL_DELETE = "DELETE FROM illustrator WHERE illustratorCode = ?";
 
 
@@ -28,9 +27,9 @@ public class IllustratorDAO {
         while (rs.next()) {
             int illustratorCode = rs.getInt("illustratorCode");
             String name = rs.getString("name");
-            Date birthDate = rs.getDate("birthDate");
+            int birthYear = rs.getInt("birthYear");
             String nationality = rs.getString("nationality");
-            illustrator = new Illustrator(illustratorCode, name, birthDate, nationality);
+            illustrator = new Illustrator(illustratorCode, name, birthYear, nationality);
             illustrators.add(illustrator);
         }
         return illustrators;
@@ -44,10 +43,10 @@ public class IllustratorDAO {
         while (rs.next()) {
             int illustratorCode = rs.getInt("illustratorCode");
             String name = rs.getString("name");
-            Date birthDate = rs.getDate("birthDate");
+            int birthYear = rs.getInt("birthYear");
             String nationality = rs.getString("nationality");
             List<BoardGame> boardGames = findById(illustratorCode).getBoardGames();
-            illustrator = new Illustrator(illustratorCode, name, birthDate, nationality, boardGames);
+            illustrator = new Illustrator(illustratorCode, name, birthYear, nationality, boardGames);
             illustrators.add(illustrator);
         }
         return illustrators;
@@ -61,9 +60,9 @@ public class IllustratorDAO {
             if (rs.next()) {
                 int illustratorCode = rs.getInt("illustratorCode");
                 String name = rs.getString("name");
-                Date birthDate = rs.getDate("birthDate");
+                int birthYear = rs.getInt("birthYear");
                 String nationality = rs.getString("nationality");
-                illustrator = new Illustrator(illustratorCode, name, birthDate, nationality);
+                illustrator = new Illustrator(illustratorCode, name, birthYear, nationality);
             }
         }
         return illustrator;
@@ -77,9 +76,9 @@ public class IllustratorDAO {
             if (rs.next()) {
                 int illustratorCode = rs.getInt("illustratorCode");
                 String name = rs.getString("name");
-                Date birthDate = rs.getDate("birthDate");
+                int birthYear = rs.getInt("birthYear");
                 String nationality = rs.getString("nationality");
-                illustrator = new Illustrator(illustratorCode, name, birthDate, nationality);
+                illustrator = new Illustrator(illustratorCode, name, birthYear, nationality);
             }
         }
         return illustrator;
@@ -90,7 +89,7 @@ public class IllustratorDAO {
         if ((illustrator != null) && findByName(illustrator.getName()) == null) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
                 ps.setString(1, illustrator.getName());
-                ps.setDate(2, illustrator.getBirthDate());
+                ps.setInt(2, illustrator.getBirthYear());
                 ps.setString(3, illustrator.getNationality());
                 ps.executeUpdate();
                 added = true;
@@ -104,7 +103,7 @@ public class IllustratorDAO {
         if ((actualIllustrator != null) && (newIllustrator != null) && findByName(actualIllustrator.getName()) != null && findByName(newIllustrator.getName()) == null) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
                 ps.setString(1, newIllustrator.getName());
-                ps.setDate(2, newIllustrator.getBirthDate());
+                ps.setInt(2, newIllustrator.getBirthYear());
                 ps.setString(3, newIllustrator.getNationality());
                 ps.setInt(4, actualIllustrator.getCode());
                 ps.executeUpdate();

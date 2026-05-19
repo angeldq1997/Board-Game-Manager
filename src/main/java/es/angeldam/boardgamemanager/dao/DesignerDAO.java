@@ -13,8 +13,8 @@ public class DesignerDAO {
     private final static String SQL_ALL = "SELECT * FROM designer";
     private final static String SQL_FIND_BY_ID = "SELECT * FROM designer where designerCode =?";
     private final static String SQL_FIND_BY_NAME = "SELECT * FROM designer where name =?";
-    private final static String SQL_INSERT = "INSERT INTO designer (name, alias, birthDate, nationality) VALUES (?,?,?,?)";
-    private final static String SQL_UPDATE = "UPDATE designer SET name =?, alias =?, birthDate =?, nationality =? WHERE designerCode = ?";
+    private final static String SQL_INSERT = "INSERT INTO designer (name, alias, birthYear, nationality) VALUES (?,?,?,?)";
+    private final static String SQL_UPDATE = "UPDATE designer SET name =?, alias =?, birthYear =?, nationality =? WHERE designerCode = ?";
     private final static String SQL_DELETE = "DELETE FROM designer WHERE designerCode = ?";
 
 
@@ -27,9 +27,9 @@ public class DesignerDAO {
                 int designerCode = rs.getInt("designerCode");
                 String name = rs.getString("name");
                 String alias = rs.getString("alias");
-                Date birthDate = rs.getDate("birthDate");
+                int birthYear = rs.getInt("birthYear");
                 String nationality = rs.getString("nationality");
-                designer = new Designer(designerCode, name, alias, birthDate, nationality);
+                designer = new Designer(designerCode, name, alias, birthYear, nationality);
                 designers.add(designer);
             }
         }
@@ -45,10 +45,10 @@ public class DesignerDAO {
                 int designerCode = rs.getInt("designerCode");
                 String name = rs.getString("name");
                 String alias = rs.getString("alias");
-                Date birthDate = rs.getDate("birthDate");
+                int birthYear = rs.getInt("birthYear");
                 String nationality = rs.getString("nationality");
                 List<BoardGame> boardGames = findById(designerCode).getBoardGames();
-                designer = new Designer(designerCode, name, alias, birthDate, nationality, boardGames);
+                designer = new Designer(designerCode, name, alias, birthYear, nationality, boardGames);
                 designers.add(designer);
             }
         }
@@ -64,10 +64,10 @@ public class DesignerDAO {
                 int designerCode = rs.getInt("designerCode");
                 String name = rs.getString("name");
                 String alias = rs.getString("alias");
-                Date birthDate = rs.getDate("birthDate");
+                int birthYear = rs.getInt("birthYear");
                 String nationality = rs.getString("nationality");
                 List<BoardGame> boardGames = findById(designerCode).getBoardGames();
-                designer = new Designer(designerCode, name, alias, birthDate, nationality);
+                designer = new Designer(designerCode, name, alias, birthYear, nationality, boardGames);
             }
         }
         return designer;
@@ -82,9 +82,9 @@ public class DesignerDAO {
                 int designerCode = rs.getInt("designerCode");
                 String name = rs.getString("name");
                 String alias = rs.getString("alias");
-                Date birthDate = rs.getDate("birthDate");
+                int birthYear = rs.getInt("birthYear");
                 String nationality = rs.getString("nationality");
-                designer = new Designer(designerCode, name, alias, birthDate, nationality);
+                designer = new Designer(designerCode, name, alias, birthYear, nationality);
             }
         }
         return designer;
@@ -99,9 +99,9 @@ public class DesignerDAO {
                 int designerCode = rs.getInt("designerCode");
                 String name = rs.getString("name");
                 String alias = rs.getString("alias");
-                Date birthDate = rs.getDate("birthDate");
+                int birthYear = rs.getInt("birthYear");
                 String nationality = rs.getString("nationality");
-                designer = new Designer(designerCode, name, alias, birthDate, nationality);
+                designer = new Designer(designerCode, name, alias, birthYear, nationality);
             }
         }
         return designer;
@@ -113,7 +113,7 @@ public class DesignerDAO {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
                 ps.setString(1, designer.getName());
                 ps.setString(2, designer.getAlias());
-                ps.setDate(3, designer.getBirthDate());
+                ps.setInt(3, designer.getBirthYear());
                 ps.setString(4, designer.getNationality());
                 ps.executeUpdate();
                 added = true;
@@ -128,7 +128,7 @@ public class DesignerDAO {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
                 ps.setString(1, newDesigner.getName());
                 ps.setString(2, newDesigner.getAlias());
-                ps.setDate(3, newDesigner.getBirthDate());
+                ps.setInt(3, newDesigner.getBirthYear());
                 ps.setString(4, newDesigner.getNationality());
                 ps.setInt(5, actualDesigner.getCode());
                 ps.executeUpdate();
