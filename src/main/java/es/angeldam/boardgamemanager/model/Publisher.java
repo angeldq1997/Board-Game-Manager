@@ -24,7 +24,7 @@ public class Publisher {
         this.headquarters = headquarters;
     }
 
-    public int getPublisherCode() {
+    public int getCode() {
         return publisherCode;
     }
 

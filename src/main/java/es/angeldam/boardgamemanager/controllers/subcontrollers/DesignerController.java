@@ -2,9 +2,9 @@ package es.angeldam.boardgamemanager.controllers.subcontrollers;
 
 import es.angeldam.boardgamemanager.dao.DesignerDAO;
 import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
-import es.angeldam.boardgamemanager.model.BoardGame;
 import es.angeldam.boardgamemanager.model.Designer;
 import es.angeldam.boardgamemanager.utils.Utils;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,9 +27,14 @@ public class DesignerController {
 
     @FXML public TableColumn<Designer, String> dNameCol = new TableColumn<>();
     @FXML public TableColumn<Designer, String> dAliasCol = new TableColumn<>();
-    @FXML public TableColumn<Designer, Timestamp> dBirthDateCol = new TableColumn<>();
+    @FXML public TableColumn<Designer, Timestamp> dBirthYearCol = new TableColumn<>();
     @FXML public TableColumn<Designer, String> dNationalityCol = new TableColumn<>();
-    @FXML public TableColumn<Designer, List<BoardGame>> dBGCol = new TableColumn<>();
+    @FXML public TableColumn<Designer, String> dBGCol = new TableColumn<>();
+
+    @FXML
+    public void initialize(){
+        configureDesignerTable(loadDesigners());
+    }
 
     public List<Designer> loadDesigners(){
         List<Designer> designers = null;
@@ -50,9 +55,10 @@ public class DesignerController {
         
         dNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         dAliasCol.setCellValueFactory(new PropertyValueFactory<>("alias"));
-        dBirthDateCol.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
+        dBirthYearCol.setCellValueFactory(new PropertyValueFactory<>("birthYear"));
         dNationalityCol.setCellValueFactory(new PropertyValueFactory<>("nationality"));
-        dBGCol.setCellValueFactory(new PropertyValueFactory<>("boardGames"));
+        dBGCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().listBoardGames()));
+
         ObservableList<Designer> designerObservableList = FXCollections.observableArrayList(designers);
         designerTable.setItems(designerObservableList);
 

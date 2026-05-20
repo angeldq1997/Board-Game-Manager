@@ -16,6 +16,7 @@ public class BoardGame {
     private Difficulty difficulty;
     private int ranking;
     private String mechanics;
+
     private List<Designer> designers;
     private List<Illustrator> illustrators;
     private List<Publisher> publishers;
@@ -110,6 +111,36 @@ public class BoardGame {
 
     public void setPublishers(List<Publisher> publishers) {
         this.publishers = publishers;
+    }
+
+    public String listDesigners() {
+        String list = "";
+        if (this.designers != null) {
+            for (Designer d : designers) {
+                list += d.getName() + "  ";
+            }
+        }
+        return list;
+    }
+
+    public String listIllustrator() {
+        String list = "";
+        if (this.illustrators != null) {
+            for (Illustrator i : illustrators) {
+                list += i.getName() + "  ";
+            }
+        }
+        return list;
+    }
+
+    public String listPublisher() {
+        String list = "";
+        if (this.publishers != null) {
+            for (Publisher p : publishers) {
+                list += p.getName() + "  ";
+            }
+        }
+        return list;
     }
 
     @Override

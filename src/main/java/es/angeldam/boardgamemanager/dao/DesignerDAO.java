@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class DesignerDAO {
-    private final static String SQL_ALL = "SELECT * FROM designer";
+    private final static String SQL_ALL = "SELECT des.* , (SELECT group_concat(boardGameCode) FROM MAKE WHERE designerCode = des.designerCode ) boardGameCodes FROM designer des; ";
     private final static String SQL_FIND_BY_ID = "SELECT * FROM designer where designerCode =?";
     private final static String SQL_FIND_BY_NAME = "SELECT * FROM designer where name =?";
     private final static String SQL_INSERT = "INSERT INTO designer (name, alias, birthYear, nationality) VALUES (?,?,?,?)";
@@ -20,7 +20,9 @@ public class DesignerDAO {
 
     public static List<Designer> findAll() throws SQLException {
         Designer designer = null;
+        String boardGameCodes = null;
         List<Designer> designers = new ArrayList<>();
+        List<BoardGame> boardGames = new ArrayList<>();
 
         try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
             while (rs.next()) {
@@ -29,7 +31,15 @@ public class DesignerDAO {
                 String alias = rs.getString("alias");
                 int birthYear = rs.getInt("birthYear");
                 String nationality = rs.getString("nationality");
-                designer = new Designer(designerCode, name, alias, birthYear, nationality);
+
+                boardGameCodes = rs.getString("boardGameCodes");
+                if ( boardGameCodes != null ) {
+                    String[] boardGameCodeList = boardGameCodes.split(",");
+                    for (String boardGameCode : boardGameCodeList) {
+                        boardGames.add(BoardGameDAO.findById(Integer.parseInt(boardGameCode)));
+                    }
+                }
+                designer = new Designer(designerCode, name, alias, birthYear, nationality, boardGames);
                 designers.add(designer);
             }
         }
@@ -39,6 +49,7 @@ public class DesignerDAO {
     public static List<Designer> findAllEager() throws SQLException {
         Designer designer = null;
         List<Designer> designers = new ArrayList<>();
+        List<BoardGame> boardGames = null;
 
         try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
             while (rs.next()) {
@@ -47,7 +58,9 @@ public class DesignerDAO {
                 String alias = rs.getString("alias");
                 int birthYear = rs.getInt("birthYear");
                 String nationality = rs.getString("nationality");
-                List<BoardGame> boardGames = findById(designerCode).getBoardGames();
+                if ( findById(designerCode) != null ) {
+                    boardGames = findById(designerCode).getBoardGames();
+                }
                 designer = new Designer(designerCode, name, alias, birthYear, nationality, boardGames);
                 designers.add(designer);
             }

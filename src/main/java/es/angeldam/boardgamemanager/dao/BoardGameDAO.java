@@ -14,18 +14,18 @@ public class BoardGameDAO {
     private static final String SQL_ALL = "SELECT * FROM boardgame";
 
     private static final String SQL_ALL_ONE_LINE = "SELECT DISTINCT bg.*, " +
-            "(SELECT group_concat(name) as name_list FROM designer), " +
-            "(SELECT group_concat(name) as name_list FROM illustrator) , " +
-            "(SELECT group_concat(name) as name_list FROM publisher) " +
+            "(SELECT group_concat(name) FROM designer), " +
+            "(SELECT group_concat(name) FROM illustrator) , " +
+            "(SELECT group_concat(name) FROM publisher) " +
             "FROM boardGame bg, designer des,illustrator ill, publisher pub, depict, make, produce " +
             "WHERE bg.boardGameCode = depict.boardGameCode AND ill.illustratorCode = depict.illustratorCode " +
             "AND bg.boardGameCode = make.boardGameCode AND des.designerCode = make.designerCode " +
             "AND bg.boardGameCode = produce.boardGameCode AND pub.publisherCode = produce.publisherCode; ";
 
-    private static final String SQL_ALL_ONE_LINE_WITH_CODES = "SELECT DISTINCT boardgame.* , " +
-            "(SELECT group_concat(designerCode) as designer_list FROM make WHERE boardgame.boardGameCode = boardGameCode) designerCodes, " +
-            "(SELECT group_concat(illustratorCode) as illustrator_list FROM depict WHERE boardgame.boardGameCode = boardGameCode) illustratorCodes, " +
-            "(SELECT group_concat(publisherCode) as publisher_list FROM produce WHERE boardgame.boardGameCode = boardGameCode) publisherCodes" +
+    private static final String SQL_ALL_WITH_CODES = "SELECT DISTINCT boardgame.* , " +
+            "(SELECT group_concat(designerCode) FROM make WHERE boardgame.boardGameCode = boardGameCode) designerCodes, " +
+            "(SELECT group_concat(illustratorCode) FROM depict WHERE boardgame.boardGameCode = boardGameCode) illustratorCodes, " +
+            "(SELECT group_concat(publisherCode) FROM produce WHERE boardgame.boardGameCode = boardGameCode) publisherCodes" +
             " FROM boardgame; ";
 
     private static final String SQL_PARTIAL = "SELECT * FROM boardgame WHERE ? LIKE ?";
@@ -36,43 +36,56 @@ public class BoardGameDAO {
             ", averageDuration=?, recommendedAge=?, publicationYear=?, difficulty=?, ranking=?, mechanics = ? WHERE boardGameCode = ?";
     private static final String SQL_DELETE = "DELETE FROM boardgame WHERE boardGameCode = ?";
 
-    public static List<BoardGame> findAll() throws SQLException {
+    public static List<BoardGame> findAllEager() throws SQLException {
         List<BoardGame> boardGames = new ArrayList<>();
         List<Designer> designers = new ArrayList<>();
         List<Illustrator> illustrators = new ArrayList<>();
         List<Publisher> publishers = new ArrayList<>();
         BoardGame boardGame = null;
+        String designerCodes = null;
+        String illustratorCodes = null;
+        String publisherCodes = null;
 
-        try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL_ONE_LINE)) {
+        try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL_WITH_CODES)) {
             while (rs.next()) {
                 boardGame = getBoardGameData(rs);
-                /*
+
                 //After getting all data of BG, we get from the database designers, illustrators and publishers
-                String[] designerCodeList = rs.getString("designerCodes").split(",");
-                for (String designerCode : designerCodeList){
-                    designers.add( DesignerDAO.findById(Integer.parseInt(designerCode)) );
-                }
-                boardGame.setDesigners(designers);
 
-                String[] publisherCodeList = rs.getString("publisherCodes").split(",");
-                for (String publisherCode : publisherCodeList){
-                    publishers.add( PublisherDAO.findById(Integer.parseInt(publisherCode)) );
+                designerCodes = rs.getString("designerCodes");
+                if ( designerCodes != null ) {
+                    String[] designerCodeList = designerCodes.split(",");
+                    for (String designerCode : designerCodeList) {
+                        designers.add(DesignerDAO.findById(Integer.parseInt(designerCode)));
+                    }
+                    boardGame.setDesigners(designers);
                 }
-                boardGame.setPublishers(publishers);
 
-                String[] illustratorCodeList = rs.getString("illustratorCodes").split(",");
-                for (String illustratorCode : illustratorCodeList){
-                    illustrators.add( IllustratorDAO.findById(Integer.parseInt(illustratorCode)) );
+                publisherCodes = rs.getString("publisherCodes");
+                if ( publisherCodes != null ) {
+                    String[] publisherCodeList = publisherCodes.split(",");
+                    for (String publisherCode : publisherCodeList) {
+                        publishers.add(PublisherDAO.findById(Integer.parseInt(publisherCode)));
+                    }
+                    boardGame.setPublishers(publishers);
                 }
-                boardGame.setIllustrators(illustrators);
-                */
+
+                illustratorCodes = rs.getString("illustratorCodes");
+                if ( illustratorCodes != null ) {
+                    String[] illustratorCodeList = illustratorCodes.split(",");
+                    for (String illustratorCode : illustratorCodeList) {
+                        illustrators.add(IllustratorDAO.findById(Integer.parseInt(illustratorCode)));
+                    }
+                    boardGame.setIllustrators(illustrators);
+                }
+
                 boardGames.add(boardGame);
             }
         }
         return boardGames;
     }
 
-    public static ArrayList<BoardGame> findAllEager() throws SQLException {
+    public static ArrayList<BoardGame> findAll() throws SQLException {
         ArrayList<BoardGame> boardGames = new ArrayList<>();
 
         try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {

@@ -1,9 +1,6 @@
 package es.angeldam.boardgamemanager.controllers.subcontrollers;
 
-import es.angeldam.boardgamemanager.dao.DesignerDAO;
-import es.angeldam.boardgamemanager.dao.BoardGameDAO;
-import es.angeldam.boardgamemanager.dao.IllustratorDAO;
-import es.angeldam.boardgamemanager.dao.PublisherDAO;
+import es.angeldam.boardgamemanager.dao.*;
 import es.angeldam.boardgamemanager.model.*;
 import es.angeldam.boardgamemanager.utils.Difficulty;
 import es.angeldam.boardgamemanager.utils.Utils;
@@ -64,15 +61,15 @@ public class FormBoardGameController {
             txtRanking.setText(String.valueOf(boardGame.getRanking()));
 
             //TODO: search in middle tables the values of the designer/publisher/illustrator
-            if (boardGame.getDesigners().getFirst() != null ){
+            if (boardGame.getDesigners() != null && !boardGame.getDesigners().isEmpty() && boardGame.getDesigners().get(0) != null ){
                 cmbDesigner1.setValue(boardGame.getDesigners().getFirst());
             }
 
-            if (boardGame.getDesigners().getFirst() != null ){
+            if (boardGame.getIllustrators() != null && !boardGame.getIllustrators().isEmpty() && boardGame.getIllustrators().get(0) != null ){
                 cmbIllustrator1.setValue(boardGame.getIllustrators().getFirst());
             }
 
-            if (boardGame.getDesigners().getFirst() != null ){
+            if (boardGame.getPublishers() != null && !boardGame.getPublishers().isEmpty() && boardGame.getPublishers().get(0) != null ){
                 cmbPublisher1.setValue(boardGame.getPublishers().getFirst());
             }
 
@@ -339,6 +336,7 @@ public class FormBoardGameController {
                 }
             }else {
                 if (BoardGameDAO.updateBoardGame(boardGameToEdit, newBoardGame)){
+                    updateOthers(boardGameToEdit, newBoardGame);
                     Utils.alert(Alert.AlertType.INFORMATION, "BOARD GAME UPDATED", "The board game was updated to the database", "The board game with name: "+newBoardGame.getName()+" was updated to the database");
                     Stage stage = (Stage) formTitleLabel.getScene().getWindow();
                     stage.close();
@@ -346,6 +344,20 @@ public class FormBoardGameController {
             }
         } catch (Exception e) {
             Utils.alert(Alert.AlertType.ERROR,"Error", "There was an error while storing board game on database", "Details: " + e.getMessage());
+        }
+    }
+
+    private void updateOthers(BoardGame boardGameToEdit, BoardGame newBoardGame) {
+        if ( newBoardGame.getDesigners() != null ){
+            SecondariesDAO.insertMake(newBoardGame.getDesigners() , boardGameToEdit);
+        }
+
+        if ( newBoardGame.getIllustrators() != null ){
+            SecondariesDAO.insertDepict(newBoardGame.getIllustrators() , boardGameToEdit);
+        }
+
+        if ( newBoardGame.getPublishers() != null ){
+            SecondariesDAO.insertProduce(newBoardGame.getPublishers() , boardGameToEdit);
         }
     }
 

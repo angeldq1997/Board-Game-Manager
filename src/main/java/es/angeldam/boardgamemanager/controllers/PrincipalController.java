@@ -9,6 +9,7 @@ import es.angeldam.boardgamemanager.model.User;
 import es.angeldam.boardgamemanager.utils.UserType;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 
 public class PrincipalController {
@@ -21,18 +22,15 @@ public class PrincipalController {
     @FXML public Tab playerTab;
     @FXML public Tab designerTab;
 
-    private final BoardGameController boardGameController = new BoardGameController();
-    private final DesignerController designerController = new DesignerController();
-    private final IllustratorController illustratorController = new IllustratorController();
-    private final PublisherController publisherController = new PublisherController();
+    @FXML public BoardGameController boardGameController;
+    @FXML public DesignerController designerController;
+    @FXML public IllustratorController illustratorController;
+    @FXML public PublisherController publisherController;
 
     @FXML
     public void initialize() {
         if ( User.getInstance().getUserType() == UserType.USER ){
             tabPane.getTabs().removeAll(designerTab, illustratorTab, publisherTab);
         }
-        boardGameController.configureBoardGameTable(boardGameController.loadBoardGames());
-        designerController.configureDesignerTable(designerController.loadDesigners());
-        
     }
 }

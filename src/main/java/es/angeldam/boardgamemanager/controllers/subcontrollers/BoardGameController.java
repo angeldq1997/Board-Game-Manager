@@ -4,11 +4,9 @@ import es.angeldam.boardgamemanager.BoardGameManagerApplication;
 import es.angeldam.boardgamemanager.dao.BoardGameDAO;
 import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
 import es.angeldam.boardgamemanager.model.BoardGame;
-import es.angeldam.boardgamemanager.model.Designer;
-import es.angeldam.boardgamemanager.model.Illustrator;
-import es.angeldam.boardgamemanager.model.Publisher;
 import es.angeldam.boardgamemanager.utils.Difficulty;
 import es.angeldam.boardgamemanager.utils.Utils;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,36 +28,38 @@ public class BoardGameController {
     @FXML public RadioButton illustratorRadio;
     @FXML public RadioButton nameRadio;
     @FXML public RadioButton publisherRadio;
-    @FXML public Button addBoardGameButton = new Button();
-    @FXML public Button editBoardGameButton = new Button();
-    @FXML public Button removeBoardGameButton = new Button();
-    @FXML public Button searchButton = new Button();
+    @FXML public Button addBoardGameButton ;
+    @FXML public Button editBoardGameButton ;
+    @FXML public Button removeBoardGameButton ;
+    @FXML public Button searchButton;
     @FXML public TextField searchBoardGameField;
 
-    @FXML public TableView<BoardGame> boardGameTable = new TableView<>();
+    @FXML public TableView<BoardGame> boardGameTable;
 
-    @FXML public TableColumn<BoardGame, Integer> bGCodeCol = new TableColumn<>();
-    @FXML public TableColumn<BoardGame, String> bGNameCol = new TableColumn<>();
-    @FXML public TableColumn<BoardGame, Integer> bGMinPlayersCol = new TableColumn<>();
-    @FXML public TableColumn<BoardGame, Integer> bGMaxPlayersCol = new TableColumn<>();
-    @FXML public TableColumn<BoardGame, Integer> bGAvgDurationCol = new TableColumn<>();
-    @FXML public TableColumn<BoardGame, Integer> bGPubYearCol = new TableColumn<>();
-    @FXML public TableColumn<BoardGame, Difficulty> bGDiffCol = new TableColumn<>();
-    @FXML public TableColumn<BoardGame, Integer> bGRankCol = new TableColumn<>();
-    @FXML public TableColumn<BoardGame, String> bGMechCol = new TableColumn<>();
-    @FXML public TableColumn<BoardGame, Integer> bGAgeCol = new TableColumn<>();
-    @FXML public TableColumn<BoardGame , ArrayList<Designer>> bGDesigners = new TableColumn<>();
-    @FXML public TableColumn<BoardGame , ArrayList<Illustrator>> bGIllustrators =  new TableColumn<>();
-    @FXML public TableColumn<BoardGame , ArrayList<Publisher>> bGPublishers = new TableColumn<>();
+    @FXML public TableColumn<BoardGame, Integer> bGCodeCol;
+    @FXML public TableColumn<BoardGame, String> bGNameCol ;
+    @FXML public TableColumn<BoardGame, Integer> bGMinPlayersCol ;
+    @FXML public TableColumn<BoardGame, Integer> bGMaxPlayersCol ;
+    @FXML public TableColumn<BoardGame, Integer> bGAvgDurationCol ;
+    @FXML public TableColumn<BoardGame, Integer> bGPubYearCol ;
+    @FXML public TableColumn<BoardGame, Difficulty> bGDiffCol ;
+    @FXML public TableColumn<BoardGame, Integer> bGRankCol ;
+    @FXML public TableColumn<BoardGame, String> bGMechCol ;
+    @FXML public TableColumn<BoardGame, Integer> bGAgeCol ;
+    @FXML public TableColumn<BoardGame , String> bGDesigners ;
+    @FXML public TableColumn<BoardGame , String> bGIllustrators ;
+    @FXML public TableColumn<BoardGame , String> bGPublishers ;
 
     @FXML
-    public void initialize(){
+    public void initialize() {
+        configureBoardGameTable(loadBoardGames());
         configListeners();
     }
 
     public void configureBoardGameTable(List<BoardGame> boardGames) {
-        if( boardGames == null || boardGames.getFirst() == null ){
+        if( boardGames == null || boardGames.isEmpty() || boardGames.get(0) == null ){
             boardGameTable.setPlaceholder(new Label("There isn't board games to show"));
+            Utils.alert(Alert.AlertType.ERROR, ",", "", "");
         }else {
             bGCodeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
             bGNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -71,10 +71,12 @@ public class BoardGameController {
             bGDiffCol.setCellValueFactory(new PropertyValueFactory<>("difficulty"));
             bGRankCol.setCellValueFactory(new PropertyValueFactory<>("ranking"));
             bGMechCol.setCellValueFactory(new PropertyValueFactory<>("mechanics"));
-            bGDesigners.setCellValueFactory(new PropertyValueFactory<>("designers"));
-            bGIllustrators.setCellValueFactory(new PropertyValueFactory<>("illustrators"));
-            bGPublishers.setCellValueFactory(new PropertyValueFactory<>("publishers"));
+            bGDesigners.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().listDesigners()));
+            bGIllustrators.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().listIllustrator()));
+            bGPublishers.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().listPublisher()));
+
             ObservableList<BoardGame> boardGameObservableList = FXCollections.observableArrayList(boardGames);
+
             boardGameTable.setItems(boardGameObservableList);
 
             editBoardGameButton.disableProperty().bind(boardGameTable.getSelectionModel().selectedItemProperty().isNull());
@@ -88,7 +90,7 @@ public class BoardGameController {
             Utils.alert(Alert.AlertType.ERROR,"ERROR CONNECTING DATABASE", "There was an error loading database", "The database couldn't connect and retrieve board game data.");
         } else {
             try {
-                boardGames = BoardGameDAO.findAll();
+                boardGames = BoardGameDAO.findAllEager();
             } catch (SQLException e) {
                 Utils.alert(Alert.AlertType.ERROR,"ERROR LOADING BOARDGAMES", "There was an error loading board games", e.getMessage());
             }

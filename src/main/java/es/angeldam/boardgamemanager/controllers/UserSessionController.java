@@ -50,13 +50,12 @@ public class UserSessionController {
                 if (user != null && !user.getPassword().equals(Utils.sha256(passwordField.getText().trim()))) {
                     Utils.alert(Alert.AlertType.ERROR, "ERROR PASSWORD", "The password doesn't match", "the password written on field doesn't correlate to the user password.");
                 } else {
-                    //Stage changedStage = (Stage) logInButton.getScene().getWindow();
                     Stage changedStage = new Stage();
                     FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("principal-view.fxml"));
                     Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
                     changedStage.setScene(scene);
                     changedStage.setTitle("Board Game Manager");
-                    changedStage.showAndWait();
+                    changedStage.show();
                 }
             } catch (SQLException e) {
                 Utils.alert(Alert.AlertType.ERROR, "ERROR USER", "User not found: There aren't users with the user name written", e.getMessage());

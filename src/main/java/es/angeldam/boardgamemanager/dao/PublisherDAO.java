@@ -71,7 +71,7 @@ public class PublisherDAO {
 
     public static boolean addPublisher(Publisher publisher) throws SQLException {
         boolean added = false;
-        if ((publisher != null) && findById(publisher.getPublisherCode()) == null) {
+        if ((publisher != null) && findById(publisher.getCode()) == null) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
                 ps.setString(1, publisher.getName());
                 ps.setInt(2, publisher.getFoundationYear());
@@ -85,12 +85,12 @@ public class PublisherDAO {
 
     public static boolean updatePublisher(Publisher actualPublisher, Publisher newPublisher) throws SQLException {
         boolean updated = false;
-        if ((actualPublisher != null) && (newPublisher != null) && findById(actualPublisher.getPublisherCode()) != null && findById(newPublisher.getPublisherCode()) == null) {
+        if ((actualPublisher != null) && (newPublisher != null) && findById(actualPublisher.getCode()) != null && findById(newPublisher.getCode()) == null) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
                 ps.setString(1, newPublisher.getName());
                 ps.setInt(2, newPublisher.getFoundationYear());
                 ps.setString(3, newPublisher.getHeadquarters());
-                ps.setInt(4, actualPublisher.getPublisherCode());
+                ps.setInt(4, actualPublisher.getCode());
                 ps.executeUpdate();
                 updated = true;
             }

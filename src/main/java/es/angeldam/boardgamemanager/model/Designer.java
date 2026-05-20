@@ -32,6 +32,15 @@ public class Designer extends Person{
         return alias;
     }
 
+    public String listBoardGames() {
+        String list = "";
+        if (super.getBoardGames() != null) {
+            for (BoardGame b : super.getBoardGames()) {
+                list += b.getName() + "  ";
+            }
+        }
+        return list;
+    }
 
     @Override
     public String toString() {
