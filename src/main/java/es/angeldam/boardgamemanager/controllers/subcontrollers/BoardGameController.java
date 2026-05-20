@@ -83,7 +83,7 @@ public class BoardGameController {
     }
 
     public List<BoardGame> loadBoardGames() {
-        ArrayList<BoardGame> boardGames = null;
+        List<BoardGame> boardGames = null;
         if (ConnectionBD.getConnection() == null) {
             Utils.alert(Alert.AlertType.ERROR,"ERROR CONNECTING DATABASE", "There was an error loading database", "The database couldn't connect and retrieve board game data.");
         } else {

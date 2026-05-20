@@ -8,11 +8,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BoardGameDAO {
     private static final String SQL_ALL = "SELECT * FROM boardgame";
 
-    private static final String SQL_ALL_ONE_LINE = "SELECT DISTINCT bg.*, (SELECT group_concat(name) as name_list FROM designer), (SELECT group_concat(name) as name_list FROM illustrator) , (SELECT group_concat(name) as name_list FROM publisher) " +
+    private static final String SQL_ALL_ONE_LINE = "SELECT DISTINCT bg.*, " +
+            "(SELECT group_concat(name) as name_list FROM designer), " +
+            "(SELECT group_concat(name) as name_list FROM illustrator) , " +
+            "(SELECT group_concat(name) as name_list FROM publisher) " +
             "FROM boardGame bg, designer des,illustrator ill, publisher pub, depict, make, produce " +
             "WHERE bg.boardGameCode = depict.boardGameCode AND ill.illustratorCode = depict.illustratorCode " +
             "AND bg.boardGameCode = make.boardGameCode AND des.designerCode = make.designerCode " +
@@ -32,17 +36,17 @@ public class BoardGameDAO {
             ", averageDuration=?, recommendedAge=?, publicationYear=?, difficulty=?, ranking=?, mechanics = ? WHERE boardGameCode = ?";
     private static final String SQL_DELETE = "DELETE FROM boardgame WHERE boardGameCode = ?";
 
-    public static ArrayList<BoardGame> findAll() throws SQLException {
-        ArrayList<BoardGame> boardGames = new ArrayList<>();
-        ArrayList<Designer> designers = new ArrayList<>();
-        ArrayList<Illustrator> illustrators = new ArrayList<>();
-        ArrayList<Publisher> publishers = new ArrayList<>();
+    public static List<BoardGame> findAll() throws SQLException {
+        List<BoardGame> boardGames = new ArrayList<>();
+        List<Designer> designers = new ArrayList<>();
+        List<Illustrator> illustrators = new ArrayList<>();
+        List<Publisher> publishers = new ArrayList<>();
         BoardGame boardGame = null;
 
-        try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL_ONE_LINE_WITH_CODES)) {
+        try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL_ONE_LINE)) {
             while (rs.next()) {
                 boardGame = getBoardGameData(rs);
-
+                /*
                 //After getting all data of BG, we get from the database designers, illustrators and publishers
                 String[] designerCodeList = rs.getString("designerCodes").split(",");
                 for (String designerCode : designerCodeList){
@@ -50,17 +54,18 @@ public class BoardGameDAO {
                 }
                 boardGame.setDesigners(designers);
 
-                String[] illustratorCodeList = rs.getString("illustratorCodes").split(",");
-                for (String illustratorCode : illustratorCodeList){
-                    illustrators.add( IllustratorDAO.findById(Integer.parseInt(illustratorCode)) );
-                }
-                boardGame.setIllustrators(illustrators);
-
                 String[] publisherCodeList = rs.getString("publisherCodes").split(",");
                 for (String publisherCode : publisherCodeList){
                     publishers.add( PublisherDAO.findById(Integer.parseInt(publisherCode)) );
                 }
                 boardGame.setPublishers(publishers);
+
+                String[] illustratorCodeList = rs.getString("illustratorCodes").split(",");
+                for (String illustratorCode : illustratorCodeList){
+                    illustrators.add( IllustratorDAO.findById(Integer.parseInt(illustratorCode)) );
+                }
+                boardGame.setIllustrators(illustrators);
+                */
                 boardGames.add(boardGame);
             }
         }

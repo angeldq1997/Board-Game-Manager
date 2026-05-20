@@ -35,7 +35,7 @@ public class Designer extends Person{
 
     @Override
     public String toString() {
-        return "Author{"  + super.toString() +
+        return "Designer{"  + super.toString() +
                 "\n alias:" + alias +
                 ", nationality:" + nationality + "}";
     }

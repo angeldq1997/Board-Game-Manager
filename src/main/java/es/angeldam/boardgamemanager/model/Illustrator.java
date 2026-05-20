@@ -25,4 +25,11 @@ public class Illustrator extends Person{
     public String getNationality() {
         return nationality;
     }
+
+    @Override
+    public String toString() {
+        return "Illustrator{" +
+                "nationality='" + nationality + '\'' +
+                '}';
+    }
 }

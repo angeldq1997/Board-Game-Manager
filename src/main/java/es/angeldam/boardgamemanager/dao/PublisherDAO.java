@@ -63,8 +63,7 @@ public class PublisherDAO {
                 String name = rs.getString("name");
                 int foundationYear = rs.getInt("foundationYear");
                 String headquarters = rs.getString("headquarters");
-                List<BoardGame> boardGames = findById(publisherCode).getBoardGames();
-                publisher = new Publisher(publisherCode, name, foundationYear, headquarters, boardGames);
+                publisher = new Publisher(publisherCode, name, foundationYear, headquarters);
             }
         }
         return publisher;

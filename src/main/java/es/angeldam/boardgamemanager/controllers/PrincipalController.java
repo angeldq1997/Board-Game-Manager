@@ -2,6 +2,9 @@ package es.angeldam.boardgamemanager.controllers;
 
 import es.angeldam.boardgamemanager.controllers.subcontrollers.BoardGameController;
 import es.angeldam.boardgamemanager.controllers.subcontrollers.DesignerController;
+import es.angeldam.boardgamemanager.controllers.subcontrollers.IllustratorController;
+import es.angeldam.boardgamemanager.controllers.subcontrollers.PublisherController;
+import es.angeldam.boardgamemanager.model.Publisher;
 import es.angeldam.boardgamemanager.model.User;
 import es.angeldam.boardgamemanager.utils.UserType;
 
@@ -20,6 +23,8 @@ public class PrincipalController {
 
     private final BoardGameController boardGameController = new BoardGameController();
     private final DesignerController designerController = new DesignerController();
+    private final IllustratorController illustratorController = new IllustratorController();
+    private final PublisherController publisherController = new PublisherController();
 
     @FXML
     public void initialize() {
@@ -28,5 +33,6 @@ public class PrincipalController {
         }
         boardGameController.configureBoardGameTable(boardGameController.loadBoardGames());
         designerController.configureDesignerTable(designerController.loadDesigners());
+        
     }
 }
