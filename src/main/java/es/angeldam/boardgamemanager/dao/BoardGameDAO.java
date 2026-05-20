@@ -10,40 +10,57 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class BoardGameDAO {
-    private final static String SQL_ALL = "SELECT * FROM boardgame";
+    private static final String SQL_ALL = "SELECT * FROM boardgame";
 
-    private final static String SQL_ALL_ONE_LINE = "SELECT DISTINCT bg.*, (SELECT group_concat(name) as name_list FROM designer), (SELECT group_concat(name) as name_list FROM illustrator) , (SELECT group_concat(name) as name_list FROM publisher) " +
+    private static final String SQL_ALL_ONE_LINE = "SELECT DISTINCT bg.*, (SELECT group_concat(name) as name_list FROM designer), (SELECT group_concat(name) as name_list FROM illustrator) , (SELECT group_concat(name) as name_list FROM publisher) " +
             "FROM boardGame bg, designer des,illustrator ill, publisher pub, depict, make, produce " +
             "WHERE bg.boardGameCode = depict.boardGameCode AND ill.illustratorCode = depict.illustratorCode " +
             "AND bg.boardGameCode = make.boardGameCode AND des.designerCode = make.designerCode " +
             "AND bg.boardGameCode = produce.boardGameCode AND pub.publisherCode = produce.publisherCode; ";
 
-    private final static String SQL_PARTIAL = "SELECT * FROM boardgame WHERE ? LIKE ?";
-    private final static String SQL_FIND_BY_ID = "SELECT * FROM boardgame WHERE boardGameCode =?";
-    private final static String SQL_FIND_BY_NAME = "SELECT * FROM boardgame where name =?";
-    private final static String SQL_INSERT = "INSERT INTO boardgame (name, minPlayers, maxPlayers, averageDuration" +
+    private static final String SQL_ALL_ONE_LINE_WITH_CODES = "SELECT DISTINCT boardgame.* , " +
+            "(SELECT group_concat(designerCode) as designer_list FROM make WHERE boardgame.boardGameCode = boardGameCode) designerCodes, " +
+            "(SELECT group_concat(illustratorCode) as illustrator_list FROM depict WHERE boardgame.boardGameCode = boardGameCode) illustratorCodes, " +
+            "(SELECT group_concat(publisherCode) as publisher_list FROM produce WHERE boardgame.boardGameCode = boardGameCode) publisherCodes" +
+            " FROM boardgame; ";
+
+    private static final String SQL_PARTIAL = "SELECT * FROM boardgame WHERE ? LIKE ?";
+    private static final String SQL_FIND_BY_ID = "SELECT * FROM boardgame WHERE boardGameCode =?";
+    private static final String SQL_INSERT = "INSERT INTO boardgame (name, minPlayers, maxPlayers, averageDuration" +
             ", recommendedAge, publicationYear, difficulty, ranking, mechanics) VALUES (?,?,?,?,?,?,?,?,?)";
-    private final static String SQL_UPDATE = "UPDATE boardgame SET name =?, minPlayers =?, maxPlayers =?" +
+    private static final String SQL_UPDATE = "UPDATE boardgame SET name =?, minPlayers =?, maxPlayers =?" +
             ", averageDuration=?, recommendedAge=?, publicationYear=?, difficulty=?, ranking=?, mechanics = ? WHERE boardGameCode = ?";
-    private final static String SQL_DELETE = "DELETE FROM boardgame WHERE boardGameCode = ?";
+    private static final String SQL_DELETE = "DELETE FROM boardgame WHERE boardGameCode = ?";
 
     public static ArrayList<BoardGame> findAll() throws SQLException {
-        BoardGame boardGame = null;
         ArrayList<BoardGame> boardGames = new ArrayList<>();
+        ArrayList<Designer> designers = new ArrayList<>();
+        ArrayList<Illustrator> illustrators = new ArrayList<>();
+        ArrayList<Publisher> publishers = new ArrayList<>();
+        BoardGame boardGame = null;
 
-        try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
+        try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL_ONE_LINE_WITH_CODES)) {
             while (rs.next()) {
-                int gameCode = rs.getInt("boardGameCode");
-                String name = rs.getString("name");
-                int minPlayers = rs.getInt("minPlayers");
-                int maxPlayers = rs.getInt("maxPlayers");
-                int averageDuration = rs.getInt("averageDuration");
-                String recommendedAge = rs.getString("recommendedAge");
-                int publicationYear = rs.getInt("publicationYear");
-                Difficulty difficulty = Difficulty.valueOf(rs.getString("difficulty"));
-                int ranking = rs.getInt("ranking");
-                String mechanics = rs.getString("mechanics");
-                boardGame = new BoardGame(gameCode, name, minPlayers, maxPlayers, averageDuration, recommendedAge, publicationYear, difficulty, ranking, mechanics);
+                boardGame = getBoardGameData(rs);
+
+                //After getting all data of BG, we get from the database designers, illustrators and publishers
+                String[] designerCodeList = rs.getString("designerCodes").split(",");
+                for (String designerCode : designerCodeList){
+                    designers.add( DesignerDAO.findById(Integer.parseInt(designerCode)) );
+                }
+                boardGame.setDesigners(designers);
+
+                String[] illustratorCodeList = rs.getString("illustratorCodes").split(",");
+                for (String illustratorCode : illustratorCodeList){
+                    illustrators.add( IllustratorDAO.findById(Integer.parseInt(illustratorCode)) );
+                }
+                boardGame.setIllustrators(illustrators);
+
+                String[] publisherCodeList = rs.getString("publisherCodes").split(",");
+                for (String publisherCode : publisherCodeList){
+                    publishers.add( PublisherDAO.findById(Integer.parseInt(publisherCode)) );
+                }
+                boardGame.setPublishers(publishers);
                 boardGames.add(boardGame);
             }
         }
@@ -51,33 +68,17 @@ public class BoardGameDAO {
     }
 
     public static ArrayList<BoardGame> findAllEager() throws SQLException {
-        BoardGame boardGame = null;
-        ArrayList<Designer> designers = new ArrayList<>();
-        ArrayList<Illustrator> illustrators = new ArrayList<>();
-        ArrayList<Publisher> publishers = new ArrayList<>();
         ArrayList<BoardGame> boardGames = new ArrayList<>();
 
         try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
             while (rs.next()) {
-                int gameCode = rs.getInt("boardGameCode");
-                String name = rs.getString("name");
-                int minPlayers = rs.getInt("minPlayers");
-                int maxPlayers = rs.getInt("maxPlayers");
-                int averageDuration = rs.getInt("averageDuration");
-                String recommendedAge = rs.getString("recommendedAge");
-                int publicationYear = rs.getInt("publicationYear");
-                Difficulty difficulty = Difficulty.valueOf(rs.getString("difficulty"));
-                int ranking = rs.getInt("ranking");
-                String mechanics = rs.getString("mechanics");
-                boardGame = new BoardGame(gameCode, name, minPlayers, maxPlayers, averageDuration, recommendedAge, publicationYear, difficulty, ranking, mechanics);
-                boardGames.add(boardGame);
+                boardGames.add(getBoardGameData(rs));
             }
         }
         return boardGames;
     }
 
     public static ArrayList<BoardGame> findPartial(String locationToSearch, String textToSearch) throws SQLException{
-        BoardGame boardGame = null;
         ArrayList<BoardGame> boardGames = new ArrayList<>();
 
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_PARTIAL)) {
@@ -85,18 +86,7 @@ public class BoardGameDAO {
             ps.setString(2, "%" + textToSearch.trim() + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                int gameCode = rs.getInt("boardGameCode");
-                String name = rs.getString("name");
-                int minPlayers = rs.getInt("minPlayers");
-                int maxPlayers = rs.getInt("maxPlayers");
-                int averageDuration = rs.getInt("averageDuration");
-                String recommendedAge = rs.getString("recommendedAge");
-                int publicationYear = rs.getInt("publicationYear");
-                Difficulty difficulty = Difficulty.valueOf(rs.getString("difficulty"));
-                int ranking = rs.getInt("ranking");
-                String mechanics = rs.getString("mechanics");
-                boardGame = new BoardGame(gameCode, name, minPlayers, maxPlayers, averageDuration, recommendedAge, publicationYear, difficulty, ranking, mechanics);
-                boardGames.add(boardGame);
+                boardGames.add(getBoardGameData(rs));
             }
         }
         return boardGames;
@@ -109,17 +99,7 @@ public class BoardGameDAO {
             ps.setInt(1, boardGameCodeToSearch);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int gameCode = rs.getInt("boardGameCode");
-                String name = rs.getString("name");
-                int minPlayers = rs.getInt("minPlayers");
-                int maxPlayers = rs.getInt("maxPlayers");
-                int averageDuration = rs.getInt("averageDuration");
-                String recommendedAge = rs.getString("recommendedAge");
-                int publicationYear = rs.getInt("publicationYear");
-                Difficulty difficulty = Difficulty.valueOf(rs.getString("difficulty"));
-                int ranking = rs.getInt("ranking");
-                String mechanics = rs.getString("mechanics");
-                boardGame = new BoardGame(gameCode, name, minPlayers, maxPlayers, averageDuration, recommendedAge, publicationYear, difficulty, ranking, mechanics);
+                boardGame = getBoardGameData(rs);
             }
         }
         return boardGame;
@@ -176,5 +156,19 @@ public class BoardGameDAO {
             }
         }
         return deleted;
+    }
+
+    private static BoardGame getBoardGameData(ResultSet rs) throws SQLException {
+        int gameCode = rs.getInt("boardGameCode");
+        String name = rs.getString("name");
+        int minPlayers = rs.getInt("minPlayers");
+        int maxPlayers = rs.getInt("maxPlayers");
+        int averageDuration = rs.getInt("averageDuration");
+        String recommendedAge = rs.getString("recommendedAge");
+        int publicationYear = rs.getInt("publicationYear");
+        Difficulty difficulty = Difficulty.valueOf(rs.getString("difficulty"));
+        int ranking = rs.getInt("ranking");
+        String mechanics = rs.getString("mechanics");
+        return new BoardGame(gameCode, name, minPlayers, maxPlayers, averageDuration, recommendedAge, publicationYear, difficulty, ranking, mechanics);
     }
 }

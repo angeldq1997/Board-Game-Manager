@@ -54,22 +54,7 @@ public class BoardGameController {
 
     @FXML
     public void initialize(){
-        configureBoardGameTable(loadBoardGames());
         configListeners();
-    }
-
-    public List<BoardGame> loadBoardGames() {
-        ArrayList<BoardGame> boardGames = null;
-        if (ConnectionBD.getConnection() == null) {
-            Utils.alert(Alert.AlertType.ERROR,"ERROR CONNECTING DATABASE", "There was an error loading database", "The database couldn't connect and retrieve board game data.");
-        } else {
-            try {
-                boardGames = BoardGameDAO.findAll();
-            } catch (SQLException e) {
-                Utils.alert(Alert.AlertType.ERROR,"ERROR LOADING BOARDGAMES", "There was an error loading board games", e.getMessage());
-            }
-        }
-        return boardGames;
     }
 
     public void configureBoardGameTable(List<BoardGame> boardGames) {
@@ -95,6 +80,20 @@ public class BoardGameController {
             editBoardGameButton.disableProperty().bind(boardGameTable.getSelectionModel().selectedItemProperty().isNull());
             removeBoardGameButton.disableProperty().bind(boardGameTable.getSelectionModel().selectedItemProperty().isNull());
         }
+    }
+
+    public List<BoardGame> loadBoardGames() {
+        ArrayList<BoardGame> boardGames = null;
+        if (ConnectionBD.getConnection() == null) {
+            Utils.alert(Alert.AlertType.ERROR,"ERROR CONNECTING DATABASE", "There was an error loading database", "The database couldn't connect and retrieve board game data.");
+        } else {
+            try {
+                boardGames = BoardGameDAO.findAll();
+            } catch (SQLException e) {
+                Utils.alert(Alert.AlertType.ERROR,"ERROR LOADING BOARDGAMES", "There was an error loading board games", e.getMessage());
+            }
+        }
+        return boardGames;
     }
 
     private void openFormBoardGame(BoardGame selectedBoardGame) {
@@ -170,14 +169,6 @@ public class BoardGameController {
 
     public String detectText( ) {
         String searchText = "";
-        /* TODO: CHECK IF IS POSSIBLE SWITCH
-        switch (locationToSearch.getSelectedToggle()){
-            case nameRadio -> {
-                searchText = "name";
-            }
-        }
-         */
-
         if (nameRadio.isSelected()){
             searchText = "name";
         }else if (authorRadio.isSelected()){

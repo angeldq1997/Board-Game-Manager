@@ -46,6 +46,8 @@ public class DesignerController {
     }
 
     public void configureDesignerTable(List<Designer> designers){
+        designerTable.setPlaceholder(new Label("There isn't designers to show"));
+        
         dNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         dAliasCol.setCellValueFactory(new PropertyValueFactory<>("alias"));
         dBirthDateCol.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
@@ -54,7 +56,6 @@ public class DesignerController {
         ObservableList<Designer> designerObservableList = FXCollections.observableArrayList(designers);
         designerTable.setItems(designerObservableList);
 
-        designerTable.setPlaceholder(new Label("There isn't designers to show"));
         editDesignerButton.disableProperty().bind(designerTable.getSelectionModel().selectedItemProperty().isNull());
         removeDesignerButton.disableProperty().bind(designerTable.getSelectionModel().selectedItemProperty().isNull());
     }

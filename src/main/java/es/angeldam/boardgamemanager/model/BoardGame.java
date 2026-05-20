@@ -100,6 +100,18 @@ public class BoardGame {
         return publishers;
     }
 
+    public void setDesigners(List<Designer> designers) {
+        this.designers = designers;
+    }
+
+    public void setIllustrators(List<Illustrator> illustrators) {
+        this.illustrators = illustrators;
+    }
+
+    public void setPublishers(List<Publisher> publishers) {
+        this.publishers = publishers;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof BoardGame boardGame)) return false;
