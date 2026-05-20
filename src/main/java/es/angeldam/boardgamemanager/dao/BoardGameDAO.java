@@ -100,8 +100,8 @@ public class BoardGameDAO {
         ArrayList<BoardGame> boardGames = new ArrayList<>();
 
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_PARTIAL)) {
-            ps.setString(1, locationToSearch.trim());
-            ps.setString(2, "%" + textToSearch.trim() + "%");
+            ps.setString(1, locationToSearch);
+            ps.setString(2, "%" + textToSearch + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 boardGames.add(getBoardGameData(rs));

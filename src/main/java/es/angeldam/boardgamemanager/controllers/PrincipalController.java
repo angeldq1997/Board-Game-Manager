@@ -22,11 +22,6 @@ public class PrincipalController {
     @FXML public Tab playerTab;
     @FXML public Tab designerTab;
 
-    @FXML public BoardGameController boardGameController;
-    @FXML public DesignerController designerController;
-    @FXML public IllustratorController illustratorController;
-    @FXML public PublisherController publisherController;
-
     @FXML
     public void initialize() {
         if ( User.getInstance().getUserType() == UserType.USER ){

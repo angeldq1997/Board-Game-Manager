@@ -49,6 +49,11 @@ public class FormBoardGameController {
         configComboBoxIllustrator();
         configComboBoxPublisher();
         configListeners();
+        setText(boardGame);
+        updateSaveButton();
+    }
+
+    private void setText(BoardGame boardGame) {
         if (boardGame != null) {
             txtName.setText(boardGame.getName());
             txtMechanics.setText(boardGame.getMechanics());
@@ -60,7 +65,6 @@ public class FormBoardGameController {
             cmbDifficulty.setValue(boardGame.getDifficulty());
             txtRanking.setText(String.valueOf(boardGame.getRanking()));
 
-            //TODO: search in middle tables the values of the designer/publisher/illustrator
             if (boardGame.getDesigners() != null && !boardGame.getDesigners().isEmpty() && boardGame.getDesigners().get(0) != null ){
                 cmbDesigner1.setValue(boardGame.getDesigners().getFirst());
             }
@@ -89,7 +93,6 @@ public class FormBoardGameController {
             cmbPublisher1.setValue(null);
             formTitleLabel.setText("Add board game");
         }
-        updateSaveButton();
     }
 
     public boolean validData() {

@@ -59,7 +59,7 @@ public class BoardGameController {
     public void configureBoardGameTable(List<BoardGame> boardGames) {
         if( boardGames == null || boardGames.isEmpty() || boardGames.get(0) == null ){
             boardGameTable.setPlaceholder(new Label("There isn't board games to show"));
-            Utils.alert(Alert.AlertType.ERROR, ",", "", "");
+            Utils.alert(Alert.AlertType.ERROR, "ERROR BOARD GAMES", "The board game database couldn't get any results", "There isn't board games to show");
         }else {
             bGCodeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
             bGNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -165,22 +165,7 @@ public class BoardGameController {
     }
 
     public void searchBoardGames( ){
-        //TODO: CHECK LIKE IN SQL
         configureBoardGameTable( loadPartialBoardGames(detectText()) );
-    }
-
-    public String detectText( ) {
-        String searchText = "";
-        if (nameRadio.isSelected()){
-            searchText = "name";
-        }else if (authorRadio.isSelected()){
-            searchText = "author";
-        }else if (illustratorRadio.isSelected()){
-            searchText = "illustrator";
-        }else if (publisherRadio.isSelected()){
-            searchText = "publisher";
-        }
-        return searchText;
     }
 
     public List<BoardGame> loadPartialBoardGames(String location) {
@@ -195,5 +180,19 @@ public class BoardGameController {
             }
         }
         return boardGames;
+    }
+
+    public String detectText( ) {
+        String searchText = "";
+        if (nameRadio.isSelected()){
+            searchText = "name";
+        }else if (authorRadio.isSelected()){
+            searchText = "author";
+        }else if (illustratorRadio.isSelected()){
+            searchText = "illustrator";
+        }else if (publisherRadio.isSelected()){
+            searchText = "publisher";
+        }
+        return searchText;
     }
 }

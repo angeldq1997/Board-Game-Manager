@@ -3,7 +3,9 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
 
-<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1100.0" prefHeight="700.0" prefWidth="1100.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.angeldam.boardgamemanager.controllers.PrincipalController">
+<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1100.0"
+         prefHeight="700.0" prefWidth="1100.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml" fx:controller="es.angeldam.boardgamemanager.controllers.PrincipalController">
     <tabs>
         <Tab fx:id="boardGameTab" closable="false" text="Board Game">
             <content>
@@ -12,12 +14,12 @@
         </Tab>
         <Tab fx:id="designerTab" closable="false" text="Designer">
             <content>
-                <fx:include source="designer-view.fxml" />
+                <fx:include source="designer-view.fxml"/>
             </content>
         </Tab>
         <Tab fx:id="illustratorTab" text="Illustrator">
             <content>
-                <fx:include source="illustrator-view.fxml" />
+                <fx:include source="illustrator-view.fxml"/>
             </content>
         </Tab>
         <Tab fx:id="publisherTab" closable="false" text="Publisher">

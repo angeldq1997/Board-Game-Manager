@@ -4,34 +4,36 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml" fx:controller="es.angeldam.boardgamemanager.controllers.subcontrollers.BoardGameController">
+<BorderPane prefHeight="600.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="es.angeldam.boardgamemanager.controllers.subcontrollers.BoardGameController">
     <center>
         <ScrollPane BorderPane.alignment="TOP_CENTER">
             <content>
                 <TableView fx:id="boardGameTable" prefHeight="400.0" prefWidth="1163.0">
                     <columns>
-                        <TableColumn fx:id="bGCodeCol" prefWidth="53.60000616312027" text="Code" />
-                        <TableColumn fx:id="bGNameCol" prefWidth="130.39996337890625" text="Name" />
+                        <TableColumn fx:id="bGCodeCol" prefWidth="53.60000616312027" text="Code"/>
+                        <TableColumn fx:id="bGNameCol" prefWidth="130.39996337890625" text="Name"/>
                         <TableColumn prefWidth="62.4000244140625" text="Players">
                             <columns>
-                                <TableColumn fx:id="bGMinPlayersCol" prefWidth="44.0" text="Min" />
-                                <TableColumn fx:id="bGMaxPlayersCol" prefWidth="45.60003662109375" text="Max" />
+                                <TableColumn fx:id="bGMinPlayersCol" prefWidth="44.0" text="Min"/>
+                                <TableColumn fx:id="bGMaxPlayersCol" prefWidth="45.60003662109375" text="Max"/>
                             </columns>
                         </TableColumn>
-                        <TableColumn fx:id="bGAgeCol" prefWidth="54.4000244140625" text="Age" />
-                        <TableColumn fx:id="bGAvgDurationCol" prefWidth="60.79998779296875" text="Duration" />
-                        <TableColumn fx:id="bGPubYearCol" prefWidth="66.39996337890625" text="Year Pub." />
-                        <TableColumn fx:id="bGDiffCol" prefWidth="63.999969482421875" text="Difficulty" />
-                        <TableColumn fx:id="bGRankCol" prefWidth="70.4000244140625" text="Ranking" />
-                        <TableColumn fx:id="bGMechCol" prefWidth="232.0" text="Mechanics" />
-                        <TableColumn fx:id="bGDesigners" prefWidth="130.4000244140625" text="Designers" />
-                        <TableColumn fx:id="bGIllustrators" prefWidth="92.79974365234375" text="Illustrators" />
-                        <TableColumn fx:id="bGPublishers" prefWidth="112.0001220703125" text="Publishers" />
+                        <TableColumn fx:id="bGAgeCol" prefWidth="54.4000244140625" text="Age"/>
+                        <TableColumn fx:id="bGAvgDurationCol" prefWidth="60.79998779296875" text="Duration"/>
+                        <TableColumn fx:id="bGPubYearCol" prefWidth="66.39996337890625" text="Year Pub."/>
+                        <TableColumn fx:id="bGDiffCol" prefWidth="63.999969482421875" text="Difficulty"/>
+                        <TableColumn fx:id="bGRankCol" prefWidth="70.4000244140625" text="Ranking"/>
+                        <TableColumn fx:id="bGMechCol" prefWidth="232.0" text="Mechanics"/>
+                        <TableColumn fx:id="bGDesigners" prefWidth="130.4000244140625" text="Designers"/>
+                        <TableColumn fx:id="bGIllustrators" prefWidth="92.79974365234375" text="Illustrators"/>
+                        <TableColumn fx:id="bGPublishers" prefWidth="112.0001220703125" text="Publishers"/>
                     </columns>
                 </TableView>
             </content>
             <padding>
-                <Insets left="12.0" />
+                <Insets left="12.0"/>
             </padding>
         </ScrollPane>
     </center>
@@ -40,68 +42,75 @@
             <children>
                 <HBox alignment="CENTER" VBox.vgrow="NEVER">
                     <children>
-                        <Button fx:id="searchButton" disable="true" mnemonicParsing="false" onAction="#searchBoardGames" text="Search">
+                        <Button fx:id="searchButton" disable="true" mnemonicParsing="false" onAction="#searchBoardGames"
+                                text="Search">
                             <HBox.margin>
-                                <Insets right="12.0" />
+                                <Insets right="12.0"/>
                             </HBox.margin>
                         </Button>
                         <TextField fx:id="searchBoardGameField" disable="true">
                             <HBox.margin>
-                                <Insets right="10.0" />
+                                <Insets right="10.0"/>
                             </HBox.margin>
                         </TextField>
-                        <Button fx:id="editBoardGameButton" mnemonicParsing="false" onAction="#editBoardGame" text="Edit Board Game">
+                        <Button fx:id="editBoardGameButton" mnemonicParsing="false" onAction="#editBoardGame"
+                                text="Edit Board Game">
                             <HBox.margin>
-                                <Insets right="10.0" />
+                                <Insets right="10.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="removeBoardGameButton" mnemonicParsing="false" onAction="#removeBoardGame" text="Remove Board Game">
+                        <Button fx:id="removeBoardGameButton" mnemonicParsing="false" onAction="#removeBoardGame"
+                                text="Remove Board Game">
                             <HBox.margin>
-                                <Insets right="10.0" />
+                                <Insets right="10.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="addBoardGameButton" mnemonicParsing="false" onAction="#addBoardGame" text="Add Board Game" />
+                        <Button fx:id="addBoardGameButton" mnemonicParsing="false" onAction="#addBoardGame"
+                                text="Add Board Game"/>
                     </children>
                     <padding>
-                        <Insets top="12.0" />
+                        <Insets top="12.0"/>
                     </padding>
                     <VBox.margin>
-                        <Insets right="5.0" />
+                        <Insets right="5.0"/>
                     </VBox.margin>
                 </HBox>
                 <HBox alignment="CENTER">
                     <children>
                         <RadioButton fx:id="nameRadio" mnemonicParsing="false" text="Name">
                             <HBox.margin>
-                                <Insets right="12.0" />
+                                <Insets right="12.0"/>
                             </HBox.margin>
                             <toggleGroup>
-                                <ToggleGroup fx:id="locationToSearch" />
+                                <ToggleGroup fx:id="locationToSearch"/>
                             </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="authorRadio" mnemonicParsing="false" text="Author" toggleGroup="$locationToSearch">
+                        <RadioButton fx:id="authorRadio" mnemonicParsing="false" text="Author"
+                                     toggleGroup="$locationToSearch">
                             <HBox.margin>
-                                <Insets right="12.0" />
+                                <Insets right="12.0"/>
                             </HBox.margin>
                         </RadioButton>
-                        <RadioButton fx:id="illustratorRadio" mnemonicParsing="false" text="Illustrator" toggleGroup="$locationToSearch">
+                        <RadioButton fx:id="illustratorRadio" mnemonicParsing="false" text="Illustrator"
+                                     toggleGroup="$locationToSearch">
                             <HBox.margin>
-                                <Insets right="12.0" />
+                                <Insets right="12.0"/>
                             </HBox.margin>
                         </RadioButton>
-                        <RadioButton fx:id="publisherRadio" mnemonicParsing="false" text="Publisher" toggleGroup="$locationToSearch">
+                        <RadioButton fx:id="publisherRadio" mnemonicParsing="false" text="Publisher"
+                                     toggleGroup="$locationToSearch">
                             <HBox.margin>
-                                <Insets right="12.0" />
+                                <Insets right="12.0"/>
                             </HBox.margin>
                         </RadioButton>
                     </children>
                     <padding>
-                        <Insets bottom="12.0" />
+                        <Insets bottom="12.0"/>
                     </padding>
                 </HBox>
             </children>
             <BorderPane.margin>
-                <Insets />
+                <Insets/>
             </BorderPane.margin>
         </VBox>
     </top>

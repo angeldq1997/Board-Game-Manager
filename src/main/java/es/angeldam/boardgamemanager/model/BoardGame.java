@@ -117,7 +117,9 @@ public class BoardGame {
         String list = "";
         if (this.designers != null) {
             for (Designer d : designers) {
-                list += d.getName() + "  ";
+                if (d != null){
+                    list += d.getName() + "  ";
+                }
             }
         }
         return list;
@@ -127,7 +129,9 @@ public class BoardGame {
         String list = "";
         if (this.illustrators != null) {
             for (Illustrator i : illustrators) {
-                list += i.getName() + "  ";
+                if (i != null){
+                    list += i.getName() + "  ";
+                }
             }
         }
         return list;
@@ -137,7 +141,9 @@ public class BoardGame {
         String list = "";
         if (this.publishers != null) {
             for (Publisher p : publishers) {
-                list += p.getName() + "  ";
+                if (p != null){
+                    list += p.getName() + "  ";
+                }
             }
         }
         return list;

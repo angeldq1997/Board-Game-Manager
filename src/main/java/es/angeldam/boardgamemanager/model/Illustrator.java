@@ -1,10 +1,12 @@
 package es.angeldam.boardgamemanager.model;
 
 
+import es.angeldam.boardgamemanager.interfaces.Entity;
+
 import java.sql.Date;
 import java.util.List;
 
-public class Illustrator extends Person{
+public class Illustrator extends Person implements Entity {
     private String nationality;
 
     public Illustrator(String name, int birthYear, String nationality) {

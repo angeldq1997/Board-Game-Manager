@@ -1,8 +1,10 @@
 package es.angeldam.boardgamemanager.model;
 
+import es.angeldam.boardgamemanager.interfaces.Entity;
+
 import java.util.List;
 
-public class Publisher {
+public class Publisher implements Entity {
     private int publisherCode;
     private String name;
     private int foundationYear;
@@ -19,6 +21,12 @@ public class Publisher {
 
     public Publisher(int publisherCode, String name, int foundationYear, String headquarters) {
         this.publisherCode = publisherCode;
+        this.name = name;
+        this.foundationYear = foundationYear;
+        this.headquarters = headquarters;
+    }
+
+    public Publisher(String name, int foundationYear, String headquarters) {
         this.name = name;
         this.foundationYear = foundationYear;
         this.headquarters = headquarters;
