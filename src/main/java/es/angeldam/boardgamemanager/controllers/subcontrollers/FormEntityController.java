@@ -57,9 +57,6 @@ public class FormEntityController {
     public void initialize(Object object) {
         setEntity(object);
         openForm();
-        storeEntity();
-        hideAll();
-        resetEntity();
     }
 
     private void setEntity(Object object) {
@@ -87,9 +84,14 @@ public class FormEntityController {
     public void update() {
         switch (formTitleLabel.getText()) {
             case "DESIGNER" -> {
-                Designer d = new Designer(txtName.getText(), txtAlias.getText(), Integer.parseInt(txtBirthYear.getText()), txtNationality.getText());
+                Designer d = null;
+                if(!txtBirthYear.getText().isEmpty()){
+                    d = new Designer(txtName.getText(), txtAlias.getText(), Integer.parseInt(txtBirthYear.getText()), txtNationality.getText());
+                }
                 try {
-                    DesignerDAO.updateDesigner(this.designer, d);
+                    if( DesignerDAO.updateDesigner(this.designer, d) ){
+                        Utils.alert(Alert.AlertType.INFORMATION, "UPDATED DESIGNER", "The designer was updated to the database", "The designer "+this.designer.getName()+" was updated successfully");
+                    }
                 } catch (SQLException e) {
                     Utils.alert(Alert.AlertType.ERROR, "DESIGNER DATABASE ERROR", "An error has occurred while editing designer: ", e.getMessage());
                 }
@@ -155,12 +157,16 @@ public class FormEntityController {
     @FXML
     public void openForm() {
         if (this.designer != null) {
+            txtName.setText(this.designer.getName());
             labelAlias.setVisible(true);
             txtAlias.setVisible(true);
+            txtAlias.setText(this.designer.getAlias());
             labelBirthYear.setVisible(true);
             txtBirthYear.setVisible(true);
+            txtBirthYear.setText(String.valueOf(this.designer.getBirthYear()) );
             labelNationality.setVisible(true);
             txtNationality.setVisible(true);
+            txtNationality.setText(this.designer.getNationality());
 
             formTitleLabel.setText("DESIGNER");
 
@@ -204,5 +210,12 @@ public class FormEntityController {
 
     public void addBoardGameToEntity() {
 
+    }
+
+    public void save(){
+        storeEntity();
+        hideAll();
+        resetEntity();
+        closeWindow();
     }
 }

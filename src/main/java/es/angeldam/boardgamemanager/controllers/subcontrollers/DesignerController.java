@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,9 +85,11 @@ public class DesignerController {
 
     public void openFormDesigner(Designer designer) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("formDesigner-view.fxml"));
+            //FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("formDesigner-view.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("formEntity-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
-            FormDesignerController controller = fxmlLoader.getController();
+            //FormDesignerController controller = fxmlLoader.getController();
+            FormEntityController controller = fxmlLoader.getController();
             controller.initialize(designer);
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -94,8 +97,10 @@ public class DesignerController {
             stage.setScene(scene);
             stage.setResizable(false);
             stage.showAndWait();
+            loadDesigners();
         } catch (Exception e) {
             Utils.alert(Alert.AlertType.ERROR, "ERROR", "Error loading form", "Designer form couldn't be loaded: " + e.getMessage());
+            System.out.println(Arrays.toString(e.getStackTrace()));
         }
     }
 
