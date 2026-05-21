@@ -85,11 +85,11 @@ public class DesignerController {
 
     public void openFormDesigner(Designer designer) {
         try {
-            //FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("formDesigner-view.fxml"));
-            FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("formEntity-view.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("formDesigner-view.fxml"));
+            //FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("formEntity-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
-            //FormDesignerController controller = fxmlLoader.getController();
-            FormEntityController controller = fxmlLoader.getController();
+            FormDesignerController controller = fxmlLoader.getController();
+            //FormEntityController controller = fxmlLoader.getController();
             controller.initialize(designer);
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
