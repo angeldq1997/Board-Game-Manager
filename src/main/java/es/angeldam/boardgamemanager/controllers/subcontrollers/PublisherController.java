@@ -1,13 +1,10 @@
 package es.angeldam.boardgamemanager.controllers.subcontrollers;
 
 import es.angeldam.boardgamemanager.BoardGameManagerApplication;
-import es.angeldam.boardgamemanager.dao.DesignerDAO;
 import es.angeldam.boardgamemanager.dao.PublisherDAO;
 import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
-import es.angeldam.boardgamemanager.model.Designer;
 import es.angeldam.boardgamemanager.model.Publisher;
 import es.angeldam.boardgamemanager.utils.Utils;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,15 +20,15 @@ import java.util.List;
 import java.util.Optional;
 
 public class PublisherController {
-    @FXML public TableView publisherTable;
+    @FXML public TableView<Publisher> publisherTable;
     @FXML public Button editPublisherButton;
     @FXML public Button addPublisherButton;
     @FXML public Button removePublisher;
     @FXML public TextField searchPublisher;
-    @FXML public TableColumn pubNameCol;
-    @FXML public TableColumn pubFoundationYearCol;
-    @FXML public TableColumn pubHeadquartersCol;
-    @FXML public TableColumn pubNumberBGCol;
+    @FXML public TableColumn<Publisher, String> pubNameCol;
+    @FXML public TableColumn<Publisher, Integer> pubFoundationYearCol;
+    @FXML public TableColumn<Publisher, String> pubHeadquartersCol;
+    @FXML public TableColumn<Publisher, Integer> pubNumberBGCol;
 
     @FXML
     public void initialize() {
@@ -67,63 +64,62 @@ public class PublisherController {
         removePublisher.disableProperty().bind(publisherTable.getSelectionModel().selectedItemProperty().isNull());
     }
 
-    public void openFormDesigner(Designer designer) {
+    public void openFormPublisher(Publisher publisher) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("formDesigner-view.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("formPublisher-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
-            FormDesignerController controller = fxmlLoader.getController();
-            controller.start(designer);
+            FormPublisherController controller = fxmlLoader.getController();
+            controller.start(publisher);
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle(designer == null ? "New designer" : "Update designer");
+            stage.setTitle(publisher == null ? "New publisher" : "Update publisher");
             stage.setScene(scene);
             stage.setResizable(false);
             stage.showAndWait();
             loadPublishers();
         } catch (Exception e) {
-            Utils.alert(Alert.AlertType.ERROR, "ERROR", "Error loading form", "Designer form couldn't be loaded: " + e.getMessage());
+            Utils.alert(Alert.AlertType.ERROR, "ERROR", "Error loading form", "Publisher form couldn't be loaded: " + e.getMessage());
         }
     }
 
     @FXML
-    public void addDesigner() {
-        openFormDesigner(null);
-        loadPublishers();
+    public void addPublisher() {
+        openFormPublisher(null);
     }
 
     @FXML
-    public void editDesigner() {
-        Designer designer = designerTable.getSelectionModel().getSelectedItem();
-        if (designer == null) {
-            Utils.alert(Alert.AlertType.ERROR, "ERROR SELECTION", "There isn't a designer selected", "You must select a designer");
+    public void editPublisher() {
+        Publisher publisher = publisherTable.getSelectionModel().getSelectedItem();
+        if (publisher == null) {
+            Utils.alert(Alert.AlertType.ERROR, "ERROR SELECTION", "There isn't a publisher selected", "You must select a publisher");
             return;
         }
-        openFormDesigner(designer);
+        openFormPublisher(publisher);
         loadPublishers();
-        designerTable.getSelectionModel().select(designer);
+        publisherTable.getSelectionModel().select(publisher);
     }
 
     @FXML
-    public void removeDesigner() {
-        Designer designer = designerTable.getSelectionModel().getSelectedItem();
-        if (designer == null) {
-            Utils.alert(Alert.AlertType.ERROR, "ERROR SELECTION", "There isn't a designer selected", "You must select a designer");
+    public void removePublisher() {
+        Publisher publisher = publisherTable.getSelectionModel().getSelectedItem();
+        if (publisher == null) {
+            Utils.alert(Alert.AlertType.ERROR, "ERROR SELECTION", "There isn't a publisher selected", "You must select a publisher");
             return;
         }
-        Optional<ButtonType> answer = Utils.alert(Alert.AlertType.CONFIRMATION, "Confirm Delete", "Confirm Delete on designer", "Are you sure you want to remove: " + designer.getName() + "?");
+        Optional<ButtonType> answer = Utils.alert(Alert.AlertType.CONFIRMATION, "Confirm Delete", "Confirm Delete on publisher", "Are you sure you want to remove: " + publisher.getName() + "?");
         if (answer.isPresent() && answer.get() == ButtonType.OK) {
             try {
-                DesignerDAO.deleteDesignerById(designerTable.getSelectionModel().getSelectedItem().getCode());
-                designerTable.getItems().remove(designer);
-                designerTable.getSelectionModel().clearSelection();
+                PublisherDAO.deletePublisherById(publisherTable.getSelectionModel().getSelectedItem().getCode());
+                publisherTable.getItems().remove(publisher);
+                publisherTable.getSelectionModel().clearSelection();
             } catch (SQLException e) {
-                Utils.alert(Alert.AlertType.ERROR, "DATABASE ERROR", "Error with database", "The designer couldn't be removed: " + e.getMessage());
+                Utils.alert(Alert.AlertType.ERROR, "DATABASE ERROR", "Error with database", "The publisher couldn't be removed: " + e.getMessage());
             }
         }
     }
 
     @FXML
-    public void searchDesigner() {
+    public void searchPublisher() {
 
     }
 }

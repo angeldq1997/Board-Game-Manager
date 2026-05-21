@@ -1,8 +1,8 @@
 package es.angeldam.boardgamemanager.controllers.subcontrollers;
 
-import es.angeldam.boardgamemanager.dao.DesignerDAO;
+import es.angeldam.boardgamemanager.dao.PublisherDAO;
 import es.angeldam.boardgamemanager.model.BoardGame;
-import es.angeldam.boardgamemanager.model.Designer;
+import es.angeldam.boardgamemanager.model.Publisher;
 import es.angeldam.boardgamemanager.utils.Utils;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -21,48 +21,43 @@ public class FormPublisherController {
     @FXML
     public TextField txtName;
     @FXML
-    public TextField txtAlias;
-    @FXML
     public TextField txtFoundationYear;
     @FXML
-    public TextField txtNationality;
+    public TextField txtHeadquarters;
     @FXML
     public Label formTitleLabel;
 
-    private Designer designerToEdit;
+    private Publisher publisherToEdit;
 
     @FXML
-    public void start(Designer designer) {
-        this.designerToEdit = designer;
+    public void start(Publisher publisher) {
+        this.publisherToEdit = publisher;
         addListeners();
-        prepareText(designer);
+        prepareText(publisher);
     }
 
-    public boolean validData(){
+    public boolean validData() {
         return !(txtName.getText().isBlank() &&
-                txtNationality.getText().isBlank() &&
-                txtFoundationYear.getText().isBlank() &&
-                txtAlias.getText().isBlank());
+                txtHeadquarters.getText().isBlank() &&
+                txtFoundationYear.getText().isBlank());
     }
 
     private void updateSaveButton() {
         btnSave.setDisable(!validData());
     }
 
-    private void prepareText(Designer designer) {
-        if (designer != null){
-            txtName.setText(designer.getName());
-            txtAlias.setText(designer.getAlias());
-            txtFoundationYear.setText(String.valueOf( designer.getBirthYear() ));
-            txtNationality.setText(designer.getNationality());
+    private void prepareText(Publisher publisher) {
+        if (publisher != null) {
+            txtName.setText(publisher.getName());
+            txtFoundationYear.setText(String.valueOf(publisher.getFoundationYear()));
+            txtHeadquarters.setText(publisher.getHeadquarters());
 
-            formTitleLabel.setText("Update designer");
-        }else{
+            formTitleLabel.setText("Update publisher");
+        } else {
             txtName.setText("");
-            txtAlias.setText("");
             txtFoundationYear.setText("");
-            txtNationality.setText("");
-            formTitleLabel.setText("Add designer");
+            txtHeadquarters.setText("");
+            formTitleLabel.setText("Add publisher");
         }
     }
 
@@ -72,7 +67,7 @@ public class FormPublisherController {
         stage.close();
     }
 
-    private void addListeners(){
+    private void addListeners() {
         txtName.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
         txtFoundationYear.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
         addListenerLimitedSize(txtFoundationYear, 4);
@@ -103,29 +98,28 @@ public class FormPublisherController {
 
     @FXML
     public void storePublisher() {
-        try{
+        try {
             String name = txtName.getText();
-            String alias = txtAlias.getText();
-            int birthYear = Integer.parseInt(txtFoundationYear.getText());
-            String nationality = txtNationality.getText();
-            Designer newDesigner = new Designer(name, alias, birthYear, nationality);
-            if (this.designerToEdit == null){
-                if (DesignerDAO.addDesigner(newDesigner)){
-                    Utils.alert(Alert.AlertType.INFORMATION, "DESIGNER ADDED SUCCESSFULLY", "Designer added to the database", "The designer" + newDesigner.getName() + " was added without errors to the database");
+            int foundationYear = Integer.parseInt(txtFoundationYear.getText());
+            String headquarters = txtHeadquarters.getText();
+            Publisher newPublisher = new Publisher(name, foundationYear, headquarters);
+            if (this.publisherToEdit == null) {
+                if (PublisherDAO.addPublisher(newPublisher)) {
+                    Utils.alert(Alert.AlertType.INFORMATION, "PUBLISHER ADDED SUCCESSFULLY", "Publisher added to the database", "The publisher" + newPublisher.getName() + " was added without errors to the database");
                     closeWindow();
-                }else{
-                    Utils.alert(Alert.AlertType.ERROR, "ERROR UPDATING DESIGNER", "The designer couldn't be added to database", "The designer "+ newDesigner.getName() +" couldn`t be added");
+                } else {
+                    Utils.alert(Alert.AlertType.ERROR, "ERROR UPDATING PUBLISHER", "The publisher couldn't be added to database", "The publisher " + newPublisher.getName() + " couldn`t be added");
                 }
-            }else {
-                if ( DesignerDAO.updateDesigner(designerToEdit, newDesigner) ){
-                    Utils.alert(Alert.AlertType.INFORMATION, "DESIGNER UPDATED", "The designer was updated to the database", "The designer with name: "+newDesigner.getName()+" was updated to the database");
+            } else {
+                if (PublisherDAO.updatePublisher(publisherToEdit, newPublisher)) {
+                    Utils.alert(Alert.AlertType.INFORMATION, "PUBLISHER UPDATED", "The publisher was updated to the database", "The publisher with name: " + newPublisher.getName() + " was updated to the database");
                     closeWindow();
-                }else{
-                    Utils.alert(Alert.AlertType.ERROR, "ERROR UPDATING DESIGNER", "The designer couldn't be uploaded to database", "The designer "+ newDesigner.getName() +" couldn`t be updated");
+                } else {
+                    Utils.alert(Alert.AlertType.ERROR, "ERROR UPDATING PUBLISHER", "The publisher couldn't be uploaded to database", "The publisher " + newPublisher.getName() + " couldn`t be updated");
                 }
             }
-        }catch (Exception e){
-            Utils.alert(Alert.AlertType.ERROR,"ERROR", "There was an error while storing designer on database", "Details: " + e.getMessage());
+        } catch (Exception e) {
+            Utils.alert(Alert.AlertType.ERROR, "ERROR", "There was an error while storing publisher on database", "Details: " + e.getMessage());
             System.out.println(Arrays.toString(e.getStackTrace()));
         }
     }

@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
