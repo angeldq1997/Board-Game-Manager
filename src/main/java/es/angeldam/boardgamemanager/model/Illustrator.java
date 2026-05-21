@@ -1,12 +1,9 @@
 package es.angeldam.boardgamemanager.model;
 
 
-import es.angeldam.boardgamemanager.interfaces.Entity;
-
-import java.sql.Date;
 import java.util.List;
 
-public class Illustrator extends Person implements Entity {
+public class Illustrator extends Person {
     private String nationality;
 
     public Illustrator(String name, int birthYear, String nationality) {
@@ -19,13 +16,23 @@ public class Illustrator extends Person implements Entity {
         this.nationality = nationality;
     }
 
-    public Illustrator(int code, String name, int birthYear, String nationality,List<BoardGame> boardGames) {
+    public Illustrator(int code, String name, int birthYear, String nationality, List<BoardGame> boardGames) {
         super(code, name, birthYear, boardGames);
         this.nationality = nationality;
     }
 
     public String getNationality() {
         return nationality;
+    }
+
+    public String listBoardGames() {
+        String list = "";
+        if (super.getBoardGames() != null) {
+            for (BoardGame b : super.getBoardGames()) {
+                list += b.getName() + "  ";
+            }
+        }
+        return list;
     }
 
     @Override

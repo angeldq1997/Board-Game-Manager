@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 import java.util.Arrays;
 
-public class FormDesignerController {
+public class FormPublisherController {
 
     @FXML
     public Button btnSave;
@@ -23,7 +23,7 @@ public class FormDesignerController {
     @FXML
     public TextField txtAlias;
     @FXML
-    public TextField txtBirthYear;
+    public TextField txtFoundationYear;
     @FXML
     public TextField txtNationality;
     @FXML
@@ -41,7 +41,7 @@ public class FormDesignerController {
     public boolean validData(){
         return !(txtName.getText().isBlank() &&
                 txtNationality.getText().isBlank() &&
-                txtBirthYear.getText().isBlank() &&
+                txtFoundationYear.getText().isBlank() &&
                 txtAlias.getText().isBlank());
     }
 
@@ -53,14 +53,14 @@ public class FormDesignerController {
         if (designer != null){
             txtName.setText(designer.getName());
             txtAlias.setText(designer.getAlias());
-            txtBirthYear.setText(String.valueOf( designer.getBirthYear() ));
+            txtFoundationYear.setText(String.valueOf( designer.getBirthYear() ));
             txtNationality.setText(designer.getNationality());
 
             formTitleLabel.setText("Update designer");
         }else{
             txtName.setText("");
             txtAlias.setText("");
-            txtBirthYear.setText("");
+            txtFoundationYear.setText("");
             txtNationality.setText("");
             formTitleLabel.setText("Add designer");
         }
@@ -74,9 +74,9 @@ public class FormDesignerController {
 
     private void addListeners(){
         txtName.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
-        txtBirthYear.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
-        addListenerLimitedSize(txtBirthYear, 4);
-        addListener(txtBirthYear, "[1-2][0,1,9][\\d]{2}", "[a-zA-Z]");
+        txtFoundationYear.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
+        addListenerLimitedSize(txtFoundationYear, 4);
+        addListener(txtFoundationYear, "[1-2][0,1,9][\\d]{2}", "[a-zA-Z]");
     }
 
     private void addListener(TextField txtFieldName, String match, String replace) {
@@ -102,11 +102,11 @@ public class FormDesignerController {
     }
 
     @FXML
-    public void storeDesigner() {
+    public void storePublisher() {
         try{
             String name = txtName.getText();
             String alias = txtAlias.getText();
-            int birthYear = Integer.parseInt(txtBirthYear.getText());
+            int birthYear = Integer.parseInt(txtFoundationYear.getText());
             String nationality = txtNationality.getText();
             Designer newDesigner = new Designer(name, alias, birthYear, nationality);
             if (this.designerToEdit == null){

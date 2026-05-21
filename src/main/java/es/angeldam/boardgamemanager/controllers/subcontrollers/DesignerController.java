@@ -3,7 +3,6 @@ package es.angeldam.boardgamemanager.controllers.subcontrollers;
 import es.angeldam.boardgamemanager.BoardGameManagerApplication;
 import es.angeldam.boardgamemanager.dao.DesignerDAO;
 import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
-import es.angeldam.boardgamemanager.model.BoardGame;
 import es.angeldam.boardgamemanager.model.Designer;
 import es.angeldam.boardgamemanager.utils.Utils;
 import javafx.beans.property.SimpleStringProperty;
@@ -61,7 +60,7 @@ public class DesignerController {
             try {
                 designers = DesignerDAO.findAll();
             } catch (SQLException e) {
-                Utils.alert(Alert.AlertType.ERROR, "ERROR LOADING BOARDGAMES", "There was an error loading board games", e.getMessage());
+                Utils.alert(Alert.AlertType.ERROR, "ERROR LOADING DESIGNERS", "There was an error loading designers", e.getMessage());
             }
         }
         return designers;
@@ -86,11 +85,9 @@ public class DesignerController {
     public void openFormDesigner(Designer designer) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("formDesigner-view.fxml"));
-            //FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("formEntity-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             FormDesignerController controller = fxmlLoader.getController();
-            //FormEntityController controller = fxmlLoader.getController();
-            controller.initialize(designer);
+            controller.start(designer);
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle(designer == null ? "New designer" : "Update designer");
@@ -100,7 +97,6 @@ public class DesignerController {
             loadDesigners();
         } catch (Exception e) {
             Utils.alert(Alert.AlertType.ERROR, "ERROR", "Error loading form", "Designer form couldn't be loaded: " + e.getMessage());
-            System.out.println(Arrays.toString(e.getStackTrace()));
         }
     }
 
@@ -120,24 +116,17 @@ public class DesignerController {
         openFormDesigner(designer);
         loadDesigners();
         designerTable.getSelectionModel().select(designer);
-        /*
-        try {
-            DesignerDAO.updateDesigner(designer, designer);
-        } catch (SQLException e) {
-            Utils.alert(Alert.AlertType.ERROR, "ERROR UPDATING DESIGNER", "An error has occurred while updating designer", e.getMessage());
-        }
-         */
     }
 
     @FXML
     public void removeDesigner() {
         Designer designer = designerTable.getSelectionModel().getSelectedItem();
         if (designer == null) {
-            Utils.alert(Alert.AlertType.ERROR,"ERROR SELECTION", "There isn't a designer selected", "You must select a designer");
+            Utils.alert(Alert.AlertType.ERROR, "ERROR SELECTION", "There isn't a designer selected", "You must select a designer");
             return;
         }
         Optional<ButtonType> answer = Utils.alert(Alert.AlertType.CONFIRMATION, "Confirm Delete", "Confirm Delete on designer", "Are you sure you want to remove: " + designer.getName() + "?");
-        if(answer.isPresent() && answer.get() == ButtonType.OK) {
+        if (answer.isPresent() && answer.get() == ButtonType.OK) {
             try {
                 DesignerDAO.deleteDesignerById(designerTable.getSelectionModel().getSelectedItem().getCode());
                 designerTable.getItems().remove(designer);

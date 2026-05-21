@@ -135,9 +135,9 @@ public class DesignerDAO {
         return added;
     }
 
-    public static boolean updateDesigner(Designer newDesigner, Designer actualDesigner) throws SQLException {
+    public static boolean updateDesigner(Designer actualDesigner, Designer newDesigner) throws SQLException {
         boolean updated = false;
-        if ((actualDesigner != null) && (newDesigner != null) && findByName(actualDesigner.getName()) != null && findByName(newDesigner.getName()) == null) {
+        if ((actualDesigner != null) && (newDesigner != null) && findById(actualDesigner.getCode()) != null ) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
                 ps.setString(1, newDesigner.getName());
                 ps.setString(2, newDesigner.getAlias());

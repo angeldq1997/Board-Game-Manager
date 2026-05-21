@@ -250,11 +250,11 @@ public class FormBoardGameController {
         addListenerObjectVisibility(cmbPublisher2, cmbPublisher3);
 
 
-        addListener(txtMinPlayers, "[\\d]{1,3}", "[^\\d]");
-        addListener(txtMaxPlayers, "\\d{1,3}", "[^\\d]");
-        addListener(txtAvgDuration, "\\d{1,4}", "\\d+");
-        addListener(txtPubYear, "[1-2][0,1,9][\\d]{2}", "[^\\d]");
-        addListener(txtRanking, "\\d{1,3}", "\\d+");
+        addListener(txtMinPlayers, "[\\d]{1-3}", "[^\\d]");
+        addListener(txtMaxPlayers, "\\d{1-3}", "[^\\d]");
+        addListener(txtAvgDuration, "\\d{1-4}", "\\d+");
+        addListener(txtPubYear, "[12][019][\\d]{2}", "[^\\d]");
+        addListener(txtRanking, "\\d{1-3}", "\\d+");
     }
 
     private <T> void addListenerObjectVisibility(ComboBox<T> comboBoxToCheck, ComboBox<T> comboBoxToShow) {

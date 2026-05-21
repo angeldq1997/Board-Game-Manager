@@ -1,8 +1,8 @@
 package es.angeldam.boardgamemanager.controllers.subcontrollers;
 
-import es.angeldam.boardgamemanager.dao.DesignerDAO;
+import es.angeldam.boardgamemanager.dao.IllustratorDAO;
 import es.angeldam.boardgamemanager.model.BoardGame;
-import es.angeldam.boardgamemanager.model.Designer;
+import es.angeldam.boardgamemanager.model.Illustrator;
 import es.angeldam.boardgamemanager.utils.Utils;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -10,9 +10,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.time.Year;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
-public class FormDesignerController {
+public class FormIllustratorController {
 
     @FXML
     public Button btnSave;
@@ -21,48 +23,43 @@ public class FormDesignerController {
     @FXML
     public TextField txtName;
     @FXML
-    public TextField txtAlias;
-    @FXML
     public TextField txtBirthYear;
     @FXML
     public TextField txtNationality;
     @FXML
     public Label formTitleLabel;
 
-    private Designer designerToEdit;
+    private Illustrator illustratorToEdit;
 
     @FXML
-    public void start(Designer designer) {
-        this.designerToEdit = designer;
+    public void start(Illustrator illustrator) {
+        this.illustratorToEdit = illustrator;
         addListeners();
-        prepareText(designer);
+        prepareText(illustrator);
     }
 
     public boolean validData(){
         return !(txtName.getText().isBlank() &&
                 txtNationality.getText().isBlank() &&
-                txtBirthYear.getText().isBlank() &&
-                txtAlias.getText().isBlank());
+                txtBirthYear.getText().isBlank());
     }
 
     private void updateSaveButton() {
         btnSave.setDisable(!validData());
     }
 
-    private void prepareText(Designer designer) {
-        if (designer != null){
-            txtName.setText(designer.getName());
-            txtAlias.setText(designer.getAlias());
-            txtBirthYear.setText(String.valueOf( designer.getBirthYear() ));
-            txtNationality.setText(designer.getNationality());
+    private void prepareText(Illustrator illustrator) {
+        if (illustrator != null){
+            txtName.setText(illustrator.getName());
+            txtBirthYear.setText(String.valueOf( illustrator.getBirthYear() ));
+            txtNationality.setText(illustrator.getNationality());
 
-            formTitleLabel.setText("Update designer");
+            formTitleLabel.setText("Update illustrator");
         }else{
             txtName.setText("");
-            txtAlias.setText("");
             txtBirthYear.setText("");
             txtNationality.setText("");
-            formTitleLabel.setText("Add designer");
+            formTitleLabel.setText("Add illustrator");
         }
     }
 
@@ -102,30 +99,25 @@ public class FormDesignerController {
     }
 
     @FXML
-    public void storeDesigner() {
+    public void storeIllustrator() {
         try{
             String name = txtName.getText();
-            String alias = txtAlias.getText();
             int birthYear = Integer.parseInt(txtBirthYear.getText());
             String nationality = txtNationality.getText();
-            Designer newDesigner = new Designer(name, alias, birthYear, nationality);
-            if (this.designerToEdit == null){
-                if (DesignerDAO.addDesigner(newDesigner)){
-                    Utils.alert(Alert.AlertType.INFORMATION, "DESIGNER ADDED SUCCESSFULLY", "Designer added to the database", "The designer" + newDesigner.getName() + " was added without errors to the database");
+            Illustrator newIllustrator = new Illustrator(name, birthYear, nationality);
+            if (this.illustratorToEdit == null){
+                if (IllustratorDAO.addIllustrator(newIllustrator)){
+                    Utils.alert(Alert.AlertType.INFORMATION, "ILLUSTRATOR ADDED SUCCESSFULLY", "Illustrator added to the database", "The illustrator" + newIllustrator.getName() + " was added without errors to the database");
                     closeWindow();
-                }else{
-                    Utils.alert(Alert.AlertType.ERROR, "ERROR UPDATING DESIGNER", "The designer couldn't be added to database", "The designer "+ newDesigner.getName() +" couldn`t be added");
                 }
             }else {
-                if ( DesignerDAO.updateDesigner(designerToEdit, newDesigner) ){
-                    Utils.alert(Alert.AlertType.INFORMATION, "DESIGNER UPDATED", "The designer was updated to the database", "The designer with name: "+newDesigner.getName()+" was updated to the database");
+                if ( IllustratorDAO.updateIllustrator(illustratorToEdit, newIllustrator) ){
+                    Utils.alert(Alert.AlertType.INFORMATION, "ILLUSTRATOR UPDATED", "The illustrator was updated to the database", "The illustrator with name: "+newIllustrator.getName()+" was updated to the database");
                     closeWindow();
-                }else{
-                    Utils.alert(Alert.AlertType.ERROR, "ERROR UPDATING DESIGNER", "The designer couldn't be uploaded to database", "The designer "+ newDesigner.getName() +" couldn`t be updated");
                 }
             }
         }catch (Exception e){
-            Utils.alert(Alert.AlertType.ERROR,"ERROR", "There was an error while storing designer on database", "Details: " + e.getMessage());
+            Utils.alert(Alert.AlertType.ERROR,"ERROR", "There was an error while storing illustrator on database", "Details: " + e.getMessage());
             System.out.println(Arrays.toString(e.getStackTrace()));
         }
     }

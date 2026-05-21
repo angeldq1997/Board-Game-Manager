@@ -1,34 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<SplitPane xmlns="http://javafx.com/javafx"
-           xmlns:fx="http://javafx.com/fxml"
-           fx:controller="es.angeldam.boardgamemanager.controllers.subcontrollers.IllustratorController"
-           prefHeight="400.0" prefWidth="1100.0"
-           dividerPositions="0.12672978878368535">
+<SplitPane dividerPositions="0.12672978878368535" prefHeight="400.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.angeldam.boardgamemanager.controllers.subcontrollers.IllustratorController">
         <items>
-            <AnchorPane maxWidth="150.0" minHeight="0.0" minWidth="150.0" prefWidth="150.0">
+            <AnchorPane minHeight="-Infinity" minWidth="-Infinity">
                 <children>
                     <Button fx:id="editIllustratorButton" disable="true" layoutX="25.0" layoutY="70.0" mnemonicParsing="false" onAction="#editIllustrator" text="Edit Illustrator" />
                     <Button fx:id="removeIllustratorButton" disable="true" layoutX="14.0" layoutY="116.0" mnemonicParsing="false" onAction="#removeIllustrator" text="Remove Illustrator" />
                     <Button fx:id="addIllustratorButton" layoutX="24.0" layoutY="23.0" mnemonicParsing="false" onAction="#addIllustrator" text="Add Illustrator" />
                 </children>
             </AnchorPane>
-            <ScrollPane prefHeight="200.0" prefWidth="200.0">
+            <ScrollPane minHeight="-Infinity" minWidth="-Infinity">
                 <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0">
+                    <AnchorPane minHeight="-Infinity" minWidth="-Infinity">
                         <children>
                             <TextField fx:id="searchIllustratorField" layoutX="134.0" layoutY="15.0" onAction="#searchIllustrator" />
                             <Label layoutX="14.0" layoutY="19.0" text="Search Illustrator:" />
-                            <TableView fx:id="illustratorTable" layoutX="14.0" layoutY="56.0" prefHeight="280.0" prefWidth="912.0">
+                            <TableView fx:id="illustratorTable" layoutX="14.0" layoutY="56.0" minHeight="-Infinity" minWidth="-Infinity">
                                 <columns>
                                     <TableColumn fx:id="illustratorNameCol" prefWidth="162.3999605178833" text="Name" />
                                     <TableColumn fx:id="illustratorBirthDateCol" prefWidth="161.59999084472656" text="Birth date" />

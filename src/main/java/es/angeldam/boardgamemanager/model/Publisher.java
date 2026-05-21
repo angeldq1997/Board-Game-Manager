@@ -1,10 +1,10 @@
 package es.angeldam.boardgamemanager.model;
 
-import es.angeldam.boardgamemanager.interfaces.Entity;
+import es.angeldam.boardgamemanager.interfaces.StoreBoardGames;
 
 import java.util.List;
 
-public class Publisher implements Entity {
+public class Publisher implements StoreBoardGames {
     private int publisherCode;
     private String name;
     private int foundationYear;
@@ -50,6 +50,16 @@ public class Publisher implements Entity {
 
     public List<BoardGame> getBoardGames() {
         return boardGames;
+    }
+
+    public String listBoardGames() {
+        String list = "";
+        if (this.getBoardGames() != null) {
+            for (BoardGame b : this.getBoardGames()) {
+                list += b.getName() + "  ";
+            }
+        }
+        return list;
     }
 
     @Override

@@ -1,10 +1,8 @@
 package es.angeldam.boardgamemanager.model;
 
-import es.angeldam.boardgamemanager.interfaces.Entity;
-
 import java.util.List;
 
-public class Designer extends Person implements Entity {
+public class Designer extends Person {
     private String alias;
     private String nationality;
 
