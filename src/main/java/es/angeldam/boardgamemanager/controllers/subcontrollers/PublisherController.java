@@ -49,6 +49,7 @@ public class PublisherController {
         return publishers;
     }
 
+
     public void configurePublisherTable(List<Publisher> publishers) {
         publisherTable.setPlaceholder(new Label("There isn't publishers to show"));
 
