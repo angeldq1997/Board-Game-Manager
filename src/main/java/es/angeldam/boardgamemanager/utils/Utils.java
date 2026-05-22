@@ -7,6 +7,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
+/**
+ *
+ */
 public class Utils {
     public static Optional<ButtonType> alert(Alert.AlertType alertType, String title, String header, String content) {
         Alert alert = new Alert(alertType);
