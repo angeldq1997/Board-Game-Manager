@@ -29,7 +29,7 @@
                                     <TableColumn fx:id="illustratorNameCol" prefWidth="162.3999605178833" text="Name" />
                                     <TableColumn fx:id="illustratorBirthDateCol" prefWidth="161.59999084472656" text="Birth date" />
                                     <TableColumn fx:id="illustratorNationalityCol" prefWidth="192.79989624023438" text="Nationality" />
-                                    <TableColumn fx:id="illustratorBoardGameCol" prefWidth="393.0" text="Board games" />
+                                    <TableColumn fx:id="illustratorBoardGameCol" prefWidth="393.0" text="Board matches" />
                                 </columns>
                             </TableView>
                         </children>

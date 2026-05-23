@@ -1,6 +1,7 @@
 package es.angeldam.boardgamemanager.controllers.subcontrollers;
 
 import es.angeldam.boardgamemanager.BoardGameManagerApplication;
+import es.angeldam.boardgamemanager.dao.DesignerDAO;
 import es.angeldam.boardgamemanager.dao.IllustratorDAO;
 import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
 import es.angeldam.boardgamemanager.model.Illustrator;
@@ -112,9 +113,11 @@ public class IllustratorController {
         Optional<ButtonType> answer = Utils.alert(Alert.AlertType.CONFIRMATION, "Confirm Delete", "Confirm Delete on illustrator", "Are you sure you want to remove: " + illustrator.getName() + "?");
         if(answer.isPresent() && answer.get() == ButtonType.OK) {
             try {
-                IllustratorDAO.deleteIllustratorById(illustratorTable.getSelectionModel().getSelectedItem().getCode());
-                illustratorTable.getItems().remove(illustrator);
-                illustratorTable.getSelectionModel().clearSelection();
+                int illustratorCode = illustratorTable.getSelectionModel().getSelectedItem().getCode();
+                if ( IllustratorDAO.deleteIllustratorById(illustratorCode) ){
+                    illustratorTable.getItems().remove(illustrator);
+                    illustratorTable.getSelectionModel().clearSelection();
+                }
             } catch (SQLException e) {
                 Utils.alert(Alert.AlertType.ERROR, "DATABASE ERROR", "Error with database", "The illustrator couldn't be removed: " + e.getMessage());
             }

@@ -117,18 +117,18 @@ public class Publisher implements StoreBoardGames {
     @Override
     public String toString() {
         if (!listBoardGames().trim().isEmpty()){
-            return "Publisher{" +
-                    "publisherCode=" + publisherCode +
-                    ", name=" + name  +
-                    ", foundationYear=" + foundationYear +
-                    ", headquarters=" + headquarters  +
-                    ", boardGames=" + boardGames + this.listBoardGames()  + "}";
+            return "Publisher{ " +
+                    "publisherCode: " + publisherCode +
+                    ", name: " + name  +
+                    ", foundationYear: " + foundationYear +
+                    ", headquarters: " + headquarters  +
+                    ", boardGames: " + boardGames + this.listBoardGames()  + "}";
         }
         return "Publisher{" +
-                "publisherCode=" + publisherCode +
-                ", name=" + name  +
-                ", foundationYear=" + foundationYear +
-                ", headquarters=" + headquarters  +
-                ", boardGames=" + boardGames +  "}";
+                "publisherCode: " + publisherCode +
+                ", name: " + name  +
+                ", foundationYear: " + foundationYear +
+                ", headquarters: " + headquarters  +
+                ", boardGames: " + boardGames +  "}";
     }
 }

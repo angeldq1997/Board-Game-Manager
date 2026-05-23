@@ -1,7 +1,7 @@
 package es.angeldam.boardgamemanager.dao;
 
 import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
-import es.angeldam.boardgamemanager.model.Game;
+import es.angeldam.boardgamemanager.model.Match;
 import es.angeldam.boardgamemanager.model.Player;
 
 import java.sql.PreparedStatement;
@@ -21,7 +21,7 @@ public class PlayerDAO {
         Player player = null;
         HashSet<Player> players = new HashSet<>();
 
-        HashSet<Game> games = new HashSet<>();
+        HashSet<Match> matches = new HashSet<>();
 
         ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL);
         while (rs.next()) {

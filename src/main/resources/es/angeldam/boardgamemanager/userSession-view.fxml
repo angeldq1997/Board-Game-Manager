@@ -21,7 +21,7 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Load board game collection" />
+                        <MenuItem mnemonicParsing="false" text="Load board match collection" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Settings">
@@ -53,10 +53,10 @@
                 <TextField fx:id="userField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <Label alignment="CENTER" contentDisplay="CENTER" text="User:" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                 <Label text="Password:" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                <Button fx:id="logInButton" mnemonicParsing="false" onAction="#logIn" text="Log in" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                <Button fx:id="logInButton" disable="true" mnemonicParsing="false" onAction="#logIn" text="Log in" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
                 <Button fx:id="clearButton" alignment="CENTER" mnemonicParsing="false" onAction="#clear" text="Clear" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
                 <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <Button fx:id="signUpButton" mnemonicParsing="false" onAction="#signUp" text="Sign up" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <Button fx:id="signUpButton" disable="true" mnemonicParsing="false" onAction="#signUp" text="Sign up" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             </children>
             <BorderPane.margin>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

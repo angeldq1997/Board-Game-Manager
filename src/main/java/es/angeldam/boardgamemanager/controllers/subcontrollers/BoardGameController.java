@@ -155,9 +155,11 @@ public class BoardGameController {
         Optional<ButtonType> answer = Utils.alert(Alert.AlertType.CONFIRMATION, "Confirm Delete", "Confirm Delete on board game", "Are you sure you want to remove: " + boardGame.getName() + "?");
         if(answer.isPresent() && answer.get() == ButtonType.OK){
             try {
-                BoardGameDAO.deleteGameById(boardGame.getCode());
-                boardGameTable.getItems().remove(boardGame);
-                boardGameTable.getSelectionModel().clearSelection();
+                int boardGameCode = boardGame.getCode();
+                if (BoardGameDAO.deleteGameById(boardGameCode)){
+                    boardGameTable.getItems().remove(boardGame);
+                    boardGameTable.getSelectionModel().clearSelection();
+                }
             } catch (SQLException e) {
                 Utils.alert(Alert.AlertType.ERROR,"DATABASE ERROR", "Error with database", "The board game couldn't be removed: "+e.getMessage());
             }

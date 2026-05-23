@@ -42,7 +42,7 @@
       <TextField fx:id="txtHeadquarters" promptText="Enter headquarters" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <HBox minHeight="-Infinity" minWidth="-Infinity" GridPane.columnIndex="1" GridPane.rowIndex="3">
             <children>
-                <ComboBox fx:id="cmbBoardGame" minHeight="-Infinity" minWidth="-Infinity" promptText="Select Board game">
+                <ComboBox fx:id="cmbBoardGame" minHeight="-Infinity" minWidth="-Infinity" promptText="Select Board match">
                     <HBox.margin>
                         <Insets right="7.0" />
                     </HBox.margin>

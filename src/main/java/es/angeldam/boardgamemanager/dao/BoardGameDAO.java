@@ -10,9 +10,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that manages the data access of a board game (as an object), this has the objective to do the operations to get the data from the database and bring it to Java.
+ * This makes it usable for the methods and systems that requires it.
+ */
 public class BoardGameDAO {
     private static final String SQL_ALL = "SELECT * FROM boardgame";
 
+    //This line could be useful when the app want to show a board game with the name of the designers, illustrators and publishers
     private static final String SQL_ALL_ONE_LINE = "SELECT DISTINCT bg.*, " +
             "(SELECT group_concat(name) FROM designer), " +
             "(SELECT group_concat(name) FROM illustrator) , " +
@@ -26,7 +31,7 @@ public class BoardGameDAO {
             "(SELECT group_concat(designerCode) FROM make WHERE boardgame.boardGameCode = boardGameCode) designerCodes, " +
             "(SELECT group_concat(illustratorCode) FROM depict WHERE boardgame.boardGameCode = boardGameCode) illustratorCodes, " +
             "(SELECT group_concat(publisherCode) FROM produce WHERE boardgame.boardGameCode = boardGameCode) publisherCodes" +
-            " FROM boardgame; ";
+            " FROM boardgame LIMIT 100; ";
 
     private static final String SQL_PARTIAL = "SELECT * FROM boardgame WHERE ? LIKE ?";
     private static final String SQL_FIND_BY_ID = "SELECT * FROM boardgame WHERE boardGameCode =?";
@@ -36,6 +41,27 @@ public class BoardGameDAO {
             ", averageDuration=?, recommendedAge=?, publicationYear=?, difficulty=?, ranking=?, mechanics = ? WHERE boardGameCode = ?";
     private static final String SQL_DELETE = "DELETE FROM boardgame WHERE boardGameCode = ?";
 
+    /**
+     * Static method that retrieve all board game data from the database except illustrators, publishers or designers of the board game
+     * @return the board game List without illustrators, publishers or designers or NULL if it couldn't find any
+     * @throws SQLException when there is: a problem retrieving data, an error with the query
+     */
+    public static ArrayList<BoardGame> findAll() throws SQLException {
+        ArrayList<BoardGame> boardGames = new ArrayList<>();
+
+        try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
+            while (rs.next()) {
+                boardGames.add(getBoardGameData(rs));
+            }
+        }
+        return boardGames;
+    }
+
+    /**
+     * Static method that groups the board games from the database on a list
+     * @return the list of board games with all the data or NULL if it couldn't find any
+     * @throws SQLException when there is: a problem retrieving data, an error with the query
+     */
     public static List<BoardGame> findAllEager() throws SQLException {
         List<BoardGame> boardGames = new ArrayList<>();
         List<Designer> designers = new ArrayList<>();
@@ -50,7 +76,7 @@ public class BoardGameDAO {
             while (rs.next()) {
                 boardGame = getBoardGameData(rs);
 
-                //After getting all data of BG, we get from the database designers, illustrators and publishers
+                //After getting all data of board games, we get from the database designers, illustrators and publishers
 
                 designerCodes = rs.getString("designerCodes");
                 if ( designerCodes != null ) {
@@ -85,22 +111,18 @@ public class BoardGameDAO {
         return boardGames;
     }
 
-    public static ArrayList<BoardGame> findAll() throws SQLException {
-        ArrayList<BoardGame> boardGames = new ArrayList<>();
-
-        try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
-            while (rs.next()) {
-                boardGames.add(getBoardGameData(rs));
-            }
-        }
-        return boardGames;
-    }
-
-    public static ArrayList<BoardGame> findPartial(String locationToSearch, String textToSearch) throws SQLException{
+    /**
+     * Static method that retrieve only the board games that contains a string on their respective column
+     * @param attributeToSearch the attribute to search in the board game table
+     * @param textToSearch the text to filter the board games
+     * @return the board game List without illustrators, publishers or designers or NULL if it couldn't find any
+     * @throws SQLException when there is: a problem retrieving data, an error with the query
+     */
+    public static ArrayList<BoardGame> findPartial(String attributeToSearch, String textToSearch) throws SQLException{
         ArrayList<BoardGame> boardGames = new ArrayList<>();
 
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_PARTIAL)) {
-            ps.setString(1, locationToSearch);
+            ps.setString(1, attributeToSearch);
             ps.setString(2, "%" + textToSearch + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -110,6 +132,12 @@ public class BoardGameDAO {
         return boardGames;
     }
 
+    /**
+     * Static method that retrieve the board game which code is received by the method
+     * @param boardGameCodeToSearch the board game code, which info will be taken from the database
+     * @return the board game List without illustrator, publisher or designer data or NULL if it couldn't find any
+     * @throws SQLException when there is: a problem retrieving data, an error with the query
+     */
     public static BoardGame findById (int boardGameCodeToSearch) throws SQLException {
         BoardGame boardGame = null;
 
@@ -123,6 +151,12 @@ public class BoardGameDAO {
         return boardGame;
     }
 
+    /**
+     * Static method that adds a board game to the database
+     * @param boardGame the board game with the info to be stored in the database
+     * @return True if the board game was added without a problem or False if there was an exception in the process
+     * @throws SQLException when there is: a problem sending data, an error with the query or a conflict with data types
+     */
     public static boolean addBoardGame(BoardGame boardGame) throws SQLException {
         boolean added = false;
         if ((boardGame != null) && findById(boardGame.getCode()) == null) {
@@ -143,6 +177,13 @@ public class BoardGameDAO {
         return added;
     }
 
+    /**
+     * Static method that updates a board game from the database modifying some of its values
+     * @param actualBoardGame the board game which has the code in the database
+     * @param newBoardGame the board game which data will replace actualboardgame's data
+     * @return True if the board game was updated with the new data or False if there was an error/exception
+     * @throws SQLException when there is: a problem sending new data, an error with the query or a conflict with data types
+     */
     public static boolean updateBoardGame(BoardGame actualBoardGame, BoardGame newBoardGame) throws SQLException {
         boolean updated = false;
         if ((actualBoardGame != null) && (newBoardGame != null) && findById(actualBoardGame.getCode()) != null && findById(newBoardGame.getCode()) == null) {
@@ -164,6 +205,12 @@ public class BoardGameDAO {
         return updated;
     }
 
+    /**
+     * Static method that deletes a board game from the database by its identifier
+     * @param boardGameCode the board game which has the data to be erased from the database
+     * @return True if the board game was deleted or False if the data couldn't be erased
+     * @throws SQLException if the columnLabel is not valid; if a database access error occurs or this method is called on a closed result set
+     */
     public static boolean deleteGameById(int boardGameCode) throws SQLException {
         boolean deleted = false;
         if (findById(boardGameCode) != null) {
@@ -176,7 +223,14 @@ public class BoardGameDAO {
         return deleted;
     }
 
+    /**
+     * Secondary method that is used by several of the principal methods of the class, it sets the data of a board game from a resultset
+     * @param rs resultset of the board games data which want to be transferred to Java
+     * @return the board game with all the relevant info or NULL if it couldn't set its values
+     * @throws SQLException if the columnLabel is not valid; if a database access error occurs or this method is called on a closed result set
+     */
     private static BoardGame getBoardGameData(ResultSet rs) throws SQLException {
+        BoardGame boardGame = null;
         int gameCode = rs.getInt("boardGameCode");
         String name = rs.getString("name");
         int minPlayers = rs.getInt("minPlayers");
@@ -187,6 +241,7 @@ public class BoardGameDAO {
         Difficulty difficulty = Difficulty.valueOf(rs.getString("difficulty"));
         int ranking = rs.getInt("ranking");
         String mechanics = rs.getString("mechanics");
-        return new BoardGame(gameCode, name, minPlayers, maxPlayers, averageDuration, recommendedAge, publicationYear, difficulty, ranking, mechanics);
+        boardGame = new BoardGame(gameCode, name, minPlayers, maxPlayers, averageDuration, recommendedAge, publicationYear, difficulty, ranking, mechanics);
+        return boardGame;
     }
 }

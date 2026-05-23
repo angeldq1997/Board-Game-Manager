@@ -127,9 +127,11 @@ public class DesignerController {
         Optional<ButtonType> answer = Utils.alert(Alert.AlertType.CONFIRMATION, "Confirm Delete", "Confirm Delete on designer", "Are you sure you want to remove: " + designer.getName() + "?");
         if (answer.isPresent() && answer.get() == ButtonType.OK) {
             try {
-                DesignerDAO.deleteDesignerById(designerTable.getSelectionModel().getSelectedItem().getCode());
-                designerTable.getItems().remove(designer);
-                designerTable.getSelectionModel().clearSelection();
+                int designerCode = designerTable.getSelectionModel().getSelectedItem().getCode();
+                if ( DesignerDAO.deleteDesignerById(designerCode) ){
+                    designerTable.getItems().remove(designer);
+                    designerTable.getSelectionModel().clearSelection();
+                }
             } catch (SQLException e) {
                 Utils.alert(Alert.AlertType.ERROR, "DATABASE ERROR", "Error with database", "The designer couldn't be removed: " + e.getMessage());
             }

@@ -333,6 +333,9 @@ public class FormBoardGameController {
             BoardGame newBoardGame = new BoardGame(name, minPlayers, maxPlayers, averageDuration, recommendedAge, publicationYear, difficulty, ranking, mechanics, designers, illustrators, publishers);
             if (this.boardGameToEdit == null){
                 if( BoardGameDAO.addBoardGame(newBoardGame) ){
+                    SecondariesDAO.insertMake(designers, newBoardGame);
+                    SecondariesDAO.insertDepict(illustrators, newBoardGame);
+                    SecondariesDAO.insertProduce(publishers, newBoardGame);
                     Utils.alert(Alert.AlertType.INFORMATION, "BOARD GAME ADDED", "The board game was added to the database", "The board game with name: "+newBoardGame.getName()+" was added to the database");
                     Stage stage = (Stage) formTitleLabel.getScene().getWindow();
                     stage.close();

@@ -8,6 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Class that manages the data access of a user (as an object), this has the objective to do the operations to get the data from the database and bring it to Java.
+ * This makes it usable for the methods and systems that requires it.
+ */
 public class UserDAO {
     private final static String SQL_FIND_BY_ID = "SELECT * FROM user where userCode =?";
     private final static String SQL_FIND_BY_NAME = "SELECT * FROM user where userName =?";
@@ -15,6 +19,13 @@ public class UserDAO {
     private final static String SQL_UPDATE = "UPDATE user SET userName =?, password =?, userType =? WHERE userCode = ?";
     private final static String SQL_DELETE = "DELETE FROM user WHERE userCode = ?";
 
+
+    /**
+     * Static method that retrieve the user which code is received by the method
+     * @param userCodeToSearch the user code, which will be searched on the database
+     * @return the user found with his/her password, type and username or NULL if it couldn't find it
+     * @throws SQLException if the columnLabel is not valid; if a database access error occurs or this method is called on a closed result set
+     */
     public static User findById(int userCodeToSearch) throws SQLException {
         User user = null;
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_ID)) {
@@ -31,6 +42,12 @@ public class UserDAO {
         return user;
     }
 
+    /**
+     * Static method that retrieve the user which name is received by the method
+     * @param userNameToSearch the username, which will be searched on the database
+     * @return the user found with his/her password, type and username or NULL if it couldn't find it
+     * @throws SQLException if the columnLabel is not valid; if a database access error occurs or this method is called on a closed result set
+     */
     public static User findByName(String userNameToSearch) throws SQLException {
         User user = null;
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_NAME)) {
@@ -47,6 +64,12 @@ public class UserDAO {
         return user;
     }
 
+    /**
+     * Static method that send the user data to the database to be stored
+     * @param user the user which data will be stored on the database
+     * @return True if the user was added to the database or False it couldn't be added
+     * @throws SQLException if the columnLabel is not valid; if a database access error occurs or this method is called on a closed result set
+     */
     public static boolean addUser(User user) throws SQLException {
         boolean added = false;
         if ((user != null) && findById(user.getUserCode()) == null) {
@@ -61,7 +84,14 @@ public class UserDAO {
         return added;
     }
 
-    public static boolean updateUser(User newUser, User actualUser) throws SQLException {
+    /**
+     * Static method that send the user data to the database to be stored
+     * @param actualUser the user which data will be replaced on the database
+     * @param newUser the user which data will be put on the database
+     * @return True if the user was updated to the database or False it couldn't be updated
+     * @throws SQLException if the columnLabel is not valid; if a database access error occurs or this method is called on a closed result set
+     */
+    public static boolean updateUser(User actualUser, User newUser) throws SQLException {
         boolean updated = false;
         if ((actualUser != null) && (newUser != null) && findById(actualUser.getUserCode()) != null && findById(newUser.getUserCode()) == null) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
@@ -76,11 +106,17 @@ public class UserDAO {
         return updated;
     }
 
-    public static boolean deleteUserById(int authorCodeToSearch) throws SQLException {
+    /**
+     * Static method that send the user data to the database to be erased
+     * @param userCodeToSearch the user code for identifying the user
+     * @return True if the user was erased from the database or False it couldn't be erased
+     * @throws SQLException if the columnLabel is not valid; if a database access error occurs or this method is called on a closed result set
+     */
+    public static boolean deleteUserById(int userCodeToSearch) throws SQLException {
         boolean deleted = false;
-        if (findById(authorCodeToSearch) != null) {
+        if (findById(userCodeToSearch) != null) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_DELETE)) {
-                ps.setInt(1, authorCodeToSearch);
+                ps.setInt(1, userCodeToSearch);
                 ps.executeUpdate();
                 deleted = true;
             }

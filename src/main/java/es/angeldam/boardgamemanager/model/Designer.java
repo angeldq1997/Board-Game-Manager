@@ -16,7 +16,7 @@ public class Designer extends Person {
      * @param alias alias of the designer or short form to refer to him/her
      * @param birthYear the year of birth of the designer
      * @param nationality the nationality of the designer (Spanish, Russian, German, etc.)
-     * @param boardGames the board games which the designer depicted, made the art and others collaborations that implied his/her work
+     * @param boardGames the board games which the designer made with the balance, mechanics and game loops
      */
     public Designer(int code, String name, String alias, int birthYear, String nationality, List<BoardGame> boardGames) {
         super(code, name, birthYear, boardGames);
@@ -88,13 +88,13 @@ public class Designer extends Person {
     @Override
     public String toString() {
         if (!listBoardGames().trim().isBlank()){
-            return "Designer{"  + super.toString() +
-                    "\n alias:" + alias +
-                    ", nationality:" + nationality + listBoardGames() + "}";
+            return "Designer{ "  + super.toString() +
+                    ", alias: " + alias +
+                    ", nationality: " + nationality + listBoardGames() + "}";
         }else{
-            return "Designer{"  + super.toString() +
-                    "\n alias:" + alias +
-                    ", nationality:" + nationality;
+            return "Designer{ "  + super.toString() +
+                    ", alias: " + alias +
+                    ", nationality: " + nationality;
         }
     }
 }

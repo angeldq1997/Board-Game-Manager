@@ -1,19 +1,16 @@
 package es.angeldam.boardgamemanager.controllers;
 
-import es.angeldam.boardgamemanager.controllers.subcontrollers.BoardGameController;
-import es.angeldam.boardgamemanager.controllers.subcontrollers.DesignerController;
-import es.angeldam.boardgamemanager.controllers.subcontrollers.IllustratorController;
-import es.angeldam.boardgamemanager.controllers.subcontrollers.PublisherController;
-import es.angeldam.boardgamemanager.model.Publisher;
+
 import es.angeldam.boardgamemanager.model.User;
 import es.angeldam.boardgamemanager.utils.UserType;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 
+/**
+ * Principal controller of the app, it initializes when the principal window of the program is opened
+ */
 public class PrincipalController {
-    //TAB PANE
     @FXML public TabPane tabPane;
     @FXML public Tab illustratorTab;
     @FXML public Tab publisherTab;
@@ -22,6 +19,9 @@ public class PrincipalController {
     @FXML public Tab playerTab;
     @FXML public Tab designerTab;
 
+    /**
+     * Method that will initiate by default when the view is called, it hides the tabs to the normal user
+     */
     @FXML
     public void initialize() {
         if ( User.getInstance().getUserType() == UserType.USER ){

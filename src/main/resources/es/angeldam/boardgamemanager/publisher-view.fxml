@@ -29,7 +29,7 @@
                                     <TableColumn fx:id="pubNameCol" prefWidth="249.0" text="Name" />
                                     <TableColumn fx:id="pubFoundationYearCol" prefWidth="120.0" text="Foundation Year" />
                                     <TableColumn fx:id="pubHeadquartersCol" prefWidth="327.0" text="HeadQuarters" />
-                                    <TableColumn fx:id="pubNumberBGCol" prefWidth="215.0" text="Number of board games published" />
+                                    <TableColumn fx:id="pubNumberBGCol" prefWidth="215.0" text="Number of board matches published" />
                                 </columns>
                             </TableView>
                         </children>

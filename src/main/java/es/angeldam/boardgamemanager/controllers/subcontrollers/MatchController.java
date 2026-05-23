@@ -6,7 +6,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
-public class GameController {
+public class MatchController {
     public Button editGameButton;
     public Button removeGameButton;
     public Button addGameButton;

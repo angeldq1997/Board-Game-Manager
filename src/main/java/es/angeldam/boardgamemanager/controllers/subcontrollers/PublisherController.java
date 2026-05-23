@@ -110,9 +110,11 @@ public class PublisherController {
         Optional<ButtonType> answer = Utils.alert(Alert.AlertType.CONFIRMATION, "Confirm Delete", "Confirm Delete on publisher", "Are you sure you want to remove: " + publisher.getName() + "?");
         if (answer.isPresent() && answer.get() == ButtonType.OK) {
             try {
-                PublisherDAO.deletePublisherById(publisherTable.getSelectionModel().getSelectedItem().getCode());
-                publisherTable.getItems().remove(publisher);
-                publisherTable.getSelectionModel().clearSelection();
+                int publisherCode = publisherTable.getSelectionModel().getSelectedItem().getCode();
+                if ( PublisherDAO.deletePublisherById(publisherCode) ){
+                    publisherTable.getItems().remove(publisher);
+                    publisherTable.getSelectionModel().clearSelection();
+                }
             } catch (SQLException e) {
                 Utils.alert(Alert.AlertType.ERROR, "DATABASE ERROR", "Error with database", "The publisher couldn't be removed: " + e.getMessage());
             }

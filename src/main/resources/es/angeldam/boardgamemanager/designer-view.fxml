@@ -29,7 +29,7 @@
                             <TableColumn fx:id="dAliasCol" prefWidth="120.0" text="Alias" />
                             <TableColumn fx:id="dBirthYearCol" prefWidth="117.0" text="Birth year" />
                             <TableColumn fx:id="dNationalityCol" prefWidth="101.0" text="Nationality" />
-                            <TableColumn fx:id="dBGCol" prefWidth="471.0" text="Board games" />
+                            <TableColumn fx:id="dBGCol" prefWidth="471.0" text="Board matches" />
                         </columns>
                     </TableView>
                 </children>

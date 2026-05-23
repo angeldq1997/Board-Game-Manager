@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 
-public class Game {
+public class Match {
     private int code;
     private String place;
     private Timestamp date;
@@ -12,15 +12,7 @@ public class Game {
     private ArrayList<Player> players;
     private ArrayList<Player> winners;
 
-    public Game(String place, Timestamp date, BoardGame boardGame,ArrayList<Player> players) {
-        this.place = place;
-        this.date = date;
-        this.boardGame = boardGame;
-        this.players = players;
-        this.winners = new ArrayList<>();
-    }
-
-    public Game(int code, String place, Timestamp date, ArrayList<Player> players, BoardGame boardGame) {
+    public Match(int code, String place, Timestamp date, ArrayList<Player> players, BoardGame boardGame) {
         this.code = code;
         this.place = place;
         this.date = date;
@@ -28,6 +20,16 @@ public class Game {
         this.winners = new ArrayList<>();
         this.boardGame = boardGame;
     }
+
+    public Match(String place, Timestamp date, BoardGame boardGame, ArrayList<Player> players) {
+        this.place = place;
+        this.date = date;
+        this.boardGame = boardGame;
+        this.players = players;
+        this.winners = new ArrayList<>();
+    }
+
+
 
     public int getCode() {
         return code;
@@ -55,7 +57,7 @@ public class Game {
 
     @Override
     public String toString() {
-        return "Game:\n" +
+        return "Match:\n" +
                 "code:" + code +
                 ", place:" + place +
                 ", date:" + date +

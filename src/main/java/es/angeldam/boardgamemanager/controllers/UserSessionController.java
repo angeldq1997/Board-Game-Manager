@@ -6,7 +6,6 @@ import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
 import es.angeldam.boardgamemanager.model.User;
 import es.angeldam.boardgamemanager.utils.UserType;
 import es.angeldam.boardgamemanager.utils.Utils;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,6 +19,9 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
+/**
+ * Controller of user session that manages the login, log out, sign in
+ */
 public class UserSessionController {
     @FXML public Button logInButton;
     @FXML public PasswordField passwordField;
@@ -27,13 +29,22 @@ public class UserSessionController {
     @FXML public Button signUpButton;
     @FXML public Button clearButton;
 
+
+    /**
+     * Method that initialize the controller loading the database
+     */
     @FXML
     public void initialize(){
         loadDB();
+        addListeners();
     }
 
+    /**
+     * Method that manages the login of the user checking the username, password and initializing the principal view of the app
+     * @throws IOException if an error occurs during loading the view
+     */
     @FXML
-    public void logIn(ActionEvent actionEvent) throws IOException {
+    public void logIn() throws IOException {
         User user = null;
         User aux = null;
         if (this.userField.getText().isEmpty() || this.passwordField.getText().isEmpty()) {
@@ -65,8 +76,11 @@ public class UserSessionController {
         }
     }
 
+    /**
+     * Method that manages the signup of the user with his/her password and username (taken from the text fields) storing the new user into the database
+     */
     @FXML
-    public void signUp(ActionEvent actionEvent) {
+    public void signUp( ) {
         User user = null;
         try {
             user = new User(userField.getText(), Utils.sha256(passwordField.getText()), UserType.USER);
@@ -81,13 +95,59 @@ public class UserSessionController {
         }
     }
 
+    /**
+     * Method that uses the connection database singleton to load the connection properties and URL
+     */
     public void loadDB() {
         if (ConnectionBD.getConnection() == null) {
             Utils.alert(Alert.AlertType.ERROR, "ERROR CONNECTING DATABASE", "An error has occurred while connecting database", "Contact the administrator to solve the error");
         }
     }
 
-    public void clear(ActionEvent actionEvent) {
+    /**
+     * Method that add listeners to the text fields username and password to constrain to the desired restrictions such as size
+     */
+    private void addListeners(){
+        addListenerLimitedSize(userField, 30);
+        addListenerLimitedSize(passwordField, 30);
+        userField.textProperty().addListener((observable, oldValue, newValue) -> updateButtons());
+        passwordField.textProperty().addListener((observable, oldValue, newValue) -> updateButtons());
+    }
+
+    /**
+     * Method that add a listener to a text field with a max number of characters
+     * @param textField the concrete text field whose listener will be put
+     * @param max max number of characters that will be allowed to the text field
+     */
+    private void addListenerLimitedSize(TextField textField, int max) {
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > max) {
+                String copy = newValue.substring(0, max);
+                textField.setText(copy);
+            }
+        });
+    }
+
+    /**
+     * Method that update the buttons login and signup to enable them when the text fields are valid
+     */
+    private void updateButtons(){
+        logInButton.setDisable(!validTxtFields());
+        signUpButton.setDisable(!validTxtFields());
+    }
+
+    /**
+     * Method that verify if the text fields username and password are empty or not
+     * @return True when both are filled up and False when both are empty
+     */
+    private boolean validTxtFields(){
+        return !(passwordField.getText().isEmpty() && userField.getText().isEmpty());
+    }
+
+    /**
+     * Method that clears the txt fields
+     */
+    public void clear( ) {
         passwordField.clear();
         userField.clear();
     }
