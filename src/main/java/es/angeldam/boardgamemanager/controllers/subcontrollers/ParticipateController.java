@@ -2,9 +2,12 @@ package es.angeldam.boardgamemanager.controllers.subcontrollers;
 
 import es.angeldam.boardgamemanager.BoardGameManagerApplication;
 import es.angeldam.boardgamemanager.dao.MatchDAO;
+import es.angeldam.boardgamemanager.dao.ParticipateDAO;
 import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
 import es.angeldam.boardgamemanager.model.Match;
+import es.angeldam.boardgamemanager.model.Participation;
 import es.angeldam.boardgamemanager.utils.Utils;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,11 +19,19 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class MatchController {
+public class ParticipateController {
+    @FXML
+    public Button addMatchButton;
+    @FXML
+    public Button removeMatchButton;
+    @FXML
+    public Button editMatchButton;
+    @FXML
+    public TextField searchMatchField;
     @FXML
     public TableView<Match> matchTable;
     @FXML
@@ -30,19 +41,20 @@ public class MatchController {
     @FXML
     public TableColumn<Match, String> matchPlaceCol;
     @FXML
-    public TableColumn<Match, Timestamp> matchDateCol;
+    public TableColumn<Match, String> matchDateCol;
+
     @FXML
-    public Button addMatchButton;
+    public TableView<Participation> participateTable;
     @FXML
-    public Button editMatchButton;
+    public TableColumn<Participation, String> playerCol;
     @FXML
-    public Button removeMatchButton;
-    @FXML
-    public TextField searchMatchField;
+    public TableColumn<Participation, Integer> scoreCol;
+
 
     @FXML
     public void initialize() {
         configureMatchTable(loadMatches());
+        configureParticipationTable(loadParticipations());
     }
 
     public List<Match> loadMatches() {
@@ -87,6 +99,7 @@ public class MatchController {
             stage.setResizable(false);
             stage.showAndWait();
             loadMatches();
+            loadParticipations();
         } catch (Exception e) {
             Utils.alert(Alert.AlertType.ERROR, "ERROR", "Error loading form", "Match form couldn't be loaded: " + e.getMessage());
         }
@@ -95,6 +108,7 @@ public class MatchController {
     public void addMatch( ) {
         openFormMatch(null);
         loadMatches();
+        loadParticipations();
     }
 
     public void editMatch( ) {
@@ -104,7 +118,7 @@ public class MatchController {
             return;
         }
         openFormMatch(match);
-        loadMatches();
+        loadParticipations();
         matchTable.getSelectionModel().select(match);
     }
 

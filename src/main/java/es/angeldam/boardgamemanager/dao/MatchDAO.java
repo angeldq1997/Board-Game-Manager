@@ -14,27 +14,28 @@ import java.util.List;
  * TO AVOID CONFUSION WITH BOARD GAME IT'S BETTER TO USE MATCH INSTEAD OF "GAME"
  */
 public class MatchDAO {
-    private final static String SQL_ALL = "SELECT * FROM match";
-    private final static String SQL_FIND_BY_ID = "SELECT * FROM match where matchCode =?";
+    private final static String SQL_ALL = "SELECT * FROM matches";
+    private final static String SQL_FIND_BY_ID = "SELECT * FROM matches where matchCode =?";
     private final static String SQL_FIND_BY_BOARD_MATCH_CODE = "SELECT * FROM game where boardGameCode =?";
-    private final static String SQL_INSERT = "INSERT INTO match (place, matchDate, boardGameCode) VALUES (?,?,?)";
-    private final static String SQL_UPDATE = "UPDATE match SET name =?, alias =?, birthDate =?, nationality =? WHERE matchCode = ?";
-    private final static String SQL_DELETE = "DELETE FROM match WHERE matchCode = ?";
+    private final static String SQL_INSERT = "INSERT INTO matches (place, matchDate, boardGameCode) VALUES (?,?,?)";
+    private final static String SQL_UPDATE = "UPDATE matches SET place =?, matchDate =?, boardGameCode =? WHERE matchCode = ?";
+    private final static String SQL_DELETE = "DELETE FROM matches WHERE matchCode = ?";
 
     public static List<Match> findAll() throws SQLException {
         Match match = null;
         BoardGame boardGame = null;
         List<Match> matches = new ArrayList<>();
 
-        ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL);
-        while (rs.next()) {
-            int matchCode = rs.getInt("matchCode");
-            String place = rs.getString("place");
-            Timestamp matchDate = rs.getTimestamp("matchDate");
-            int boardGameCode = rs.getInt("boardGameCode");
-            boardGame = BoardGameDAO.findById(boardGameCode);
-            match = new Match(matchCode, place, matchDate, boardGame);
-            matches.add(match);
+        try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
+            while (rs.next()) {
+                int matchCode = rs.getInt("matchCode");
+                String place = rs.getString("place");
+                Timestamp matchDate = rs.getTimestamp("matchDate");
+                int boardGameCode = rs.getInt("boardGameCode");
+                boardGame = BoardGameDAO.findById(boardGameCode);
+                match = new Match(matchCode, place, matchDate, boardGame);
+                matches.add(match);
+            }
         }
         return matches;
     }
