@@ -4,8 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<BorderPane prefHeight="600.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="es.angeldam.boardgamemanager.controllers.subcontrollers.BoardGameController">
     <center>
         <ScrollPane BorderPane.alignment="TOP_CENTER">

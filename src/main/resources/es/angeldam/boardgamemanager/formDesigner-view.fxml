@@ -49,7 +49,7 @@
         <HBox minHeight="-Infinity" minWidth="-Infinity" GridPane.columnIndex="1" GridPane.rowIndex="4">
             <children>
                 <ComboBox fx:id="cmbBoardGame" minHeight="-Infinity" minWidth="-Infinity"
-                          promptText="Select Board match">
+                          promptText="Select Board game">
                     <HBox.margin>
                         <Insets right="7.0"/>
                     </HBox.margin>

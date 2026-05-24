@@ -3,41 +3,43 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 
-<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1100.0" prefHeight="700.0" prefWidth="1100.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.angeldam.boardgamemanager.controllers.PrincipalController">
+<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1100.0"
+         prefHeight="700.0" prefWidth="1100.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml" fx:controller="es.angeldam.boardgamemanager.controllers.PrincipalController">
     <tabs>
         <Tab fx:id="boardGameTab" closable="false" text="Board Game">
             <content>
-                <fx:include source="boardGame-view.fxml" />
+                <fx:include source="boardGame-view.fxml"/>
             </content>
         </Tab>
         <Tab fx:id="designerTab" closable="false" text="Designer">
             <content>
-                <fx:include source="designer-view.fxml" />
+                <fx:include source="designer-view.fxml"/>
             </content>
         </Tab>
         <Tab fx:id="illustratorTab" text="Illustrator">
             <content>
-                <fx:include source="illustrator-view.fxml" />
+                <fx:include source="illustrator-view.fxml"/>
             </content>
         </Tab>
         <Tab fx:id="publisherTab" closable="false" text="Publisher">
             <content>
-                <fx:include source="publisher-view.fxml" />
+                <fx:include source="publisher-view.fxml"/>
             </content>
         </Tab>
         <Tab fx:id="playerTab" closable="false" text="Player">
             <content>
-                <fx:include source="player-view.fxml" />
+                <fx:include source="player-view.fxml"/>
             </content>
         </Tab>
         <Tab fx:id="gameTab" closable="false" text="Match only">
             <content>
-                <fx:include source="match-View.fxml" />
+                <fx:include source="match-View.fxml"/>
             </content>
         </Tab>
         <Tab fx:id="participateTab" closable="false" text="Match in detail">
             <content>
-                <fx:include source="participate-view.fxml" />
+                <fx:include source="participate-view.fxml"/>
             </content>
         </Tab>
     </tabs>
