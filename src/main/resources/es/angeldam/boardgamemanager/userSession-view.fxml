@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="300.0" maxWidth="300.0" minHeight="300.0" minWidth="300.0" prefHeight="300.0" prefWidth="300.0"
+<BorderPane maxHeight="336.0" maxWidth="301.0" minHeight="300.0" minWidth="300.0" prefHeight="336.0" prefWidth="301.0"
             xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="es.angeldam.boardgamemanager.controllers.UserSessionController">
     <top>
@@ -23,17 +23,12 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Load board match collection"/>
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Settings">
-                    <items>
-                        <MenuItem mnemonicParsing="false"/>
+                        <MenuItem mnemonicParsing="false" text="Load database"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="About"/>
+                        <MenuItem mnemonicParsing="false" onAction="#about" text="About"/>
                     </items>
                 </Menu>
             </menus>
@@ -42,15 +37,15 @@
     <center>
         <GridPane BorderPane.alignment="CENTER">
             <columnConstraints>
-                <ColumnConstraints hgrow="NEVER" maxWidth="62.0" minWidth="58.0" prefWidth="61.0"/>
-                <ColumnConstraints hgrow="NEVER" maxWidth="144.0" minWidth="140.0" prefWidth="141.0"/>
+                <ColumnConstraints hgrow="NEVER" minWidth="70.0"/>
+                <ColumnConstraints hgrow="NEVER"/>
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints vgrow="NEVER"/>
                 <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="NEVER"/>
                 <RowConstraints minHeight="30.0" vgrow="NEVER"/>
                 <RowConstraints vgrow="NEVER"/>
-                <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="NEVER"/>
+                <RowConstraints vgrow="NEVER"/>
             </rowConstraints>
             <children>
                 <TextField fx:id="userField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>

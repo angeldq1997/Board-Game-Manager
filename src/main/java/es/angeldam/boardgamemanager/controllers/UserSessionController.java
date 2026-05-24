@@ -31,7 +31,7 @@ public class UserSessionController {
     @FXML public Button clearButton;
     @FXML public Button logOutButton;
 
-
+    private Stage stage;
     /**
      * Method that initialize the controller loading the database
      */
@@ -63,18 +63,18 @@ public class UserSessionController {
                 if (user != null && !user.getPassword().equals(Utils.sha256(passwordField.getText().trim()))) {
                     Utils.alert(Alert.AlertType.ERROR, "ERROR PASSWORD", "The password doesn't match", "the password written on field doesn't correlate to the user password.");
                 } else {
-                    Stage changedStage = new Stage();
+                    this.stage = new Stage();
                     FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("principal-view.fxml"));
                     Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
-                    changedStage.setScene(scene);
-                    changedStage.setTitle("Board Game Manager");
+                    this.stage.setScene(scene);
+                    this.stage.setTitle("Board Game Manager");
                     signUpButton.setVisible(false);
                     signUpButton.setDisable(true);
                     logInButton.setVisible(false);
                     logInButton.setDisable(true);
                     logOutButton.setVisible(true);
-                    changedStage.showAndWait();
-
+                    this.stage.showAndWait();
+                    clear();
                 }
             } catch (SQLException e) {
                 Utils.alert(Alert.AlertType.ERROR, "ERROR USER", "User not found: There aren't users with the user name written", e.getMessage());
@@ -155,11 +155,16 @@ public class UserSessionController {
     /**
      * Method that clears the txt fields
      */
+    @FXML
     public void clear( ) {
         passwordField.clear();
         userField.clear();
     }
 
+    /**
+     * Method that logs out the current session
+     */
+    @FXML
     public void logOut( ) {
         User.redefineInstance(null, null, UserType.USER);
         signUpButton.setVisible(true);
@@ -167,5 +172,14 @@ public class UserSessionController {
         logInButton.setVisible(true);
         logInButton.setDisable(false);
         logOutButton.setVisible(false);
+        this.stage.close();
+    }
+
+    /**
+     * Method that shows info about the program
+     */
+    @FXML
+    public void about( ) {
+            Utils.alert(Alert.AlertType.INFORMATION,"About this app", "Board Game Manager - CRUD board games", "Author: Angel\nVersión: 0.5\nTechnologies: JavaFX + JDBC");
     }
 }
