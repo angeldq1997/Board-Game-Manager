@@ -485,7 +485,7 @@ public class FormBoardGameController {
     }
 
     /**
-     * Method that removes the publishers of an arraylist if theis code is 0
+     * Method that removes the publishers of an arraylist if their code is 0
      * @param publisherList list of publishers to verify
      */
     private void verifyCodeP(List<Publisher> publisherList){

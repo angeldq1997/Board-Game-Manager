@@ -60,7 +60,7 @@ public class MatchController {
         matchTable.setPlaceholder(new Label("There isn't matches to show"));
 
         matchCodeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
-        matchCodeCol.setCellValueFactory(new PropertyValueFactory<>("boardGame"));
+        matchBoardGameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBoardGame().getName()));
 
         matchPlaceCol.setCellValueFactory(new PropertyValueFactory<>("place"));
         matchDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));

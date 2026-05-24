@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0"
+<BorderPane maxHeight="300.0" maxWidth="300.0" minHeight="300.0" minWidth="300.0" prefHeight="300.0" prefWidth="300.0"
             xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="es.angeldam.boardgamemanager.controllers.UserSessionController">
     <top>
@@ -49,6 +49,7 @@
                 <RowConstraints vgrow="NEVER"/>
                 <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="NEVER"/>
                 <RowConstraints minHeight="30.0" vgrow="NEVER"/>
+                <RowConstraints vgrow="NEVER"/>
                 <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="NEVER"/>
             </rowConstraints>
             <children>
@@ -57,13 +58,16 @@
                        GridPane.rowIndex="1"/>
                 <Label text="Password:" GridPane.halignment="CENTER" GridPane.rowIndex="2"/>
                 <Button fx:id="logInButton" disable="true" mnemonicParsing="false" onAction="#logIn" text="Log in"
-                        GridPane.halignment="CENTER" GridPane.rowIndex="3"/>
+                        GridPane.halignment="CENTER" GridPane.rowIndex="4"/>
                 <Button fx:id="clearButton" alignment="CENTER" mnemonicParsing="false" onAction="#clear" text="Clear"
                         textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="RIGHT"
-                        GridPane.rowIndex="3"/>
+                        GridPane.rowIndex="4"/>
                 <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
                 <Button fx:id="signUpButton" disable="true" mnemonicParsing="false" onAction="#signUp" text="Sign up"
-                        GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                        GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                <Button fx:id="logOutButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
+                        onAction="#logOut" text="LOG OUT" visible="false" GridPane.columnIndex="1"
+                        GridPane.rowIndex="3"/>
             </children>
             <BorderPane.margin>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>

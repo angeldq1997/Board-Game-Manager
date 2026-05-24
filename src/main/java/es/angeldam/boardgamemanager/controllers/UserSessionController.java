@@ -6,6 +6,7 @@ import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
 import es.angeldam.boardgamemanager.model.User;
 import es.angeldam.boardgamemanager.utils.UserType;
 import es.angeldam.boardgamemanager.utils.Utils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -28,6 +29,7 @@ public class UserSessionController {
     @FXML public TextField userField;
     @FXML public Button signUpButton;
     @FXML public Button clearButton;
+    @FXML public Button logOutButton;
 
 
     /**
@@ -66,7 +68,13 @@ public class UserSessionController {
                     Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
                     changedStage.setScene(scene);
                     changedStage.setTitle("Board Game Manager");
-                    changedStage.show();
+                    signUpButton.setVisible(false);
+                    signUpButton.setDisable(true);
+                    logInButton.setVisible(false);
+                    logInButton.setDisable(true);
+                    logOutButton.setVisible(true);
+                    changedStage.showAndWait();
+
                 }
             } catch (SQLException e) {
                 Utils.alert(Alert.AlertType.ERROR, "ERROR USER", "User not found: There aren't users with the user name written", e.getMessage());
@@ -150,5 +158,14 @@ public class UserSessionController {
     public void clear( ) {
         passwordField.clear();
         userField.clear();
+    }
+
+    public void logOut( ) {
+        User.redefineInstance(null, null, UserType.USER);
+        signUpButton.setVisible(true);
+        signUpButton.setDisable(false);
+        logInButton.setVisible(true);
+        logInButton.setDisable(false);
+        logOutButton.setVisible(false);
     }
 }
