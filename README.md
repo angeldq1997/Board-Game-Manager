@@ -32,6 +32,9 @@ Ejemplo:
 </connection>
 ```
 
+# Sin uso de IA
+
+Proyecto completo realizado sin utilizar ningún sistema de LLM para un mayor aprendizaje y reconocimiento de programación, esto provoca un poco más de lentitud en algunas de las tareas, sin embargo también ayuda a conocer mejor el código.
 
 ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -67,3 +70,7 @@ Example:
     <password>root</password>
 </connection>
 ```
+
+# NO AI use, 100% human-made
+
+The project was made without using any LLMs, which can make a little harder some works, specifically the repetive ones, but I prefer to not use it, one of the reasons to do so it's to a better understanding on the code and all its methods.
