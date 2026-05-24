@@ -1,11 +1,13 @@
 package es.angeldam.boardgamemanager.model;
 
+import es.angeldam.boardgamemanager.interfaces.StoreBoardGames;
+
 import java.util.List;
 
 /**
  * Class that stores the information that has a designer of a board game in the app, it extends from person
  */
-public class Designer extends Person {
+public class Designer extends Person implements StoreBoardGames {
     private String alias;
     private String nationality;
 

@@ -98,7 +98,7 @@ public class Publisher implements StoreBoardGames {
 
     /**
      * Method that appends the list of names the board games
-     * @return
+     * @return the list of board games on a string
      */
     public String listBoardGames() {
         String list = "";
