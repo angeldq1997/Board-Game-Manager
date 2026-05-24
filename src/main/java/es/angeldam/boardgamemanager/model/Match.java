@@ -1,7 +1,6 @@
 package es.angeldam.boardgamemanager.model;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
 
 public class Match {
@@ -9,27 +8,19 @@ public class Match {
     private String place;
     private Timestamp date;
     private BoardGame boardGame;
-    private ArrayList<Player> players;
-    private ArrayList<Player> winners;
 
-    public Match(int code, String place, Timestamp date, ArrayList<Player> players, BoardGame boardGame) {
+    public Match(int code, String place, Timestamp date, BoardGame boardGame) {
         this.code = code;
         this.place = place;
         this.date = date;
-        this.players = players;
-        this.winners = new ArrayList<>();
         this.boardGame = boardGame;
     }
 
-    public Match(String place, Timestamp date, BoardGame boardGame, ArrayList<Player> players) {
+    public Match(String place, Timestamp date, BoardGame boardGame) {
         this.place = place;
         this.date = date;
         this.boardGame = boardGame;
-        this.players = players;
-        this.winners = new ArrayList<>();
     }
-
-
 
     public int getCode() {
         return code;
@@ -47,13 +38,6 @@ public class Match {
         return boardGame;
     }
 
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
-
-    public ArrayList<Player> getWinners() {
-        return winners;
-    }
 
     @Override
     public String toString() {
@@ -61,8 +45,6 @@ public class Match {
                 "code:" + code +
                 ", place:" + place +
                 ", date:" + date +
-                ", boardGame: " + boardGame +
-                ", players:" + players +
-                ", winners:" + winners;
+                ", boardGame: " + boardGame;
     }
 }

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 
 <TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1100.0"
          prefHeight="700.0" prefWidth="1100.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx"
-         xmlns:fx="http://javafx.com/fxml" fx:controller="es.angeldam.boardgamemanager.controllers.PrincipalController">
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="es.angeldam.boardgamemanager.controllers.PrincipalController">
     <tabs>
         <Tab fx:id="boardGameTab" closable="false" text="Board Game">
             <content>
@@ -27,7 +28,7 @@
                 <fx:include source="publisher-view.fxml"/>
             </content>
         </Tab>
-        <Tab fx:id="gameTab" closable="false" text="Game">
+        <Tab fx:id="gameTab" closable="false" text="Matches">
             <content>
                 <fx:include source="match-View.fxml"/>
             </content>
@@ -35,6 +36,11 @@
         <Tab fx:id="playerTab" closable="false" text="Player">
             <content>
                 <fx:include source="player-view.fxml"/>
+            </content>
+        </Tab>
+        <Tab fx:id="participateTab" closable="false" text="Participation">
+            <content>
+                <fx:include source="match-View.fxml"/>
             </content>
         </Tab>
     </tabs>

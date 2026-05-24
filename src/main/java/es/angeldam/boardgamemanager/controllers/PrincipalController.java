@@ -18,6 +18,7 @@ public class PrincipalController {
     @FXML public Tab gameTab;
     @FXML public Tab playerTab;
     @FXML public Tab designerTab;
+    @FXML public Tab participateTab;
 
     /**
      * Method that will initiate by default when the view is called, it hides the tabs to the normal user

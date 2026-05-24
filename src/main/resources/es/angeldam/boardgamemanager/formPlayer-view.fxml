@@ -3,7 +3,6 @@
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -14,13 +13,13 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10"
       styleClass="panel-box" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="es.angeldam.boardgamemanager.controllers.subcontrollers.FormPublisherController">
+      fx:controller="es.angeldam.boardgamemanager.controllers.subcontrollers.FormPlayerController">
 
     <padding>
         <Insets bottom="15" left="15" right="15" top="15"/>
     </padding>
 
-    <Label fx:id="formTitleLabel" text="New Publisher:">
+    <Label fx:id="formTitleLabel" text="New Player:">
         <styleClass>
             <String fx:value="section-title"/>
             <String fx:value="h3"/>
@@ -33,35 +32,13 @@
             <ColumnConstraints hgrow="ALWAYS"/>
         </columnConstraints>
 
-        <Label styleClass="field-label" text="Name:"/>
+        <Label styleClass="field-label" text="Name:" GridPane.rowIndex="0"/>
+        <Label styleClass="field-label" text="Birth year:" GridPane.rowIndex="1"/>
 
-        <Label styleClass="field-label" text="Foundation year:" GridPane.rowIndex="1"/>
-        <Label styleClass="field-label" text="Headquarters:" GridPane.rowIndex="2"/>
-        <Label styleClass="field-label" text="Board Game:" GridPane.rowIndex="3"/>
-
-        <TextField fx:id="txtName" promptText="Enter a name" GridPane.columnIndex="1"/>
-        <TextField fx:id="txtFoundationYear" promptText="Enter year of foundation" GridPane.columnIndex="1"
+        <TextField fx:id="txtName" promptText="Enter a name" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <TextField fx:id="txtBirthYear" promptText="Enter year of birth" GridPane.columnIndex="1"
                    GridPane.rowIndex="1"/>
-        <TextField fx:id="txtHeadquarters" promptText="Enter headquarters" GridPane.columnIndex="1"
-                   GridPane.rowIndex="2"/>
-        <HBox minHeight="-Infinity" minWidth="-Infinity" GridPane.columnIndex="1" GridPane.rowIndex="3">
-            <children>
-                <ComboBox fx:id="cmbBoardGame" minHeight="-Infinity" minWidth="-Infinity"
-                          promptText="Select Board match">
-                    <HBox.margin>
-                        <Insets right="7.0"/>
-                    </HBox.margin>
-                </ComboBox>
-                <Button mnemonicParsing="false" onAction="#addBoardGameToEntity" text="+"/>
-            </children>
-            <GridPane.margin>
-                <Insets/>
-            </GridPane.margin>
-        </HBox>
         <rowConstraints>
-            <RowConstraints/>
-            <RowConstraints/>
-            <RowConstraints minHeight="-Infinity"/>
             <RowConstraints/>
             <RowConstraints/>
             <RowConstraints/>
@@ -78,8 +55,8 @@
                 <String fx:value="btn-danger"/>
             </styleClass>
         </Button>
-        <Button fx:id="btnSave" blendMode="DARKEN" contentDisplay="CENTER" defaultButton="true"
-                onAction="#storePublisher" text="Save">
+        <Button fx:id="btnSave" blendMode="DARKEN" contentDisplay="CENTER" defaultButton="true" onAction="#storePlayer"
+                text="Save">
             <styleClass>
                 <String fx:value="btn"/>
                 <String fx:value="btn-success"/>

@@ -5,7 +5,8 @@ import es.angeldam.boardgamemanager.model.BoardGame;
 import es.angeldam.boardgamemanager.model.Match;
 
 import java.sql.*;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class that manages the data access of a match (as an object), this has the objective to do the operations to get the data from the database and bring it to Java.
@@ -20,10 +21,10 @@ public class MatchDAO {
     private final static String SQL_UPDATE = "UPDATE match SET name =?, alias =?, birthDate =?, nationality =? WHERE matchCode = ?";
     private final static String SQL_DELETE = "DELETE FROM match WHERE matchCode = ?";
 
-    public static HashSet<Match> findAll() throws SQLException {
+    public static List<Match> findAll() throws SQLException {
         Match match = null;
         BoardGame boardGame = null;
-        HashSet<Match> matches = new HashSet<>();
+        List<Match> matches = new ArrayList<>();
 
         ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL);
         while (rs.next()) {
@@ -32,8 +33,7 @@ public class MatchDAO {
             Timestamp matchDate = rs.getTimestamp("matchDate");
             int boardGameCode = rs.getInt("boardGameCode");
             boardGame = BoardGameDAO.findById(boardGameCode);
-            //TODO: make CRUD AND VERIFY MATCH ON E/R DIAGRAM
-            //match = new Match(matchCode, place, matchDate, boardGame);
+            match = new Match(matchCode, place, matchDate, boardGame);
             matches.add(match);
         }
         return matches;
@@ -52,8 +52,7 @@ public class MatchDAO {
                 Timestamp matchDate = rs.getTimestamp("matchDate");
                 int boardGameCode = rs.getInt("boardGameCode");
                 boardGame = BoardGameDAO.findById(boardGameCode);
-                //TODO: make CRUD AND VERIFY MATCH ON E/R DIAGRAM
-                //match = new Match(matchCode, place, matchDate, boardGame);
+                match = new Match(matchCode, place, matchDate, boardGame);
             }
         }
         return match;

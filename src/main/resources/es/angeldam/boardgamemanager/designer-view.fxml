@@ -9,27 +9,33 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<SplitPane dividerPositions="0.12672978878368535" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.angeldam.boardgamemanager.controllers.subcontrollers.DesignerController">
+<SplitPane dividerPositions="0.12672978878368535" minHeight="-Infinity" minWidth="-Infinity"
+           xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+           fx:controller="es.angeldam.boardgamemanager.controllers.subcontrollers.DesignerController">
     <AnchorPane SplitPane.resizableWithParent="false">
         <children>
-            <Button fx:id="editDesignerButton" disable="true" layoutX="25.0" layoutY="70.0" mnemonicParsing="false" onAction="#editDesigner" text="Edit Designer" />
-            <Button fx:id="removeDesignerButton" disable="true" layoutX="14.0" layoutY="116.0" mnemonicParsing="false" onAction="#removeDesigner" text="Remove Designer" />
-            <Button fx:id="addDesignerButton" layoutX="24.0" layoutY="23.0" mnemonicParsing="false" onAction="#addDesigner" text="Add Designer" />
+            <Button fx:id="editDesignerButton" disable="true" layoutX="25.0" layoutY="70.0" mnemonicParsing="false"
+                    onAction="#editDesigner" text="Edit Designer"/>
+            <Button fx:id="removeDesignerButton" disable="true" layoutX="14.0" layoutY="116.0" mnemonicParsing="false"
+                    onAction="#removeDesigner" text="Remove Designer"/>
+            <Button fx:id="addDesignerButton" layoutX="24.0" layoutY="23.0" mnemonicParsing="false"
+                    onAction="#addDesigner" text="Add Designer"/>
         </children>
     </AnchorPane>
     <ScrollPane>
         <content>
             <AnchorPane>
                 <children>
-                    <TextField fx:id="searchDesigner" layoutX="134.0" layoutY="15.0" onAction="#searchDesigner" />
-                    <Label layoutX="14.0" layoutY="19.0" text="Search Designer:" />
-                    <TableView fx:id="designerTable" layoutX="14.0" layoutY="56.0" minHeight="-Infinity" minWidth="-Infinity">
+                    <TextField fx:id="searchDesigner" layoutX="134.0" layoutY="15.0" onAction="#searchDesigner"/>
+                    <Label layoutX="14.0" layoutY="19.0" text="Search Designer:"/>
+                    <TableView fx:id="designerTable" layoutX="14.0" layoutY="56.0" minHeight="-Infinity"
+                               minWidth="-Infinity">
                         <columns>
-                            <TableColumn fx:id="dNameCol" prefWidth="162.3999605178833" text="Name" />
-                            <TableColumn fx:id="dAliasCol" prefWidth="120.0" text="Alias" />
-                            <TableColumn fx:id="dBirthYearCol" prefWidth="117.0" text="Birth year" />
-                            <TableColumn fx:id="dNationalityCol" prefWidth="101.0" text="Nationality" />
-                            <TableColumn fx:id="dBGCol" prefWidth="471.0" text="Board matches" />
+                            <TableColumn fx:id="dNameCol" prefWidth="162.3999605178833" text="Name"/>
+                            <TableColumn fx:id="dAliasCol" prefWidth="120.0" text="Alias"/>
+                            <TableColumn fx:id="dBirthYearCol" prefWidth="117.0" text="Birth year"/>
+                            <TableColumn fx:id="dNationalityCol" prefWidth="101.0" text="Nationality"/>
+                            <TableColumn fx:id="dBGCol" prefWidth="471.0" text="Board matches"/>
                         </columns>
                     </TableView>
                 </children>

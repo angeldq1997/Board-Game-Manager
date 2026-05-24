@@ -1,13 +1,14 @@
 package es.angeldam.boardgamemanager.dao;
 
 import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
-import es.angeldam.boardgamemanager.model.Match;
 import es.angeldam.boardgamemanager.model.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class PlayerDAO {
     private final static String SQL_ALL = "SELECT * FROM player";
@@ -17,18 +18,16 @@ public class PlayerDAO {
     private final static String SQL_UPDATE = "UPDATE player SET name =?, birthYear =? WHERE playerCode = ?";
     private final static String SQL_DELETE = "DELETE FROM player WHERE playerCode = ?";
 
-    public static HashSet<Player> findAll() throws SQLException {
+    public static List<Player> findAll() throws SQLException {
         Player player = null;
-        HashSet<Player> players = new HashSet<>();
-
-        HashSet<Match> matches = new HashSet<>();
+        List<Player> players = new ArrayList<>();
 
         ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL);
         while (rs.next()) {
             int playerCode = rs.getInt("playerCode");
             String name = rs.getString("name");
             int birthYear = rs.getInt("birthYear");
-            player = new Player(name, birthYear);
+            player = new Player(playerCode, name, birthYear);
             players.add(player);
         }
         return players;

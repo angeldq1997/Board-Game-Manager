@@ -9,32 +9,39 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<SplitPane dividerPositions="0.12109744560075686" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.angeldam.boardgamemanager.controllers.subcontrollers.PublisherController">
-        <items>
-            <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefWidth="140.0">
-                <children>
-                    <Button fx:id="editPublisherButton" disable="true" layoutX="25.0" layoutY="70.0" mnemonicParsing="false" onAction="#editPublisher" text="Edit Publisher" />
-                    <Button fx:id="removePublisher" disable="true" layoutX="14.0" layoutY="116.0" mnemonicParsing="false" onAction="#removePublisher" text="Remove Publisher" />
-                    <Button fx:id="addPublisherButton" layoutX="24.0" layoutY="23.0" mnemonicParsing="false" onAction="#addPublisher" text="Add Publisher" />
-                </children>
-            </AnchorPane>
-            <ScrollPane minHeight="-Infinity" minWidth="-Infinity">
-                <content>
-                    <AnchorPane minHeight="-Infinity" minWidth="-Infinity">
-                        <children>
-                            <TextField fx:id="searchPublisher" layoutX="134.0" layoutY="15.0" onAction="#searchPublisher" />
-                            <Label layoutX="14.0" layoutY="19.0" text="Search Publisher:" />
-                            <TableView fx:id="publisherTable" layoutX="14.0" layoutY="56.0" prefHeight="280.0" prefWidth="912.0">
-                                <columns>
-                                    <TableColumn fx:id="pubNameCol" prefWidth="249.0" text="Name" />
-                                    <TableColumn fx:id="pubFoundationYearCol" prefWidth="120.0" text="Foundation Year" />
-                                    <TableColumn fx:id="pubHeadquartersCol" prefWidth="327.0" text="HeadQuarters" />
-                                    <TableColumn fx:id="pubNumberBGCol" prefWidth="215.0" text="Number of board matches published" />
-                                </columns>
-                            </TableView>
-                        </children>
-                    </AnchorPane>
-                </content>
-            </ScrollPane>
-        </items>
+<SplitPane dividerPositions="0.12109744560075686" minHeight="-Infinity" minWidth="-Infinity"
+           xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+           fx:controller="es.angeldam.boardgamemanager.controllers.subcontrollers.PublisherController">
+    <items>
+        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefWidth="140.0">
+            <children>
+                <Button fx:id="editPublisherButton" disable="true" layoutX="25.0" layoutY="70.0" mnemonicParsing="false"
+                        onAction="#editPublisher" text="Edit Publisher"/>
+                <Button fx:id="removePublisher" disable="true" layoutX="14.0" layoutY="116.0" mnemonicParsing="false"
+                        onAction="#removePublisher" text="Remove Publisher"/>
+                <Button fx:id="addPublisherButton" layoutX="24.0" layoutY="23.0" mnemonicParsing="false"
+                        onAction="#addPublisher" text="Add Publisher"/>
+            </children>
+        </AnchorPane>
+        <ScrollPane minHeight="-Infinity" minWidth="-Infinity">
+            <content>
+                <AnchorPane minHeight="-Infinity" minWidth="-Infinity">
+                    <children>
+                        <TextField fx:id="searchPublisher" layoutX="134.0" layoutY="15.0" onAction="#searchPublisher"/>
+                        <Label layoutX="14.0" layoutY="19.0" text="Search Publisher:"/>
+                        <TableView fx:id="publisherTable" layoutX="14.0" layoutY="56.0" prefHeight="280.0"
+                                   prefWidth="912.0">
+                            <columns>
+                                <TableColumn fx:id="pubNameCol" prefWidth="249.0" text="Name"/>
+                                <TableColumn fx:id="pubFoundationYearCol" prefWidth="120.0" text="Foundation Year"/>
+                                <TableColumn fx:id="pubHeadquartersCol" prefWidth="327.0" text="HeadQuarters"/>
+                                <TableColumn fx:id="pubNumberBGCol" prefWidth="215.0"
+                                             text="Number of board matches published"/>
+                            </columns>
+                        </TableView>
+                    </children>
+                </AnchorPane>
+            </content>
+        </ScrollPane>
+    </items>
 </SplitPane>
