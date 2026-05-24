@@ -109,7 +109,7 @@ public class DesignerController {
             stage.setScene(scene);
             stage.setResizable(false);
             stage.showAndWait();
-            loadDesigners();
+            configureDesignerTable(loadDesigners());
         } catch (Exception e) {
             Utils.alert(Alert.AlertType.ERROR, "ERROR", "Error loading form", "Designer form couldn't be loaded: " + e.getMessage());
         }
@@ -121,7 +121,7 @@ public class DesignerController {
     @FXML
     public void addDesigner() {
         openFormDesigner(null);
-        loadDesigners();
+        configureDesignerTable(loadDesigners());
     }
 
     /**
@@ -135,7 +135,7 @@ public class DesignerController {
             return;
         }
         openFormDesigner(designer);
-        loadDesigners();
+        configureDesignerTable(loadDesigners());
         designerTable.getSelectionModel().select(designer);
     }
 
@@ -169,7 +169,7 @@ public class DesignerController {
     @FXML
     public void searchDesigner() {
         try {
-            List<Designer> designers = DesignerDAO.findByName(txtSearchDesigner.getText());
+            List<Designer> designers = DesignerDAO.findByPartialName(txtSearchDesigner.getText());
             if ( !designers.isEmpty() ){
                 ObservableList<Designer> designerObservableList = FXCollections.observableArrayList(designers);
                 designerTable.setItems(designerObservableList);

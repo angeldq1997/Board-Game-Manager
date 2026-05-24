@@ -153,7 +153,7 @@ public class BoardGameController {
      */
     @FXML private void addBoardGame( ) {
         openFormBoardGame(null);
-        loadBoardGames();
+        configureBoardGameTable(loadBoardGames());
     }
 
     /**
@@ -166,7 +166,7 @@ public class BoardGameController {
             return;
         }
         openFormBoardGame(boardGame);
-        loadBoardGames();
+        configureBoardGameTable(loadBoardGames());
         boardGameTable.getSelectionModel().select(boardGame);
     }
 
@@ -235,5 +235,9 @@ public class BoardGameController {
             searchText = "publisher";
         }
         return searchText;
+    }
+
+    public void refresh( ) {
+        configureBoardGameTable(loadBoardGames());
     }
 }

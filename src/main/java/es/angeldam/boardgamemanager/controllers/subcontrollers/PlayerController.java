@@ -100,7 +100,7 @@ public class PlayerController {
             stage.setScene(scene);
             stage.setResizable(false);
             stage.showAndWait();
-            loadPlayers();
+            configurePlayerTable(loadPlayers());
         } catch (Exception e) {
             Utils.alert(Alert.AlertType.ERROR, "ERROR", "Error loading form", "Player form couldn't be loaded: " + e.getMessage());
         }
@@ -112,7 +112,7 @@ public class PlayerController {
     @FXML
     public void addPlayer() {
         openFormPlayer(null);
-        loadPlayers();
+        configurePlayerTable(loadPlayers());
     }
 
     /**
@@ -126,7 +126,7 @@ public class PlayerController {
             return;
         }
         openFormPlayer(player);
-        loadPlayers();
+        configurePlayerTable(loadPlayers());
         playerTable.getSelectionModel().select(player);
     }
 

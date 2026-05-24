@@ -60,7 +60,7 @@ public class MatchController {
         matchTable.setPlaceholder(new Label("There isn't matches to show"));
 
         matchCodeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
-        matchBoardGameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBoardGame().getName()));
+        matchCodeCol.setCellValueFactory(new PropertyValueFactory<>("boardGame"));
 
         matchPlaceCol.setCellValueFactory(new PropertyValueFactory<>("place"));
         matchDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -117,7 +117,7 @@ public class MatchController {
      */
     public void addMatch( ) {
         openFormMatch(null);
-        loadMatches();
+        configureMatchTable(loadMatches());
     }
 
     /**
@@ -130,7 +130,7 @@ public class MatchController {
             return;
         }
         openFormMatch(match);
-        loadMatches();
+        configureMatchTable(loadMatches());
         matchTable.getSelectionModel().select(match);
     }
 

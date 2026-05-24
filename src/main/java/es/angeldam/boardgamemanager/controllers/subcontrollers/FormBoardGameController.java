@@ -397,6 +397,11 @@ public class FormBoardGameController {
             Publisher publisher3 = ((cmbPublisher3.getValue() == null) ? null : cmbPublisher3.getValue());
             Illustrator illustrator2 = ((cmbIllustrator2.getValue() == null) ? null : cmbIllustrator2.getValue());
             Illustrator illustrator3 = ((cmbIllustrator3.getValue() == null) ? null : cmbIllustrator3.getValue());
+
+            verifyCodeD(designers);
+            verifyCodeI(illustrators);
+            verifyCodeP(publishers);
+
             addOnlyNotNull(designers, designer1, designer2, designer3);
             addOnlyNotNull(illustrators, illustrator1, illustrator2, illustrator3);
             addOnlyNotNull(publishers, publisher1, publisher2, publisher3);
@@ -452,15 +457,39 @@ public class FormBoardGameController {
      * @param <T> Class of the list of objects
      */
     private <T> void addOnlyNotNull(List<T> list, T t1, T t2, T t3){
-        if(t1 != null){
+        if(t1 != null && !t1.equals(t2)){
             list.add(t1);
         }
-        if(t2 != null){
+        if(t2 != null && !t2.equals(t1)){
             list.add(t2);
         }
-        if(t3 != null){
+        if(t3 != null && !t3.equals(t2)){
             list.add(t3);
         }
+    }
+
+    /**
+     * Method that removes the designer of an arraylist if their code is 0
+     * @param designerList list of designers to verify
+     */
+    private void verifyCodeD(List<Designer> designerList){
+        designerList.removeIf(d -> d.getCode() == 0);
+    }
+
+    /**
+     * Method that removes the illustrators of an arraylist if their code is 0
+     * @param illustratorList list of illustrators to verify
+     */
+    private void verifyCodeI(List<Illustrator> illustratorList){
+        illustratorList.removeIf(i -> i.getCode() == 0);
+    }
+
+    /**
+     * Method that removes the publishers of an arraylist if theis code is 0
+     * @param publisherList list of publishers to verify
+     */
+    private void verifyCodeP(List<Publisher> publisherList){
+        publisherList.removeIf(p -> p.getCode() == 0);
     }
 
     /**

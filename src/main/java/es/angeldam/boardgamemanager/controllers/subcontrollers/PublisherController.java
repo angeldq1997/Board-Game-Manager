@@ -51,7 +51,6 @@ public class PublisherController {
         pubNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         pubFoundationYearCol.setCellValueFactory(new PropertyValueFactory<>("foundationYear"));
         pubHeadquartersCol.setCellValueFactory(new PropertyValueFactory<>("headquarters"));
-        //pubNumberBGCol.setCellValueFactory(new PropertyValueFactory<>("TODO: ADD NUMBER"));
 
         ObservableList<Publisher> publisherObservableList = FXCollections.observableArrayList(publishers);
         publisherTable.setItems(publisherObservableList);

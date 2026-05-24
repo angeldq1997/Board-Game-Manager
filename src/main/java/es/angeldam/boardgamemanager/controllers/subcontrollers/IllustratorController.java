@@ -96,7 +96,7 @@ public class IllustratorController {
             stage.setScene(scene);
             stage.setResizable(false);
             stage.showAndWait();
-            loadIllustrators();
+            configureIllustratorTable(loadIllustrators());
         } catch (Exception e) {
             Utils.alert(Alert.AlertType.ERROR, "ERROR", "Error loading form", "Illustrator form couldn't be loaded: " + e.getMessage());
         }
@@ -108,7 +108,7 @@ public class IllustratorController {
     @FXML
     public void addIllustrator() {
         openFormIllustrator(null);
-        loadIllustrators();
+        configureIllustratorTable(loadIllustrators());
     }
 
     /**
@@ -122,7 +122,7 @@ public class IllustratorController {
             return;
         }
         openFormIllustrator(illustrator);
-        loadIllustrators();
+        configureIllustratorTable(loadIllustrators());
         illustratorTable.getSelectionModel().select(illustrator);
     }
 
