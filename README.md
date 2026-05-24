@@ -15,6 +15,23 @@ Cada una de las anteriores pretende conseguir:
 El objetivo final es permitir a un usuario una visualización rápida de un gestor de partidas, 
 así como consultar datos de un juego de mesa concreto.
 
+# GUÍA RÁPIDA DE USO
+
+Imprescindible tomar connection.dist cambiar extensión a connection.xml y asignar los datos de tu base de datos a los
+parámetros que contiene para que la pueda cargar el programa.
+
+Ejemplo:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<connection>
+    <server>localhost</server>
+    <port>3306</port>
+    <dataBase>boardgames</dataBase>
+    <user>root</user>
+    <password>root</password>
+</connection>
+```
+
 
 ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -33,3 +50,20 @@ The administrator has more privileges that the normal user and can manage these:
 - Board games
 
 The user can't see the first three. 
+
+
+# QUICK GUIDE
+
+Is indespensable to take connection.dist and change the extension to connection.xml, then you can edit it and put the data of your database (server, port, database, user, password)
+
+Example:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<connection>
+    <server>localhost</server>
+    <port>3306</port>
+    <dataBase>boardgames</dataBase>
+    <user>root</user>
+    <password>root</password>
+</connection>
+```
