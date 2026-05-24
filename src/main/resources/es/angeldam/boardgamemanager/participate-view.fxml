@@ -11,35 +11,31 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="es.angeldam.boardgamemanager.controllers.subcontrollers.ParticipateController">
+<BorderPane minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.angeldam.boardgamemanager.controllers.subcontrollers.ParticipateController">
     <bottom>
         <HBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" BorderPane.alignment="CENTER">
             <children>
                 <Button fx:id="addMatchButton" mnemonicParsing="false" onAction="#addMatch" text="Add player to match">
                     <HBox.margin>
-                        <Insets right="10.0"/>
+                        <Insets right="10.0" />
                     </HBox.margin>
                 </Button>
-                <Button fx:id="editMatchButton" disable="true" mnemonicParsing="false" onAction="#editMatch"
-                        text="Edit player on match">
+                <Button fx:id="editMatchButton" disable="true" mnemonicParsing="false" onAction="#editMatch" text="Edit player on match">
                     <HBox.margin>
-                        <Insets right="10.0"/>
+                        <Insets right="10.0" />
                     </HBox.margin>
                 </Button>
-                <Button fx:id="removeMatchButton" disable="true" mnemonicParsing="false" onAction="#removeMatch"
-                        text="Remove player on match">
+                <Button fx:id="removeMatchButton" disable="true" mnemonicParsing="false" onAction="#removeMatch" text="Remove player on match">
                     <HBox.margin>
-                        <Insets/>
+                        <Insets />
                     </HBox.margin>
                 </Button>
             </children>
             <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </padding>
             <BorderPane.margin>
-                <Insets bottom="4.0" top="4.0"/>
+                <Insets bottom="4.0" top="4.0" />
             </BorderPane.margin>
         </HBox>
     </bottom>
@@ -48,23 +44,18 @@
             <content>
                 <AnchorPane minHeight="-Infinity" minWidth="-Infinity">
                     <children>
-                        <TextField fx:id="searchMatchField" layoutX="134.0" layoutY="15.0"/>
-                        <Label layoutX="14.0" layoutY="19.0" text="Search match:"/>
+                        <TextField fx:id="searchMatchField" layoutX="134.0" layoutY="15.0" />
+                        <Label layoutX="14.0" layoutY="19.0" text="Search match:" />
                         <HBox>
                             <children>
                                 <TableView fx:id="matchTable" minHeight="-Infinity" minWidth="-Infinity">
                                     <columns>
-                                        <TableColumn fx:id="matchCodeCol" prefWidth="86.0" text="Code"/>
-                                        <TableColumn fx:id="matchBoardGameCol" prefWidth="175.9999542236328"
-                                                     text="Board Game"/>
-                                        <TableColumn fx:id="matchPlaceCol" prefWidth="257.60003662109375" text="Place"/>
-                                        <TableColumn fx:id="matchDateCol" prefWidth="147.0" text="Match Date"/>
-                                    </columns>
-                                </TableView>
-                                <TableView fx:id="participateTable">
-                                    <columns>
-                                        <TableColumn fx:id="playerCol" prefWidth="170.4000244140625" text="Player"/>
-                                        <TableColumn fx:id="scoreCol" prefWidth="75.0" text="Score"/>
+                                        <TableColumn fx:id="matchCodeCol" prefWidth="86.0" text="Match code" />
+                                        <TableColumn fx:id="matchBoardGameCol" prefWidth="175.9999542236328" text="Board Game" />
+                                        <TableColumn fx:id="matchPlaceCol" prefWidth="257.60003662109375" text="Place" />
+                                        <TableColumn fx:id="matchDateCol" prefWidth="147.0" text="Match Date" />
+                                        <TableColumn fx:id="playerCol" prefWidth="170.4000244140625" text="Player" />
+                                        <TableColumn fx:id="scoreCol" prefWidth="75.0" text="Score" />
                                     </columns>
                                 </TableView>
                             </children>

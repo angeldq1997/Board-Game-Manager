@@ -12,6 +12,10 @@ import javafx.stage.Stage;
 
 import java.util.Arrays;
 
+/**
+ * Controller that manages the form of publisher to allow the user to fill a form
+ * with the intention of updates or add a publisher to the database
+ */
 public class FormPublisherController {
 
     @FXML
@@ -29,23 +33,38 @@ public class FormPublisherController {
 
     private Publisher publisherToEdit;
 
+    /**
+     * Method that executes by default when the controller is called
+     * @param publisher The publisher that want to be edited, if NULL the intention is to create a new one
+     */
     @FXML
-    public void start(Publisher publisher) {
+    public void initialize(Publisher publisher) {
         this.publisherToEdit = publisher;
         addListeners();
         prepareText(publisher);
     }
 
+    /**
+     * Method that verify the fields of the publisher
+     * @return True when the data is valid (every field isn't empty) or False when they aren't filled up
+     */
     public boolean validData() {
         return !(txtName.getText().isBlank() &&
                 txtHeadquarters.getText().isBlank() &&
                 txtFoundationYear.getText().isBlank());
     }
 
+    /**
+     * Method that updates the save button to enable it when the condition is met
+     */
     private void updateSaveButton() {
         btnSave.setDisable(!validData());
     }
 
+    /**
+     * Method that change the text of the form to empty when the publisher is null and with its data when isn't
+     * @param publisher publisher to edit or null when wants to create a new one
+     */
     private void prepareText(Publisher publisher) {
         if (publisher != null) {
             txtName.setText(publisher.getName());
@@ -61,12 +80,9 @@ public class FormPublisherController {
         }
     }
 
-    @FXML
-    public void closeWindow() {
-        Stage stage = (Stage) formTitleLabel.getScene().getWindow();
-        stage.close();
-    }
-
+    /**
+     * Method that adds listener to multiples fields
+     */
     private void addListeners() {
         txtName.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
         txtFoundationYear.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
@@ -74,18 +90,29 @@ public class FormPublisherController {
         addListener(txtFoundationYear, "[1-2][0,1,9][\\d]{2}", "[a-zA-Z]");
     }
 
-    private void addListener(TextField txtFieldName, String match, String replace) {
-        txtFieldName.textProperty().addListener(new ChangeListener<String>() {
+    /**
+     * Method that assigns a listener with the purpose of narrow the possibilities to write on text field
+     * @param textField Text field to apply the listener
+     * @param match the regex to match the text with it
+     * @param replace the replacement string when the condition isn't fulfilled
+     */
+    private void addListener(TextField textField, String match, String replace) {
+        textField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
                                 String newValue) {
                 if (!newValue.matches(match)) {
-                    txtFieldName.setText(newValue.replaceAll(replace, ""));
+                    textField.setText(newValue.replaceAll(replace, ""));
                 }
             }
         });
     }
 
+    /**
+     * Method that assigns a listener with the purpose of limiting the maximum text of it
+     * @param textField Text field to apply the listener
+     * @param max Maximum number of characters
+     */
     private void addListenerLimitedSize(TextField textField, int max) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() > max) {
@@ -96,6 +123,10 @@ public class FormPublisherController {
         });
     }
 
+    /**
+     * Method that stores a publisher with the data took from the form
+     * when there isn't a publisher selected it makes a new one
+     */
     @FXML
     public void storePublisher() {
         try {
@@ -124,7 +155,19 @@ public class FormPublisherController {
         }
     }
 
+    /**
+     * Method that add a board game to the publisher
+     */
     public void addBoardGameToEntity() {
 
+    }
+
+    /**
+     * Method to close the form window
+     */
+    @FXML
+    public void closeWindow() {
+        Stage stage = (Stage) formTitleLabel.getScene().getWindow();
+        stage.close();
     }
 }

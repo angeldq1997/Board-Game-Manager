@@ -14,6 +14,9 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller that manages the form of board games to allow the user to fill a form with the intention of updates or add a board game to the database
+ */
 public class FormBoardGameController {
     @FXML public Label formTitleLabel;
     @FXML public Button btnSave;
@@ -38,6 +41,10 @@ public class FormBoardGameController {
 
     private BoardGame boardGameToEdit;
 
+    /**
+     * Method that executes by default when the controller is called
+     * @param boardGame The board game that want to be edited, if NULL the intention is to create a new one
+     */
     @FXML public void initialize(BoardGame boardGame) {
         this.boardGameToEdit = boardGame;
 
@@ -49,11 +56,11 @@ public class FormBoardGameController {
         configComboBoxIllustrator();
         configComboBoxPublisher();
         configListeners();
-        setText(boardGame);
+        prepareText(boardGame);
         updateSaveButton();
     }
 
-    private void setText(BoardGame boardGame) {
+    private void prepareText(BoardGame boardGame) {
         if (boardGame != null) {
             txtName.setText(boardGame.getName());
             txtMechanics.setText(boardGame.getMechanics());
@@ -95,6 +102,10 @@ public class FormBoardGameController {
         }
     }
 
+    /**
+     * Method that verify the fields of the board game
+     * @return True when the data is valid (every field isn't empty) or False when they aren't filled up
+     */
     public boolean validData() {
         return !(txtName.getText().isBlank() &&
                 txtMinPlayers.getText().isBlank() &&
@@ -110,6 +121,9 @@ public class FormBoardGameController {
                 cmbPublisher1.getSelectionModel().isEmpty());
     }
 
+    /**
+     * Method that configures the combo boxes of designers
+     */
     private void configComboBoxDesigner() {
         configComboBoxDesigner(cmbDesigner1);
         configComboBoxDesigner(cmbDesigner2);
@@ -120,6 +134,10 @@ public class FormBoardGameController {
         setPlaceHolderEmpty(cmbDesigner3);
     }
 
+    /**
+     * Method that configures each of the combobox of the designers
+     * @param cmbDesigner Combo box that shows the designers
+     */
     private void configComboBoxDesigner(ComboBox<Designer> cmbDesigner) {
         cmbDesigner.setCellFactory(listView -> new ListCell<>() {
             @Override
@@ -138,6 +156,9 @@ public class FormBoardGameController {
         });
     }
 
+    /**
+     * Method that configures the combo box of illustrators
+     */
     private void configComboBoxIllustrator() {
         configComboBoxIllustrator(cmbIllustrator1);
         configComboBoxIllustrator(cmbIllustrator2);
@@ -148,6 +169,10 @@ public class FormBoardGameController {
         setPlaceHolderEmpty(cmbIllustrator3);
     }
 
+    /**
+     * Method that configures each combo box of the illustrators
+     * @param cmbIllustrator combo box that shows the illustrator names
+     */
     private void configComboBoxIllustrator(ComboBox<Illustrator> cmbIllustrator) {
         cmbIllustrator.setCellFactory(listView -> new ListCell<>() {
             @Override
@@ -166,6 +191,9 @@ public class FormBoardGameController {
         });
     }
 
+    /**
+     * Method that configures the combo box of publishers
+     */
     private void configComboBoxPublisher() {
         configComboBoxPublisher(cmbPublisher1);
         configComboBoxPublisher(cmbPublisher2);
@@ -176,6 +204,10 @@ public class FormBoardGameController {
         setPlaceHolderEmpty(cmbPublisher3);
     }
 
+    /**
+     * Method that configures each combo box of the publishers
+     * @param cmbPublisher combo box that shows the publishers names
+     */
     private void configComboBoxPublisher(ComboBox<Publisher> cmbPublisher) {
         cmbPublisher.setCellFactory(listView -> new ListCell<>() {
             @Override
@@ -194,6 +226,9 @@ public class FormBoardGameController {
         });
     }
 
+    /**
+     * Method that load the designers from the database to Java
+     */
     private void loadDesigners() {
         try {
             List<Designer> designers = DesignerDAO.findAll();
@@ -206,6 +241,9 @@ public class FormBoardGameController {
         }
     }
 
+    /**
+     * Method that load the illustrators from the database to Java
+     */
     private void loadIllustrators() {
         try {
             List<Illustrator> illustrators = IllustratorDAO.findAll();
@@ -218,6 +256,9 @@ public class FormBoardGameController {
         }
     }
 
+    /**
+     * Method that load the publishers from the database to Java
+     */
     private void loadPublishers() {
         try {
             List<Publisher> publishers = PublisherDAO.findAll();
@@ -230,6 +271,9 @@ public class FormBoardGameController {
         }
     }
 
+    /**
+     * Method that configures the listeners of several fields to do a task when the condition is met
+     */
     private void configListeners() {
         txtName.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
         addListenerLimitedSize(txtMinPlayers, 3);
@@ -257,13 +301,17 @@ public class FormBoardGameController {
         addListener(txtRanking, "\\d{1-3}", "\\d+");
     }
 
+    /**
+     * Generic method that add a listener with the function of showing a new combobox
+     * @param comboBoxToCheck combobox to check the condition
+     * @param comboBoxToShow combobox to show
+     * @param <T> Class type of the combobox
+     */
     private <T> void addListenerObjectVisibility(ComboBox<T> comboBoxToCheck, ComboBox<T> comboBoxToShow) {
         comboBoxToCheck.valueProperty().addListener((observable, oldValue, newValue) -> {
             if(comboBoxToCheck.getSelectionModel().getSelectedItem() != null){
                 comboBoxToShow.setVisible(true);
                 comboBoxToShow.setDisable(false);
-                //TODO: FIX CHOOSING TWO IN COMBOBOX REMOVE BOTH WHEN SHOWING NEXT
-                comboBoxToShow.getItems().remove(comboBoxToCheck.getSelectionModel().getSelectedItem());
             }else{
                 comboBoxToShow.setVisible(false);
                 comboBoxToShow.setDisable(true);
@@ -272,6 +320,11 @@ public class FormBoardGameController {
         });
     }
 
+    /**
+     * Method that assigns a listener with the purpose of limiting the maximum text of it
+     * @param textField Text field to apply the listener
+     * @param max Maximum number of characters
+     */
     private void addListenerLimitedSize(TextField textField, int max) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() > max) {
@@ -282,26 +335,44 @@ public class FormBoardGameController {
         });
     }
 
-    private void addListener(TextField txtFieldName, String match, String replace) {
-        txtFieldName.textProperty().addListener(new ChangeListener<String>() {
+    /**
+     * Method that assigns a listener with the purpose of narrow the possibilities to write on text field
+     * @param textField Text field to apply the listener
+     * @param match the regex to match the text with it
+     * @param replace the replacement string when the condition isn't fulfilled
+     */
+    private void addListener(TextField textField, String match, String replace) {
+        textField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
                                 String newValue) {
                 if (!newValue.matches(match)) {
-                    txtFieldName.setText(newValue.replaceAll(replace, ""));
+                    textField.setText(newValue.replaceAll(replace, ""));
                 }
             }
         });
     }
 
+    /**
+     * Generic method that sets a placeholder when a combobox doesn't have an item
+     * @param tComboBox Combobox of any class that want to apply the placeholder text
+     * @param <T> Type of the combobox
+     */
     private <T> void setPlaceHolderEmpty(ComboBox<T> tComboBox) {
         tComboBox.setPlaceholder(new Label("EMPTY"));
     }
 
+    /**
+     * Method that updates the save button when the condition is met
+     */
     private void updateSaveButton() {
         btnSave.setDisable(!validData());
     }
 
+    /**
+     * Method that stores a board game with the data took from the form
+     * when there isn't a board game selected it makes a new one
+     */
     public void storeBoardGame() {
         ArrayList<Designer> designers = new ArrayList<>();
         ArrayList<Illustrator> illustrators = new ArrayList<>();
@@ -353,6 +424,11 @@ public class FormBoardGameController {
         }
     }
 
+    /**
+     * Method that updates the middle tables of the database
+     * @param boardGameToEdit Bboard game to be edited
+     * @param newBoardGame new board game with data filled by the user
+     */
     private void updateOthers(BoardGame boardGameToEdit, BoardGame newBoardGame) {
         if ( newBoardGame.getDesigners() != null ){
             SecondariesDAO.insertMake(newBoardGame.getDesigners() , boardGameToEdit);
@@ -367,6 +443,14 @@ public class FormBoardGameController {
         }
     }
 
+    /**
+     * Method that adds to a list the objects that aren't NULL
+     * @param list List of the objects
+     * @param t1 object 1
+     * @param t2 object 2
+     * @param t3 object 3
+     * @param <T> Class of the list of objects
+     */
     private <T> void addOnlyNotNull(List<T> list, T t1, T t2, T t3){
         if(t1 != null){
             list.add(t1);
@@ -379,6 +463,9 @@ public class FormBoardGameController {
         }
     }
 
+    /**
+     * Method to close the form window
+     */
     public void closeWindow() {
         Stage stage = (Stage) formTitleLabel.getScene().getWindow();
         stage.close();

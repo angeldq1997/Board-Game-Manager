@@ -4,7 +4,6 @@ module es.angeldam.boardgamemanager {
     requires java.xml.bind;
     requires java.sql;
     requires mysql.connector.j;
-    requires datetime.picker.javafx;
 
     opens es.angeldam.boardgamemanager.dataAccess to java.xml.bind;
     exports es.angeldam.boardgamemanager.dataAccess;

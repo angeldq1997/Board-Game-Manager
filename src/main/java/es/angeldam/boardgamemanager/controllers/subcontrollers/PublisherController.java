@@ -19,6 +19,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controller that manages the publisher view and displays the form when needed, it allows the CRUD of the class Publisher
+ */
 public class PublisherController {
     @FXML public TableView<Publisher> publisherTable;
     @FXML public Button editPublisherButton;
@@ -30,26 +33,18 @@ public class PublisherController {
     @FXML public TableColumn<Publisher, String> pubHeadquartersCol;
     @FXML public TableColumn<Publisher, Integer> pubNumberBGCol;
 
+    /**
+     * Method that executes by default when the class is called
+     */
     @FXML
     public void initialize() {
         configurePublisherTable(loadPublishers());
     }
 
-    public List<Publisher> loadPublishers() {
-        List<Publisher> publishers = null;
-        if (ConnectionBD.getConnection() == null) {
-            Utils.alert(Alert.AlertType.ERROR, "ERROR CONNECTING DATABASE", "There was an error loading database", "The database couldn't connect and retrieve publisher data.");
-        } else {
-            try {
-                publishers = PublisherDAO.findAll();
-            } catch (SQLException e) {
-                Utils.alert(Alert.AlertType.ERROR, "ERROR LOADING PUBLISHER", "There was an error loading publishers", e.getMessage());
-            }
-        }
-        return publishers;
-    }
-
-
+    /**
+     * Method that configures the table publisher and all its columns
+     * @param publishers List of publishers that will be displayed at the table
+     */
     public void configurePublisherTable(List<Publisher> publishers) {
         publisherTable.setPlaceholder(new Label("There isn't publishers to show"));
 
@@ -65,12 +60,35 @@ public class PublisherController {
         removePublisher.disableProperty().bind(publisherTable.getSelectionModel().selectedItemProperty().isNull());
     }
 
+    /**
+     * Method that load the publishers to Java from the database
+     * @return the list of publishers that are stored in the database
+     */
+    public List<Publisher> loadPublishers() {
+        List<Publisher> publishers = null;
+        if (ConnectionBD.getConnection() == null) {
+            Utils.alert(Alert.AlertType.ERROR, "ERROR CONNECTING DATABASE", "There was an error loading database", "The database couldn't connect and retrieve publisher data.");
+        } else {
+            try {
+                publishers = PublisherDAO.findAll();
+            } catch (SQLException e) {
+                Utils.alert(Alert.AlertType.ERROR, "ERROR LOADING PUBLISHER", "There was an error loading publishers", e.getMessage());
+            }
+        }
+        return publishers;
+    }
+
+
+    /**
+     * Method that load a window for the form when the user wants to create a new publisher or update one
+     * @param publisher the publisher that want to be updated or NULL if we want to make a new one
+     */
     public void openFormPublisher(Publisher publisher) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("formPublisher-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             FormPublisherController controller = fxmlLoader.getController();
-            controller.start(publisher);
+            controller.initialize(publisher);
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle(publisher == null ? "New publisher" : "Update publisher");
@@ -83,11 +101,17 @@ public class PublisherController {
         }
     }
 
+    /**
+     * Method that adds a publisher to the database
+     */
     @FXML
     public void addPublisher() {
         openFormPublisher(null);
     }
 
+    /**
+     * Method that updates the publisher data to the database, selected from the table view
+     */
     @FXML
     public void editPublisher() {
         Publisher publisher = publisherTable.getSelectionModel().getSelectedItem();
@@ -100,6 +124,9 @@ public class PublisherController {
         publisherTable.getSelectionModel().select(publisher);
     }
 
+    /**
+     * Method that erase the publisher data from the database; the user selects a concrete publisher and then press the delete button
+     */
     @FXML
     public void removePublisher() {
         Publisher publisher = publisherTable.getSelectionModel().getSelectedItem();
@@ -121,6 +148,9 @@ public class PublisherController {
         }
     }
 
+    /**
+     * Method for searching a publisher with a specific name
+     */
     @FXML
     public void searchPublisher() {
 

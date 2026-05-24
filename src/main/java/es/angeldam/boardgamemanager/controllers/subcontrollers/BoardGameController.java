@@ -22,9 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controller that manages the board game view and displays the form when needed, it allows the CRUD of the class Board game
+ */
 public class BoardGameController {
     @FXML public ToggleGroup locationToSearch;
-    @FXML public RadioButton authorRadio;
+    @FXML public RadioButton designerRadio;
     @FXML public RadioButton illustratorRadio;
     @FXML public RadioButton nameRadio;
     @FXML public RadioButton publisherRadio;
@@ -50,12 +53,19 @@ public class BoardGameController {
     @FXML public TableColumn<BoardGame , String> bGIllustrators ;
     @FXML public TableColumn<BoardGame , String> bGPublishers ;
 
+    /**
+     * Method that executes by default when the controller is called
+     */
     @FXML
     public void initialize() {
         configureBoardGameTable(loadBoardGames());
         configListeners();
     }
 
+    /**
+     * Method that load the designers to Java from the database
+     * @param boardGames List of board games that will be displayed after table configuration
+     */
     public void configureBoardGameTable(List<BoardGame> boardGames) {
         if( boardGames == null || boardGames.isEmpty() || boardGames.get(0) == null ){
             boardGameTable.setPlaceholder(new Label("There isn't board games to show"));
@@ -84,6 +94,10 @@ public class BoardGameController {
         }
     }
 
+    /**
+     * Method that load the board games to Java from the database
+     * @return the list of board games that are stored in the database
+     */
     public List<BoardGame> loadBoardGames() {
         List<BoardGame> boardGames = null;
         if (ConnectionBD.getConnection() == null) {
@@ -98,6 +112,10 @@ public class BoardGameController {
         return boardGames;
     }
 
+    /**
+     * Method that load a window for the form when the user wants to create a new board game or update one
+     * @param selectedBoardGame the board game that want to be updated or NULL if we want to make a new one
+     */
     private void openFormBoardGame(BoardGame selectedBoardGame) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("formBoardGame-view.fxml"));
@@ -116,7 +134,7 @@ public class BoardGameController {
     }
 
     @FXML private void configListeners(){
-        addListener(authorRadio, searchBoardGameField, searchButton);
+        addListener(designerRadio, searchBoardGameField, searchButton);
         addListener(illustratorRadio, searchBoardGameField, searchButton);
         addListener(publisherRadio, searchBoardGameField, searchButton);
         addListener(nameRadio, searchBoardGameField, searchButton);
@@ -130,11 +148,17 @@ public class BoardGameController {
         });
     }
 
+    /**
+     * Method that adds a board game to the database
+     */
     @FXML private void addBoardGame( ) {
         openFormBoardGame(null);
         loadBoardGames();
     }
 
+    /**
+     * Method that updates the board game data to the database, selected from the table view
+     */
     @FXML private void editBoardGame( ) {
         BoardGame boardGame = boardGameTable.getSelectionModel().getSelectedItem();
         if (boardGame == null){
@@ -146,6 +170,9 @@ public class BoardGameController {
         boardGameTable.getSelectionModel().select(boardGame);
     }
 
+    /**
+     * Method that erase the board game data from the database; the user selects a concrete board game and then press the delete button
+     */
     @FXML private void removeBoardGame( ) {
         BoardGame boardGame = boardGameTable.getSelectionModel().getSelectedItem();
         if (boardGame == null){
@@ -166,10 +193,18 @@ public class BoardGameController {
         }
     }
 
+    /**
+     * Method for searching a board game with a specific name
+     */
     public void searchBoardGames( ){
         configureBoardGameTable( loadPartialBoardGames(detectText()) );
     }
 
+    /**
+     * Method that load from the database the board games with a defined designer, illustrator, publisher or by name allowing only a fragment of the last one
+     * @param location Location to search (designer, illustrator or publisher)
+     * @return the list of board games that pass the condition of search
+     */
     public List<BoardGame> loadPartialBoardGames(String location) {
         ArrayList<BoardGame> boardGames = null;
         if (ConnectionBD.getConnection() == null) {
@@ -184,12 +219,16 @@ public class BoardGameController {
         return boardGames;
     }
 
+    /**
+     * Method that returns the selected radio button (name, designer, illustrator or publisher)
+     * @return the string that contains the text of the search filter
+     */
     public String detectText( ) {
         String searchText = "";
         if (nameRadio.isSelected()){
             searchText = "name";
-        }else if (authorRadio.isSelected()){
-            searchText = "author";
+        }else if (designerRadio.isSelected()){
+            searchText = "designer";
         }else if (illustratorRadio.isSelected()){
             searchText = "illustrator";
         }else if (publisherRadio.isSelected()){

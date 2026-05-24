@@ -6,15 +6,20 @@ package es.angeldam.boardgamemanager.model;
 public class Player extends Person{
 
     /**
-     *
-     * @param code
-     * @param name
-     * @param birthYear
+     * Full-equip constructor of the class (all attributes)
+     * @param code Code of the player
+     * @param name Name of the player
+     * @param birthYear Year of birth of the player
      */
     public Player(int code, String name, int birthYear) {
         super(code, name, birthYear);
     }
 
+    /**
+     * Constructor of the class
+     * @param name Name of the player
+     * @param birthYear Year of birth of the player
+     */
     public Player( String name, int birthYear) {
         super(name, birthYear);
     }

@@ -10,10 +10,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.time.Year;
 import java.util.Arrays;
-import java.util.regex.Pattern;
 
+/**
+ * Controller that manages the form of illustrator to allow the user to fill a form
+ * with the intention of updates or add a illustrator to the database
+ */
 public class FormIllustratorController {
 
     @FXML
@@ -31,23 +33,31 @@ public class FormIllustratorController {
 
     private Illustrator illustratorToEdit;
 
+    /**
+     * Method that executes by default when the controller is called
+     * @param illustrator The illustrator that want to be edited, if NULL the intention is to create a new one
+     */
     @FXML
-    public void start(Illustrator illustrator) {
+    public void initialize(Illustrator illustrator) {
         this.illustratorToEdit = illustrator;
         addListeners();
         prepareText(illustrator);
     }
 
+    /**
+     * Method that verify the fields of the illustrator
+     * @return True when the data is valid (every field isn't empty) or False when they aren't filled up
+     */
     public boolean validData(){
         return !(txtName.getText().isBlank() &&
                 txtNationality.getText().isBlank() &&
                 txtBirthYear.getText().isBlank());
     }
 
-    private void updateSaveButton() {
-        btnSave.setDisable(!validData());
-    }
-
+    /**
+     * Method that change the text of the form to empty when the illustrator is null and with its data when isn't
+     * @param illustrator illustrator to edit or null when wants to create a new one
+     */
     private void prepareText(Illustrator illustrator) {
         if (illustrator != null){
             txtName.setText(illustrator.getName());
@@ -63,12 +73,9 @@ public class FormIllustratorController {
         }
     }
 
-    @FXML
-    public void closeWindow() {
-        Stage stage = (Stage) formTitleLabel.getScene().getWindow();
-        stage.close();
-    }
-
+    /**
+     * Method that adds listener to multiples fields
+     */
     private void addListeners(){
         txtName.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
         txtBirthYear.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
@@ -76,18 +83,31 @@ public class FormIllustratorController {
         addListener(txtBirthYear, "[1-2][0,1,9][\\d]{2}", "[a-zA-Z]");
     }
 
-    private void addListener(TextField txtFieldName, String match, String replace) {
-        txtFieldName.textProperty().addListener(new ChangeListener<String>() {
+
+    /**
+     * Method that assigns a listener with the purpose of narrow the possibilities to write on text field
+     * @param textField Text field to apply the listener
+     * @param match the regex to match the text with it
+     * @param replace the replacement string when the condition isn't fulfilled
+     */
+    private void addListener(TextField textField, String match, String replace) {
+        textField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
                                 String newValue) {
                 if (!newValue.matches(match)) {
-                    txtFieldName.setText(newValue.replaceAll(replace, ""));
+                    textField.setText(newValue.replaceAll(replace, ""));
                 }
             }
         });
     }
 
+
+    /**
+     * Method that assigns a listener with the purpose of limiting the maximum text of it
+     * @param textField Text field to apply the listener
+     * @param max Maximum number of characters
+     */
     private void addListenerLimitedSize(TextField textField, int max) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() > max) {
@@ -98,6 +118,11 @@ public class FormIllustratorController {
         });
     }
 
+
+    /**
+     * Method that stores a illustrator with the data took from the form
+     * when there isn't a illustrator selected it makes a new one
+     */
     @FXML
     public void storeIllustrator() {
         try{
@@ -122,7 +147,24 @@ public class FormIllustratorController {
         }
     }
 
+
+    private void updateSaveButton() {
+        btnSave.setDisable(!validData());
+    }
+
+    /**
+     * Method that add a board game to the illustrator
+     */
     public void addBoardGameToEntity() {
 
+    }
+
+    /**
+     * Method to close the form window
+     */
+    @FXML
+    public void closeWindow() {
+        Stage stage = (Stage) formTitleLabel.getScene().getWindow();
+        stage.close();
     }
 }

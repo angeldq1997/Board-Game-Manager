@@ -1,7 +1,6 @@
 package es.angeldam.boardgamemanager.controllers.subcontrollers;
 
 import es.angeldam.boardgamemanager.BoardGameManagerApplication;
-import es.angeldam.boardgamemanager.dao.DesignerDAO;
 import es.angeldam.boardgamemanager.dao.IllustratorDAO;
 import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
 import es.angeldam.boardgamemanager.model.Illustrator;
@@ -21,6 +20,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controller that manages the illustrator view and displays the form when needed, it allows the CRUD of the class Illustrator
+ */
 public class IllustratorController {
 
     @FXML public TableView<Illustrator> illustratorTable;
@@ -33,11 +35,37 @@ public class IllustratorController {
     @FXML public TableColumn<Illustrator, String> illustratorNationalityCol;
     @FXML public TableColumn<Illustrator, String> illustratorBoardGameCol;
 
+    /**
+     * Method that executes by default when the class is called
+     */
     @FXML
     public void initialize() {
         configureIllustratorTable(loadIllustrators());
     }
 
+    /**
+     * Method that configures the table illustrator and all its columns
+     * @param illustrators List of illustrator that will be displayed at the table
+     */
+    public void configureIllustratorTable(List<Illustrator> illustrators) {
+        illustratorTable.setPlaceholder(new Label("There isn't illustrators to show"));
+
+        illustratorNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        illustratorBirthDateCol.setCellValueFactory(new PropertyValueFactory<>("birthYear"));
+        illustratorNationalityCol.setCellValueFactory(new PropertyValueFactory<>("nationality"));
+        illustratorBoardGameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().listBoardGames()));
+
+        ObservableList<Illustrator> illustratorObservableList = FXCollections.observableArrayList(illustrators);
+        illustratorTable.setItems(illustratorObservableList);
+
+        editIllustratorButton.disableProperty().bind(illustratorTable.getSelectionModel().selectedItemProperty().isNull());
+        removeIllustratorButton.disableProperty().bind(illustratorTable.getSelectionModel().selectedItemProperty().isNull());
+    }
+
+    /**
+     * Method that load the illustrators to Java from the database
+     * @return the list of illustrators that are stored in the database
+     */
     public List<Illustrator> loadIllustrators() {
         List<Illustrator> illustrators = null;
         if (ConnectionBD.getConnection() == null) {
@@ -52,27 +80,16 @@ public class IllustratorController {
         return illustrators;
     }
 
-    public void configureIllustratorTable(List<Illustrator> illustrators) {
-        illustratorTable.setPlaceholder(new Label("There isn't designers to show"));
-
-        illustratorNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        illustratorBirthDateCol.setCellValueFactory(new PropertyValueFactory<>("birthYear"));
-        illustratorNationalityCol.setCellValueFactory(new PropertyValueFactory<>("nationality"));
-        illustratorBoardGameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().listBoardGames()));
-
-        ObservableList<Illustrator> illustratorObservableList = FXCollections.observableArrayList(illustrators);
-        illustratorTable.setItems(illustratorObservableList);
-
-        editIllustratorButton.disableProperty().bind(illustratorTable.getSelectionModel().selectedItemProperty().isNull());
-        removeIllustratorButton.disableProperty().bind(illustratorTable.getSelectionModel().selectedItemProperty().isNull());
-    }
-
+    /**
+     * Method that load a window for the form when the user wants to create a new illustrator or update one
+     * @param illustrator the illustrator that want to be updated or NULL if we want to make a new one
+     */
     public void openFormIllustrator(Illustrator illustrator) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("formIllustrator-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             FormIllustratorController controller = fxmlLoader.getController();
-            controller.start(illustrator);
+            controller.initialize(illustrator);
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle(illustrator == null ? "New illustrator" : "Update illustrator");
@@ -85,12 +102,18 @@ public class IllustratorController {
         }
     }
 
+    /**
+     * Method that adds an illustrator to the database
+     */
     @FXML
     public void addIllustrator() {
         openFormIllustrator(null);
         loadIllustrators();
     }
 
+    /**
+     * Method that updates the illustrator data to the database, selected from the table view
+     */
     @FXML
     public void editIllustrator( ) {
         Illustrator illustrator = illustratorTable.getSelectionModel().getSelectedItem();
@@ -103,6 +126,9 @@ public class IllustratorController {
         illustratorTable.getSelectionModel().select(illustrator);
     }
 
+    /**
+     * Method that erase the illustrator data from the database; the user selects a concrete illustrator and then press the delete button
+     */
     @FXML
     public void removeIllustrator( ) {
         Illustrator illustrator = illustratorTable.getSelectionModel().getSelectedItem();
@@ -123,6 +149,10 @@ public class IllustratorController {
             }
         }
     }
+
+    /**
+     * Method for searching an illustrator with a specific name
+     */
     @FXML
     public void searchIllustrator( ) {
 

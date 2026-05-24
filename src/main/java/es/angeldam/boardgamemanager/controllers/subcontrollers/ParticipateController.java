@@ -2,7 +2,6 @@ package es.angeldam.boardgamemanager.controllers.subcontrollers;
 
 import es.angeldam.boardgamemanager.BoardGameManagerApplication;
 import es.angeldam.boardgamemanager.dao.MatchDAO;
-import es.angeldam.boardgamemanager.dao.ParticipateDAO;
 import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
 import es.angeldam.boardgamemanager.model.Match;
 import es.angeldam.boardgamemanager.model.Participation;
@@ -19,7 +18,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,9 +40,6 @@ public class ParticipateController {
     public TableColumn<Match, String> matchPlaceCol;
     @FXML
     public TableColumn<Match, String> matchDateCol;
-
-    @FXML
-    public TableView<Participation> participateTable;
     @FXML
     public TableColumn<Participation, String> playerCol;
     @FXML
@@ -54,7 +49,6 @@ public class ParticipateController {
     @FXML
     public void initialize() {
         configureMatchTable(loadMatches());
-        configureParticipationTable(loadParticipations());
     }
 
     public List<Match> loadMatches() {
@@ -74,8 +68,7 @@ public class ParticipateController {
     public void configureMatchTable(List<Match> matches){
         matchTable.setPlaceholder(new Label("There isn't matches to show"));
 
-        matchCodeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
-        matchBoardGameCol.setCellValueFactory(new PropertyValueFactory<>("boardGame"));
+        matchBoardGameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBoardGame().getName()));
         matchPlaceCol.setCellValueFactory(new PropertyValueFactory<>("place"));
         matchDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
 
@@ -91,7 +84,7 @@ public class ParticipateController {
             FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("formMatch-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             FormMatchController controller = fxmlLoader.getController();
-            controller.start(match);
+            controller.initialize(match);
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle(match == null ? "New match" : "Update match");
@@ -99,7 +92,6 @@ public class ParticipateController {
             stage.setResizable(false);
             stage.showAndWait();
             loadMatches();
-            loadParticipations();
         } catch (Exception e) {
             Utils.alert(Alert.AlertType.ERROR, "ERROR", "Error loading form", "Match form couldn't be loaded: " + e.getMessage());
         }
@@ -108,7 +100,6 @@ public class ParticipateController {
     public void addMatch( ) {
         openFormMatch(null);
         loadMatches();
-        loadParticipations();
     }
 
     public void editMatch( ) {
@@ -118,7 +109,6 @@ public class ParticipateController {
             return;
         }
         openFormMatch(match);
-        loadParticipations();
         matchTable.getSelectionModel().select(match);
     }
 

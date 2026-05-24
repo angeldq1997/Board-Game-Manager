@@ -15,7 +15,7 @@ import java.util.List;
 public class DesignerDAO {
     private final static String SQL_ALL = "SELECT des.* , (SELECT group_concat(boardGameCode) FROM MAKE WHERE designerCode = des.designerCode ) boardGameCodes FROM designer des; ";
     private final static String SQL_FIND_BY_ID = "SELECT * FROM designer where designerCode =?";
-    private final static String SQL_FIND_BY_NAME = "SELECT * FROM designer where name =?";
+    private final static String SQL_FIND_BY_NAME = "SELECT * FROM designer where name LIKE ?";
     private final static String SQL_INSERT = "INSERT INTO designer (name, alias, birthYear, nationality) VALUES (?,?,?,?)";
     private final static String SQL_UPDATE = "UPDATE designer SET name =?, alias =?, birthYear =?, nationality =? WHERE designerCode = ?";
     private final static String SQL_DELETE = "DELETE FROM designer WHERE designerCode = ?";
@@ -83,10 +83,11 @@ public class DesignerDAO {
      * @return NULL when cannot find the designer OR the designer with the data from database
      * @throws SQLException if the columnLabel is not valid; if a database access error occurs or this method is called on a closed result set
      */
-    private static Designer findByName(String nameToSearch) throws SQLException {
+    public static List<Designer> findByName(String nameToSearch) throws SQLException {
         Designer designer = null;
+        List<Designer> designers = new ArrayList<>();
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_NAME)) {
-            ps.setString(1, nameToSearch);
+            ps.setString(1, "\"%" +nameToSearch+ "%\"");
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int designerCode = rs.getInt("designerCode");
@@ -95,9 +96,10 @@ public class DesignerDAO {
                 int birthYear = rs.getInt("birthYear");
                 String nationality = rs.getString("nationality");
                 designer = new Designer(designerCode, name, alias, birthYear, nationality);
+                designers.add(designer);
             }
         }
-        return designer;
+        return designers;
     }
 
     /**

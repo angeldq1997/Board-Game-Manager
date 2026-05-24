@@ -5,6 +5,7 @@ import es.angeldam.boardgamemanager.dao.MatchDAO;
 import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
 import es.angeldam.boardgamemanager.model.Match;
 import es.angeldam.boardgamemanager.utils.Utils;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,6 +21,9 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controller that manages the match view and displays the form when needed, it allows the CRUD of the class Match
+ */
 public class MatchController {
     @FXML
     public TableView<Match> matchTable;
@@ -40,11 +44,38 @@ public class MatchController {
     @FXML
     public TextField searchMatchField;
 
+    /**
+     * Method that executes by default when the class is called
+     */
     @FXML
     public void initialize() {
         configureMatchTable(loadMatches());
     }
 
+    /**
+     * Method that configures the table Match and all its columns
+     * @param matches List of matches that will be displayed at the table
+     */
+    public void configureMatchTable(List<Match> matches){
+        matchTable.setPlaceholder(new Label("There isn't matches to show"));
+
+        matchCodeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
+        matchBoardGameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBoardGame().getName()));
+
+        matchPlaceCol.setCellValueFactory(new PropertyValueFactory<>("place"));
+        matchDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        ObservableList<Match> matchObservableList = FXCollections.observableList(matches);
+        matchTable.setItems(matchObservableList);
+
+        editMatchButton.disableProperty().bind(matchTable.getSelectionModel().selectedItemProperty().isNull());
+        removeMatchButton.disableProperty().bind(matchTable.getSelectionModel().selectedItemProperty().isNull());
+    }
+
+    /**
+     * Method that load the matches to Java from the database
+     * @return the list of matches that are stored in the database
+     */
     public List<Match> loadMatches() {
         List<Match> matches = null;
         if (ConnectionBD.getConnection() == null) {
@@ -59,27 +90,16 @@ public class MatchController {
         return matches;
     }
 
-    public void configureMatchTable(List<Match> matches){
-        matchTable.setPlaceholder(new Label("There isn't matches to show"));
-
-        matchCodeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
-        matchBoardGameCol.setCellValueFactory(new PropertyValueFactory<>("boardGame"));
-        matchPlaceCol.setCellValueFactory(new PropertyValueFactory<>("place"));
-        matchDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
-
-        ObservableList<Match> matchObservableList = FXCollections.observableList(matches);
-        matchTable.setItems(matchObservableList);
-
-        editMatchButton.disableProperty().bind(matchTable.getSelectionModel().selectedItemProperty().isNull());
-        removeMatchButton.disableProperty().bind(matchTable.getSelectionModel().selectedItemProperty().isNull());
-    }
-
+    /**
+     * Method that load a window for the form when the user wants to create a new match or update one
+     * @param match the match that want to be updated or NULL if we want to make a new one
+     */
     public void openFormMatch(Match match) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(BoardGameManagerApplication.class.getResource("formMatch-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             FormMatchController controller = fxmlLoader.getController();
-            controller.start(match);
+            controller.initialize(match);
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle(match == null ? "New match" : "Update match");
@@ -92,11 +112,17 @@ public class MatchController {
         }
     }
 
+    /**
+     * Method that adds a match to the database
+     */
     public void addMatch( ) {
         openFormMatch(null);
         loadMatches();
     }
 
+    /**
+     * Method that updates the match data to the database, selected from the table view
+     */
     public void editMatch( ) {
         Match match = matchTable.getSelectionModel().getSelectedItem();
         if (match == null) {
@@ -108,6 +134,9 @@ public class MatchController {
         matchTable.getSelectionModel().select(match);
     }
 
+    /**
+     * Method that erase the match data from the database; the user selects a concrete match and then press the delete button
+     */
     public void removeMatch( ) {
         Match match = matchTable.getSelectionModel().getSelectedItem();
         if (match == null) {

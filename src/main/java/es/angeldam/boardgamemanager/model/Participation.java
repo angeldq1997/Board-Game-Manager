@@ -1,13 +1,8 @@
 package es.angeldam.boardgamemanager.model;
 
-import java.sql.Timestamp;
-
 public class Participation {
     private int participateCode;
     private int matchCode;
-    private String place;
-    private Timestamp date;
-    private BoardGame boardGame;
     private int score;
     private Player player;
 

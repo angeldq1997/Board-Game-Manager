@@ -1,8 +1,6 @@
 package es.angeldam.boardgamemanager.dao;
 
 import es.angeldam.boardgamemanager.dataAccess.ConnectionBD;
-import es.angeldam.boardgamemanager.model.BoardGame;
-import es.angeldam.boardgamemanager.model.Match;
 import es.angeldam.boardgamemanager.model.Participation;
 import es.angeldam.boardgamemanager.model.Player;
 

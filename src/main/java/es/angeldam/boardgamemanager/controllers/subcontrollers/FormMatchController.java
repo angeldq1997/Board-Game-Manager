@@ -11,6 +11,10 @@ import javafx.stage.Stage;
 import java.sql.Timestamp;
 import java.util.Arrays;
 
+/**
+ * Controller that manages the form of match to allow the user to fill a form
+ * with the intention of updates or add a match to the database
+ */
 public class FormMatchController {
     @FXML
     public Label formTitleLabel;
@@ -25,23 +29,21 @@ public class FormMatchController {
 
     private Match matchToEdit;
 
+    /**
+     * Method that executes by default when the controller is called
+     * @param match The match that want to be edited, if NULL the intention is to create a new one
+     */
     @FXML
-    public void start(Match match) {
+    public void initialize(Match match) {
         this.matchToEdit = match;
         addListeners();
         prepareText(match);
     }
 
-    public boolean validData(){
-        return !(txtPlace.getText().isBlank() &&
-                cmbBoardGame.getSelectionModel().getSelectedItem() == null &&
-                datePicker.getDayCellFactory() == null);
-    }
-
-    private void updateSaveButton() {
-        btnSave.setDisable(!validData());
-    }
-
+    /**
+     * Method that change the text of the form to empty when the match is null and with its data when isn't
+     * @param match match to edit or null when wants to create a new one
+     */
     private void prepareText(Match match) {
         if (match != null){
             txtPlace.setText(match.getPlace());
@@ -54,16 +56,40 @@ public class FormMatchController {
         }
     }
 
+    /**
+     * Method that verify the fields of the match
+     * @return True when the data is valid (every field isn't empty) or False when they aren't filled up
+     */
+    public boolean validData(){
+        return !(txtPlace.getText().isBlank() &&
+                cmbBoardGame.getSelectionModel().getSelectedItem() == null &&
+                datePicker.getDayCellFactory() == null);
+    }
+
+    /**
+     * Method that updates the save button to enable it when the condition is met
+     */
+    private void updateSaveButton() {
+        btnSave.setDisable(!validData());
+    }
+
     @FXML
     public void closeWindow() {
         Stage stage = (Stage) formTitleLabel.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Method that adds listener to multiples fields
+     */
     private void addListeners(){
         txtPlace.textProperty().addListener((observable, oldValue, newValue) -> updateSaveButton());
     }
 
+    /**
+     * Method that stores a match with the data took from the form
+     * when there isn't a match selected it makes a new one
+     */
     @FXML
     public void storeMatch() {
         try{

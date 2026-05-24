@@ -85,7 +85,7 @@
                                 <ToggleGroup fx:id="locationToSearch"/>
                             </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="authorRadio" mnemonicParsing="false" text="Author"
+                        <RadioButton fx:id="designerRadio" mnemonicParsing="false" text="Author"
                                      toggleGroup="$locationToSearch">
                             <HBox.margin>
                                 <Insets right="12.0"/>
