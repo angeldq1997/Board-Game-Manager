@@ -1,5 +1,7 @@
 ## BOARD GAME MANAGER PROJECT
 
+## Autor : Ángel García Ruiz
+
 # Introducción
 
 El proyecto Board Game Manager trata de crear una aplicación que permita tanto a usuarios como administradores crear, 
@@ -39,6 +41,9 @@ Proyecto completo realizado sin utilizar ningún sistema de LLM para un mayor ap
 ----------------------------------------------------------------------------------------------------------------------------------
 
 # Introduction
+
+## Author : Ángel García Ruiz
+
 
 This project Board Game Manager aims to create an app to create, join and manage matches for board games, allowing the users to search
 a match join and see when it's about to begin.
